@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Empty } from '@/components/retroui'
 
 interface ContactMessage {
   id: number
@@ -183,9 +184,18 @@ export default function AdminMessagesPage() {
         ))}
 
         {filteredMessages.length === 0 && (
-          <p className="text-center py-12 font-bold text-gray-500">
-            {searchQuery ? 'No messages matched your search query.' : 'No contact messages received yet.'}
-          </p>
+          <Empty className="acc-purple">
+            <Empty.Content>
+              <Empty.Icon className="size-10 md:size-12 text-[color:var(--neo-purple)]" />
+              <Empty.Title>No Messages Found</Empty.Title>
+              <Empty.Separator />
+              <Empty.Description>
+                {searchQuery 
+                  ? 'No messages matched your search query. Try typing something else!' 
+                  : 'No contact messages received yet. Your inbox is clean!'}
+              </Empty.Description>
+            </Empty.Content>
+          </Empty>
         )}
       </div>
     </section>

@@ -13,7 +13,7 @@ export async function PUT(req: NextRequest) {
 
     const body = await req.json()
     const { section, cards } = body as {
-      section: 'contact' | 'qr' | 'expertise'
+      section: 'contact' | 'qr' | 'expertise' | 'hero'
       cards: { card_data: Record<string, unknown>; sort_order: number }[]
     }
 

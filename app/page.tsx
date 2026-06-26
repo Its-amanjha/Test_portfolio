@@ -12,6 +12,7 @@ import { profile } from '@/lib/profile'
 import { iconRegistry } from '@/lib/iconRegistry'
 import { techIcons } from '@/lib/techIcons'
 import ExpertiseCardAnimation from '@/components/ExpertiseCardAnimation'
+import { Empty } from '@/components/retroui'
 
 // Revalidate page every hour
 export const revalidate = 3600
@@ -322,6 +323,22 @@ export default async function Home() {
         }))
     : defaultTechCategories
 
+  // Extract Hero Section configurations from siteCards
+  const heroRow = siteCards.find((c: { section: string }) => c.section === 'hero')
+  const heroData = heroRow?.card_data as {
+    badge?: string
+    headingPrefix?: string
+    headingHighlight?: string
+    bio?: string
+    typewriterSentences?: string[]
+  } | undefined
+
+  const heroBadge = heroData?.badge || profile.title
+  const heroHeadingPrefix = heroData?.headingPrefix || 'Welcome to my'
+  const heroHeadingHighlight = heroData?.headingHighlight || 'Portfolio'
+  const heroBio = heroData?.bio || profile.bio
+  const typewriterPhrases = heroData?.typewriterSentences || profile.typewriterSentences
+
   return (
     <div id="top" className="space-y-20">
       {/* Preload ALL card images so the browser fetches them in parallel during
@@ -334,7 +351,7 @@ export default async function Home() {
       {/* Hero Section */}
       <section id="hero" className="py-20 fade-in overflow-visible" aria-label="Welcome section">
         <Typewriter 
-          sentences={profile.typewriterSentences}
+          sentences={typewriterPhrases}
           typingSpeed={80}
           deletingSpeed={40}
           pauseDuration={2500}
@@ -342,7 +359,12 @@ export default async function Home() {
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 items-stretch w-full overflow-visible">
           <div className="neo-card w-full">
             <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 flex flex-col">
-              <HeroTitle description={profile.bio} />
+              <HeroTitle 
+                badge={heroBadge}
+                headingPrefix={heroHeadingPrefix}
+                headingHighlight={heroHeadingHighlight}
+                description={heroBio}
+              />
               <div className="flex flex-wrap gap-3">
                 <a href="#expertise" className="neo-btn neo-btn-pink min-h-[44px]" aria-label="Navigate to expertise section">
                   Expertise
@@ -483,9 +505,16 @@ export default async function Home() {
             ))}
           </div>
         ) : (
-          <div className="neo-empty">
-            <p>No projects yet. Check back soon!</p>
-          </div>
+          <Empty className="acc-blue">
+            <Empty.Content>
+              <Empty.Icon className="size-10 md:size-12 text-[color:var(--neo-blue)]" />
+              <Empty.Title>No Projects Found</Empty.Title>
+              <Empty.Separator />
+              <Empty.Description>
+                No projects are loaded yet. Please check back soon or add some from the console!
+              </Empty.Description>
+            </Empty.Content>
+          </Empty>
         )}
       </section>
 
@@ -583,9 +612,16 @@ export default async function Home() {
             })}
           </div>
         ) : (
-          <div className="neo-empty">
-            <p>No experience yet.</p>
-          </div>
+          <Empty className="acc-lime">
+            <Empty.Content>
+              <Empty.Icon className="size-10 md:size-12 text-[color:var(--neo-lime)]" />
+              <Empty.Title>No Experience Logged</Empty.Title>
+              <Empty.Separator />
+              <Empty.Description>
+                Work experience details are not available yet. Check back later!
+              </Empty.Description>
+            </Empty.Content>
+          </Empty>
         )}
       </section>
 
@@ -654,9 +690,16 @@ export default async function Home() {
             ))}
           </div>
         ) : (
-          <div className="neo-empty">
-            <p>No certifications yet.</p>
-          </div>
+          <Empty className="acc-yellow">
+            <Empty.Content>
+              <Empty.Icon className="size-10 md:size-12 text-[color:var(--neo-yellow)]" />
+              <Empty.Title>No Certifications Yet</Empty.Title>
+              <Empty.Separator />
+              <Empty.Description>
+                Aman hasn't uploaded any certificates yet. Check back soon!
+              </Empty.Description>
+            </Empty.Content>
+          </Empty>
         )}
       </section>
 
