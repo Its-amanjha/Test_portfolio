@@ -1,0 +1,500 @@
+'use client'
+import { useState, useEffect } from 'react'
+import { SiHuggingface } from 'react-icons/si'
+import TagSearchInput from '@/components/TagSearchInput'
+
+interface IProject {
+  id: number
+  title: string
+  description?: string
+  github_url?: string
+  huggingface_url?: string
+  tags?: string[]
+  image?: string
+  demo_video?: string
+}
+
+export default function AdminProjectsPage() {
+  const [projects, setProjects] = useState<IProject[]>([])
+  const [loading, setLoading] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [formData, setFormData] = useState({ title: '', description: '', github_url: '', huggingface_url: '', tags: '', image: '', demo_video: '' })
+  const [imageInputMethod, setImageInputMethod] = useState<'upload' | 'url'>('upload')
+  const [uploadingVideo, setUploadingVideo] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [statusMsg, setStatusMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchProjects()
+    
+    const updateTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark-mode'))
+    }
+    updateTheme()
+    const observer = new MutationObserver(updateTheme)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!statusMsg) return
+    const t = setTimeout(() => setStatusMsg(null), 5000)
+    return () => clearTimeout(t)
+  }, [statusMsg])
+
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch('/api/projects')
+      if (!res.ok) {
+        console.error('Failed to fetch projects', res.status)
+        setProjects([])
+        return
+      }
+      const text = await res.text()
+      if (!text) {
+        setProjects([])
+        return
+      }
+      const data = JSON.parse(text)
+      setProjects(data)
+    } catch (err) {
+      console.error('Error fetching projects', err)
+      setProjects([])
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    
+    if (!formData.github_url?.trim() && !formData.huggingface_url?.trim()) {
+      alert('At least one URL (GitHub repository or Hugging Face link) is required')
+      setLoading(false)
+      return
+    }
+    
+    const body = {
+      title: formData.title,
+      description: formData.description,
+      github_url: formData.github_url,
+      huggingface_url: formData.huggingface_url,
+      tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
+      image: formData.image || '',
+      demo_video: formData.demo_video || ''
+    }
+
+    try {
+      if (editingId) {
+        const res = await fetch('/api/admin/projects', {
+          method: 'PUT',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, updates: body, image: body.image, demo_video: body.demo_video })
+        })
+        if (res.ok) {
+          setEditingId(null)
+          setFormData({ title: '', description: '', github_url: '', huggingface_url: '', tags: '', image: '', demo_video: '' })
+          setImageInputMethod('upload')
+          fetchProjects()
+          setStatusMsg({ type: 'success', text: 'Project updated successfully!' })
+        } else {
+          const errText = await res.text()
+          console.error('Failed to update project', errText)
+          setStatusMsg({ type: 'error', text: 'Failed to update project.' })
+        }
+      } else {
+        const res = await fetch('/api/admin/projects', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        })
+        if (res.ok) {
+          setFormData({ title: '', description: '', github_url: '', huggingface_url: '', tags: '', image: '', demo_video: '' })
+          setImageInputMethod('upload')
+          fetchProjects()
+          setStatusMsg({ type: 'success', text: 'Project created successfully!' })
+        } else {
+          const errText = await res.text()
+          console.error('Failed to create project', errText)
+          setStatusMsg({ type: 'error', text: 'Failed to create project.' })
+        }
+      }
+    } catch (err) {
+      console.error('Error saving project', err)
+      setStatusMsg({ type: 'error', text: 'An unexpected error occurred.' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure?')) return
+    setDeletingId(id)
+    try {
+      const res = await fetch(`/api/admin/projects?id=${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        fetchProjects()
+        setStatusMsg({ type: 'success', text: 'Project deleted successfully!' })
+      } else {
+        setStatusMsg({ type: 'error', text: 'Failed to delete project.' })
+      }
+    } catch {
+      setStatusMsg({ type: 'error', text: 'An unexpected error occurred.' })
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
+  const handleEdit = (proj: IProject) => {
+    setEditingId(String(proj.id))
+    const imageValue = proj.image || ''
+    // Check if URL or base64
+    setImageInputMethod(imageValue.startsWith('http') ? 'url' : 'upload')
+    setFormData({
+      title: proj.title,
+      description: proj.description || '',
+      github_url: proj.github_url || '',
+      huggingface_url: proj.huggingface_url || '',
+      tags: (proj.tags || []).join(', '),
+      image: imageValue,
+      demo_video: proj.demo_video || ''
+    })
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert(`File size is ${(file.size / (1024 * 1024)).toFixed(2)}MB. Maximum allowed is 5MB.`)
+      e.target.value = ''
+      return
+    }
+
+    setUploadingImage(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', 'projects')
+      const res = await fetch('/api/admin/upload-image', { method: 'POST', body: fd })
+      if (!res.ok) throw new Error('Upload failed')
+      const { url } = await res.json()
+      setFormData(prev => ({ ...prev, image: url }))
+    } catch {
+      alert('Failed to upload image. Please try again.')
+      e.target.value = ''
+    } finally {
+      setUploadingImage(false)
+    }
+  }
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Max 50MB for videos
+    const maxSize = 50 * 1024 * 1024
+    if (file.size > maxSize) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(2)
+      alert(`Video file is ${sizeMB}MB. Maximum allowed is 50MB. Please use a smaller file or compress the video.`)
+      e.target.value = ''
+      return
+    }
+
+    setUploadingVideo(true)
+    try {
+      const formData = new FormData()
+      formData.append('video', file)
+
+      const res = await fetch('/api/admin/upload-video', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+      })
+
+      if (!res.ok) {
+        const error = await res.json()
+        alert(`Failed to upload video: ${error.error || 'Unknown error'}`)
+        e.target.value = ''
+        return
+      }
+
+      const data = await res.json()
+      setFormData(prev => ({ ...prev, demo_video: data.path }))
+      alert('Video uploaded successfully!')
+    } catch (err) {
+      console.error('Video upload error:', err)
+      alert('Failed to upload video. Please try again.')
+      e.target.value = ''
+    } finally {
+      setUploadingVideo(false)
+    }
+  }
+
+  return (
+    <section className="space-y-6">
+      <h1 className="text-2xl font-semibold">Manage AI Projects</h1>
+
+      <form onSubmit={handleSubmit} className="neo-card p-8 space-y-6">
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Title</label>
+          <input
+            type="text"
+            required
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            className="neo-input"
+          />
+        </div>
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Description</label>
+          <textarea
+            value={formData.description}
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            className="neo-textarea h-24"
+          />
+        </div>
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">GitHub Repository URL (Optional)</label>
+          <input
+            type="url"
+            value={formData.github_url}
+            onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
+            placeholder="https://github.com/username/repo"
+            className="neo-input"
+          />
+        </div>
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Hugging Face Live Project URL (Optional)</label>
+          <input
+            type="url"
+            value={formData.huggingface_url}
+            onChange={(e) => setFormData({ ...formData, huggingface_url: e.target.value })}
+            placeholder="https://huggingface.co/spaces/username/project"
+            className="neo-input"
+          />
+          <p className="text-xs mt-1 text-[color:var(--neo-ink-soft)]">At least one URL is required. Use GitHub for repositories and Hugging Face for live demos.</p>
+        </div>
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Tags (comma separated)</label>
+          <TagSearchInput
+            value={formData.tags}
+            onChange={(value) => setFormData({ ...formData, tags: value })}
+            className="neo-input"
+            placeholder="React, Next.js, TypeScript"
+          />
+        </div>
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Image / GIF</label>
+          
+          {/* Image input method selector */}
+          <div className="flex gap-4 mb-3">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="imageMethod"
+                checked={imageInputMethod === 'upload'}
+                onChange={() => {
+                  setImageInputMethod('upload')
+                  setFormData(prev => ({ ...prev, image: '' }))
+                }}
+                className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
+              />
+              <span className="font-bold text-sm text-[color:var(--neo-ink)]">Upload File (max 3MB)</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="imageMethod"
+                checked={imageInputMethod === 'url'}
+                onChange={() => {
+                  setImageInputMethod('url')
+                  setFormData(prev => ({ ...prev, image: '' }))
+                }}
+                className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
+              />
+              <span className="font-bold text-sm text-[color:var(--neo-ink)]">Use URL (CatBox, Imgur, etc.)</span>
+            </label>
+          </div>
+
+          {/* File upload option */}
+          {imageInputMethod === 'upload' && (
+            <div className="flex items-center gap-4">
+              <label htmlFor="project-image" className="neo-btn text-sm px-4 py-2">
+                Choose File
+              </label>
+              <input id="project-image" type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+              <span className="text-sm text-[color:var(--neo-ink-soft)]">{formData.image && !formData.image.startsWith('http') ? 'File selected' : 'No file chosen'}</span>
+            </div>
+          )}
+
+          {/* URL input option */}
+          {imageInputMethod === 'url' && (
+            <input
+              type="url"
+              placeholder="https://files.catbox.moe/abc123.gif"
+              value={formData.image?.startsWith('http') ? formData.image : ''}
+              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+              className="neo-input"
+            />
+          )}
+
+          {/* Image preview */}
+          {formData.image && (
+            <img src={formData.image} alt="preview" className="mt-2 max-h-40 rounded border-2 border-black" onError={(e) => {
+              e.currentTarget.src = ''
+              e.currentTarget.alt = 'Failed to load image'
+            }} />
+          )}
+        </div>
+
+        {/* Video upload section */}
+        <div>
+          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Demo Video (Optional)</label>
+          <p className="text-xs mb-3 text-[color:var(--neo-ink-soft)]">Upload a video to showcase your project. Videos are stored as static assets for fast loading. Max 50MB. Supported: MP4, WebM, OGG, MOV.</p>
+          
+          <div className="flex items-center gap-4">
+            <label htmlFor="project-video" className="neo-btn neo-btn-purple text-sm px-4 py-2">
+              {uploadingVideo ? 'Uploading...' : 'Choose Video'}
+            </label>
+            <input 
+              id="project-video" 
+              type="file" 
+              accept="video/mp4,video/webm,video/ogg,video/quicktime" 
+              onChange={handleVideoUpload} 
+              disabled={uploadingVideo}
+              className="hidden" 
+            />
+            <span className="text-sm text-[color:var(--neo-ink-soft)]">
+              {formData.demo_video ? formData.demo_video.split('/').pop() : 'No video chosen'}
+            </span>
+            {formData.demo_video && (
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, demo_video: '' }))}
+                className="text-xs text-red-600 hover:text-red-800 font-bold transition-transform duration-300 ease-out hover:scale-105"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+
+          {/* Video preview */}
+          {formData.demo_video && (
+            <video 
+              src={formData.demo_video} 
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="mt-3 max-h-60 rounded border-2 border-black"
+              onError={(e) => {
+                console.error('Video preview error')
+              }}
+            >
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            type="submit"
+            disabled={loading}
+            className="neo-btn neo-btn-blue px-6 py-2"
+          >
+            {loading && <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+            {loading ? 'Publishing...' : editingId ? 'Update Project' : 'Create Project'}
+          </button>
+          {editingId && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditingId(null)
+                setFormData({ title: '', description: '', github_url: '', huggingface_url: '', tags: '', image: '', demo_video: '' })
+                setImageInputMethod('upload')
+              }}
+              className="neo-btn px-6 py-2"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
+
+        {statusMsg && (
+          <div className={`mt-4 px-4 py-3 rounded-lg font-medium text-sm flex items-center gap-2 ${
+            statusMsg.type === 'success'
+              ? isDarkMode ? 'bg-green-900/50 text-green-300 border border-green-700' : 'bg-green-50 text-green-700 border border-green-300'
+              : isDarkMode ? 'bg-red-900/50 text-red-300 border border-red-700' : 'bg-red-50 text-red-700 border border-red-300'
+          }`}>
+            {statusMsg.type === 'success' ? '✓' : '✕'} {statusMsg.text}
+          </div>
+        )}
+      </form>
+
+      <div className="space-y-3">
+        {projects.map((proj) => (
+          <div key={String(proj.id)} className={`p-4 rounded-lg shadow-sm border overflow-hidden flex justify-between items-start gap-4 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+            <div className="flex gap-4 items-start min-w-0 flex-1">
+              {proj.demo_video ? (
+                <video src={proj.demo_video} className="w-32 h-24 object-cover rounded flex-shrink-0" autoPlay muted loop playsInline />
+              ) : proj.image ? (
+                <img src={proj.image} alt={proj.title} className="w-32 h-24 object-cover rounded flex-shrink-0" />
+              ) : (
+                <div className={`w-32 h-24 rounded flex-shrink-0 flex items-center justify-center text-sm ${isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-500'}`}>No Media</div>
+              )}
+              <div className="min-w-0">
+                <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>{proj.title}</h3>
+                {proj.description && <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{proj.description}</p>}
+                {proj.tags && proj.tags.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {proj.tags.map((tag, idx) => (
+                      <span key={idx} className={`px-2 py-1 text-xs rounded ${isDarkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-700'}`}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <div className="mt-2 flex items-center gap-3">
+                  {proj.github_url && (
+                    <a href={proj.github_url} target="_blank" rel="noreferrer" className={`flex items-center gap-2 text-sm hover:underline ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                        <path d="M12 0.5C5.5 0.5 0.5 5.5 0.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1 1.6.8 1.6.8.9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.7-1.4-2.5-.3-5.1-1.2-5.1-5.3 0-1.2.4-2.1 1.1-2.8-.1-.3-.5-1.4.1-2.9 0 0 .9-.3 2.9 1.1.8-.2 1.7-.4 2.6-.4s1.8.1 2.6.4c2-1.4 2.9-1.1 2.9-1.1.6 1.5.2 2.6.1 2.9.7.7 1.1 1.6 1.1 2.8 0 4-2.6 5-5.1 5.3.4.4.8 1 .8 2v3c0 .3.2.7.8.6C20.7 21.4 24 17.1 24 12c0-6.5-5-11.5-12-11.5z" />
+                      </svg>
+                      <span>Repo</span>
+                    </a>
+                  )}
+                  {proj.huggingface_url && (
+                    <a href={proj.huggingface_url} target="_blank" rel="noreferrer" className={`flex items-center gap-2 text-sm hover:underline ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`}>
+                      <SiHuggingface className="w-4 h-4" />
+                      <span>Live Project</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2 flex-shrink-0">
+              <button
+                onClick={() => handleEdit(proj)}
+                className="px-3 py-1 bg-yellow-500 text-white rounded text-sm transition-transform duration-300 ease-out hover:scale-105"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(String(proj.id))}
+                disabled={deletingId === String(proj.id)}
+                className={`px-3 py-1 bg-red-500 text-white rounded text-sm transition-transform duration-300 ease-out hover:scale-105 flex items-center gap-1 disabled:opacity-50 ${deletingId === String(proj.id) ? '' : 'hover:bg-red-600'}`}
+              >
+                {deletingId === String(proj.id) && <span className="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                {deletingId === String(proj.id) ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,48 @@
+{
+  "name": "portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postbuild": "next-sitemap",
+    "clean": "rm -rf .next",
+    "migrate-images": "node scripts/migrate-base64-to-storage.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.1.0",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@vercel/blob": "2.4.0",
+    "axios": "*",
+    "critters": "0.0.23",
+    "mongodb": "^7.1.0",
+    "mongoose": "*",
+    "next": "^16.1.6",
+    "next-auth": "*",
+    "nodemailer": "7.0.13",
+    "react": "*",
+    "react-dom": "*",
+    "react-google-recaptcha": "3.1.0",
+    "react-icons": "^5.5.0",
+    "web-vitals": "3.5.0",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "15.1.0",
+    "@types/node": "25.2.3",
+    "@types/nodemailer": "7.0.10",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/react-google-recaptcha": "2.1.9",
+    "autoprefixer": "*",
+    "eslint": "*",
+    "eslint-config-next": "*",
+    "next-sitemap": "4.2.3",
+    "postcss": "*",
+    "tailwindcss": "*",
+    "typescript": "*"
+  }
+}

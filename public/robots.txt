@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# Host
+Host: https://your-portfolio.vercel.app
+
+# Sitemaps
+Sitemap: https://your-portfolio.vercel.app/sitemap.xml
+Sitemap: https://aman-kumar-jha.vercel.app/sitemap.xml
