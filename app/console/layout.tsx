@@ -41,7 +41,7 @@ export default function AdminLayout({
               Console Menu
             </div>
             {consoleLinks.map((link) => {
-              const isActive = link.href === '/console' ? pathname === '/console' : pathname.startsWith(link.href)
+              const isActive = pathname ? (link.href === '/console' ? pathname === '/console' : pathname.startsWith(link.href)) : false
               return (
                 <Link
                   key={link.href}
@@ -72,7 +72,7 @@ export default function AdminLayout({
         >
           <nav className="flex overflow-x-auto no-scrollbar gap-2 p-2 items-center">
             {consoleLinks.map((link) => {
-              const isActive = link.href === '/console' ? pathname === '/console' : pathname.startsWith(link.href)
+              const isActive = pathname ? (link.href === '/console' ? pathname === '/console' : pathname.startsWith(link.href)) : false
               return (
                 <Link
                   key={link.href}
