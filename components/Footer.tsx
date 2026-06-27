@@ -1,17 +1,37 @@
 'use client'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhoneAlt } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaEnvelope, FaPhoneAlt, FaLink } from 'react-icons/fa'
 import { SiMedium } from 'react-icons/si'
 import { FaXTwitter } from 'react-icons/fa6'
+import { IoLogoTableau } from 'react-icons/io5'
 import { profile } from '@/lib/profile'
 
-const socials = [
-  profile.socialLinks.github && { href: profile.socialLinks.github, label: 'GitHub', Icon: FaGithub, cls: 'neo-tag-yellow' },
-  profile.socialLinks.x && { href: profile.socialLinks.x, label: 'X', Icon: FaXTwitter, cls: 'neo-tag-cyan' },
-  profile.socialLinks.linkedin && { href: profile.socialLinks.linkedin, label: 'LinkedIn', Icon: FaLinkedin, cls: 'neo-tag-blue' },
-  profile.email && { href: `mailto:${profile.email}`, label: 'Email', Icon: FaEnvelope, cls: 'neo-tag-purple' },
-  profile.phone && { href: `tel:${profile.phone.replace(/\s+/g, '')}`, label: 'Phone', Icon: FaPhoneAlt, cls: 'neo-tag-yellow' },
-].filter(Boolean) as Array<{ href: string; label: string; Icon: any; cls: string }>
+const iconMap: Record<string, any> = {
+  phone: FaPhoneAlt,
+  email: FaEnvelope,
+  github: FaGithub,
+  linkedin: FaLinkedin,
+  x: FaXTwitter,
+  medium: SiMedium,
+  tableau: IoLogoTableau,
+}
+
+const clsMap: Record<string, string> = {
+  github: 'neo-tag-yellow',
+  x: 'neo-tag-cyan',
+  linkedin: 'neo-tag-blue',
+  email: 'neo-tag-purple',
+  phone: 'neo-tag-yellow',
+}
+
+const defaultSocials = [
+  profile.socialLinks.github && { href: profile.socialLinks.github, label: 'GitHub', icon: 'github' },
+  profile.socialLinks.x && { href: profile.socialLinks.x, label: 'X', icon: 'x' },
+  profile.socialLinks.linkedin && { href: profile.socialLinks.linkedin, label: 'LinkedIn', icon: 'linkedin' },
+  profile.email && { href: `mailto:${profile.email}`, label: 'Email', icon: 'email' },
+  profile.phone && { href: `tel:${profile.phone.replace(/\s+/g, '')}`, label: 'Phone', icon: 'phone' },
+].filter(Boolean) as Array<{ href: string; label: string; icon: string }>
 
 const quickLinks = [
   { href: '/#top', label: 'Home' },
@@ -23,6 +43,43 @@ const quickLinks = [
 
 export default function Footer() {
   const pathname = usePathname()
+  const [socialLinks, setSocialLinks] = useState<Array<{ href: string; label: string; icon: string }>>(defaultSocials)
+  const [aboutBio, setAboutBio] = useState(
+    `${profile.title} focused on building machine learning and deep learning solutions for real-world problems.`
+  )
+
+  useEffect(() => {
+    fetch('/api/site-cards')
+      .then((res) => {
+        if (!res.ok) throw new Error()
+        return res.json()
+      })
+      .then((data) => {
+        // 1. Get contact links
+        const contactRow = data.find((c: any) => c.section === 'contact')
+        if (contactRow?.card_data?.links) {
+          const mapped = contactRow.card_data.links
+            .filter((l: any) => l.icon !== 'location')
+            .map((l: any) => ({
+              href: l.href,
+              label: l.label,
+              icon: l.icon,
+            }))
+          if (mapped.length > 0) {
+            setSocialLinks(mapped)
+          }
+        }
+        // 2. Get about bio description
+        const heroRow = data.find((c: any) => c.section === 'hero')
+        if (heroRow?.card_data?.bio) {
+          setAboutBio(
+            `${profile.title} focused on: ${heroRow.card_data.bio.substring(0, 120)}...`
+          )
+        }
+      })
+      .catch((err) => console.error('Error fetching footer data:', err))
+  }, [])
+
   if (pathname && pathname.startsWith('/console')) {
     return null
   }
@@ -38,7 +95,7 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="inline-block bg-neo-yellow border-2 border-neo-border px-2 py-1 font-extrabold mb-3 text-sm uppercase">About</h3>
             <p className="text-sm leading-relaxed font-medium text-[color:var(--neo-ink-soft)]">
-              {profile.title} focused on building machine learning and deep learning solutions for real-world problems.
+              {aboutBio}
             </p>
           </div>
 
@@ -58,19 +115,23 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="inline-block bg-neo-pink border-2 border-neo-border px-2 py-1 font-extrabold mb-3 text-sm uppercase">Connect</h3>
             <div className="flex gap-2 flex-wrap justify-center md:justify-start">
-              {socials.map(({ href, label, Icon, cls }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith('http') ? '_blank' : undefined}
-                  rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className={`neo-tag ${cls} w-9 h-9 !p-0 justify-center`}
-                  title={label}
-                  aria-label={label}
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
+              {socialLinks.map(({ href, label, icon }) => {
+                const IconComponent = iconMap[icon] || FaLink
+                const colorCls = clsMap[icon] || 'neo-tag-pink'
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                    rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className={`neo-tag ${colorCls} w-9 h-9 !p-0 justify-center`}
+                    title={label}
+                    aria-label={label}
+                  >
+                    <IconComponent className="w-4 h-4" />
+                  </a>
+                )
+              })}
             </div>
           </div>
         </div>
