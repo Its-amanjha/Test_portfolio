@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
 const consoleLinks = [
-  { name: 'Dashboard', href: '/console', activeColor: 'bg-neo-yellow' },
   { name: 'Hero Section', href: '/console/hero', activeColor: 'bg-neo-pink' },
   { name: 'Projects', href: '/console/projects', activeColor: 'bg-neo-blue' },
   { name: 'Experience', href: '/console/experience', activeColor: 'bg-neo-lime' },

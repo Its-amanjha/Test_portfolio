@@ -9,14 +9,6 @@ import { profile } from '@/lib/profile'
 const navLink =
   'whitespace-nowrap font-bold text-[color:var(--neo-ink)] hover:bg-neo-yellow px-2 py-1 border-2 border-transparent hover:border-neo-border transition-all duration-100'
 
-const consoleLinks = [
-  { name: 'Dashboard', href: '/console', activeColor: 'bg-neo-yellow' },
-  { name: 'Projects', href: '/console/projects', activeColor: 'bg-neo-blue' },
-  { name: 'Experience', href: '/console/experience', activeColor: 'bg-neo-lime' },
-  { name: 'Certifications', href: '/console/certificates', activeColor: 'bg-neo-yellow' },
-  { name: 'Expertise', href: '/console/expertise', activeColor: 'bg-neo-pink' },
-  { name: 'Messages', href: '/console/messages', activeColor: 'bg-neo-purple' },
-]
 
 function HeaderComponent() {
   const [menuOpen, setMenuOpen] = useState(false)
