@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "../../lib/auth"
-import LoginForm from "./LoginForm"
+import { AuthForms } from "@/components/blocks/application"
 import { sql } from "../../lib/db"
 import type { Session } from "next-auth"
 
@@ -11,7 +11,7 @@ export default async function AdminPage() {
   if (!session?.user?.email) {
     return (
       <section className="py-12">
-        <LoginForm />
+        <AuthForms.Login />
       </section>
     )
   }

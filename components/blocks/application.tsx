@@ -4,7 +4,11 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 
-export default function LoginForm() {
+interface LoginProps {
+  callbackUrl?: string
+}
+
+function LoginForm({ callbackUrl = '/console' }: LoginProps) {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
   
@@ -29,14 +33,14 @@ export default function LoginForm() {
         email,
         password,
         redirect: false,
-        callbackUrl: '/console'
+        callbackUrl
       })
 
       if (result?.error) {
         setLocalError('Invalid email or password.')
       } else {
         // Redirect to console home page
-        window.location.href = '/console'
+        window.location.href = callbackUrl
       }
     } catch (err) {
       console.error('Login error:', err)
@@ -48,19 +52,21 @@ export default function LoginForm() {
 
   return (
     <div className="max-w-md mx-auto mt-12 neo-card p-6 sm:p-8 -rotate-1 bg-[color:var(--neo-surface)]">
-      <h2 className="text-2xl font-extrabold mb-6 inline-block bg-neo-yellow border-neo border-neo-border px-3 py-1 shadow-neo-sm -rotate-1">
+      <h2 className="text-2xl font-extrabold mb-6 inline-block bg-neo-yellow border-neo border-neo-border shadow-neo-sm -rotate-1 text-black">
         Console Login
       </h2>
       
       {(localError || error === 'CredentialsSignin') && (
-        <div className="mb-4 p-3 bg-neo-red border-neo border-neo-border shadow-neo-sm font-bold text-sm">
+        <div className="mb-4 p-3 bg-neo-red border-neo border-neo-border shadow-neo-sm font-bold text-sm text-black">
           {localError || 'Invalid credentials. Please try again.'}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-extrabold mb-1.5 uppercase tracking-wider">Email Address</label>
+          <label className="block text-sm font-extrabold mb-1.5 uppercase tracking-wider text-[color:var(--neo-ink)]">
+            Email Address
+          </label>
           <input
             type="email"
             value={email}
@@ -72,7 +78,9 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-extrabold mb-1.5 uppercase tracking-wider">Password</label>
+          <label className="block text-sm font-extrabold mb-1.5 uppercase tracking-wider text-[color:var(--neo-ink)]">
+            Password
+          </label>
           <input
             type="password"
             value={password}
@@ -93,4 +101,8 @@ export default function LoginForm() {
       </form>
     </div>
   )
+}
+
+export const AuthForms = {
+  Login: LoginForm
 }
