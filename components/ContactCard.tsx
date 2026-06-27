@@ -44,8 +44,7 @@ interface ContactCardProps {
 export default function ContactCard({ initialLinks, initialCvPath }: ContactCardProps) {
   const { data: session } = useSession()
   const isAdmin = !!session?.user?.email
-  const isProduction = process.env.NODE_ENV === 'production'
-  const showAdminControls = isAdmin && !isProduction
+  const showAdminControls = isAdmin
 
   const [editing, setEditing] = useState(false)
   const [links, setLinks] = useState<ProfileLink[]>(initialLinks && initialLinks.length > 0 ? initialLinks : defaultLinks)

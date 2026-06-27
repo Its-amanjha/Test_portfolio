@@ -48,8 +48,7 @@ interface QRSectionProps {
 export default function QRSection({ initialCards }: QRSectionProps) {
   const { data: session } = useSession()
   const isAdmin = !!session?.user?.email
-  const isProduction = process.env.NODE_ENV === 'production'
-  const showAdminControls = isAdmin && !isProduction
+  const showAdminControls = isAdmin
 
   const [editing, setEditing] = useState(false)
   const [cards, setCards] = useState<QRCard[]>(initialCards && initialCards.length > 0 ? initialCards : defaultCards)

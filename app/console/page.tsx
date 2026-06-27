@@ -68,6 +68,9 @@ export default async function AdminPage() {
       <p className="mt-8 text-lg font-bold text-[color:var(--neo-ink-soft)] max-w-xl mx-auto leading-relaxed">
         Welcome back, Aman! Use the navigation tabs directly below the header logo to manage your projects, work experience, certifications, expertise cards, and read contact messages.
       </p>
+      <p className="mt-3 text-sm font-bold text-[color:var(--neo-muted)] max-w-xl mx-auto bg-[color:var(--neo-surface-2)] border-2 border-dashed border-neo-border p-2 rounded">
+        💡 To edit your <strong>Contact Details</strong> or <strong>QR Codes</strong>, simply visit the <a href="/" className="underline hover:text-black">Public Home Page</a>. Since you are logged in as admin, you will see a settings gear icon (⚙️) on those cards to edit and save them directly!
+      </p>
 
       {/* Neat workspace welcome grid */}
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl w-full">
