@@ -151,6 +151,24 @@ export const techIcons: Record<string, IconData> = {
   audiodenoise: { icon: 'svg/auddenoise', label: 'Audio Denoising' },
   audioclean: { icon: 'svg/audio-cleaning', label: 'Audio Cleaning' },
   qwen: {icon: 'svg/Qwen_logo', label: 'Qwen'},
+  
+  // Modern AI & LLM Stack
+  claude: { icon: 'si/SiAnthropic', color: '#D97757', label: 'Claude' },
+  anthropic: { icon: 'si/SiAnthropic', color: '#D97757', label: 'Anthropic' },
+  openai: { icon: 'si/SiOpenai', color: '#10a37f', label: 'OpenAI' },
+  codex: { icon: 'si/SiOpenai', color: '#10a37f', label: 'OpenAI Codex' },
+  gemini: { icon: 'si/SiGooglegemini', color: '#1A73E8', label: 'Google Gemini' },
+  langchain: { icon: 'si/SiLangchain', color: '#121212', label: 'LangChain' },
+  pinecone: { icon: 'tb/TbVector', color: '#121212', label: 'Pinecone' },
+  weaviate: { icon: 'tb/TbVector', color: '#37F287', label: 'Weaviate' },
+  chromadb: { icon: 'tb/TbVector', color: '#0080FF', label: 'ChromaDB' },
+  vectordb: { icon: 'tb/TbVector', color: '#00BCFF', label: 'Vector DB' },
+
+  // Modern App Development Stack
+  prisma: { icon: 'si/SiPrisma', color: '#2D3748', label: 'Prisma' },
+  stripe: { icon: 'si/SiStripe', color: '#635BFF', label: 'Stripe' },
+  clerk: { icon: 'si/SiClerk', color: '#2F3037', label: 'Clerk' },
+  database: { icon: 'fa/FaDatabase', color: '#336791', label: 'Database' },
 
   // Other
   balls: { icon: 'lia/LiaVolleyballBallSolid', label: 'Balls Classification' },
@@ -211,6 +229,12 @@ const normalizeTag = (tagName: string): string => {
     'tableau public': 'tableau',
     'power bi': 'powerbi',
     'power-bi': 'powerbi',
+    'openai codex': 'codex',
+    'openai-codex': 'codex',
+    'google gemini': 'gemini',
+    'chroma': 'chromadb',
+    'vector db': 'vectordb',
+    'vector database': 'vectordb',
   }
 
   if (aliasMap[normalized]) {

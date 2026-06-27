@@ -13,7 +13,7 @@ import {
   FaPython, FaJava, FaRust, FaSwift, FaRProject, FaPhp, FaReact, FaVuejs,
   FaAngular, FaNodeJs, FaAws, FaGoogle, FaMicrosoft, FaDocker, FaGithub,
   FaHtml5, FaCss3Alt, FaBootstrap, FaEye, FaBrain, FaRobot, FaLinux,
-  FaWindows, FaMedium,
+  FaWindows, FaMedium, FaDatabase,
 } from 'react-icons/fa'
 import { FaGolang, FaDartLang, FaFlutter, FaGitAlt } from 'react-icons/fa6'
 import {
@@ -21,10 +21,11 @@ import {
   SiFastapi, SiChartdotjs, SiTensorflow, SiPytorch, SiKeras, SiPandas,
   SiNumpy, SiOpencv, SiOllama, SiGooglecloud, SiGooglecolab, SiPostgresql,
   SiFirebase, SiElasticsearch, SiMysql, SiN8N, SiMacos, SiHuggingface,
-  SiArduino, SiRaspberrypi, SiNvidia,
+  SiArduino, SiRaspberrypi, SiNvidia, SiAnthropic, SiGooglegemini, SiLangchain,
+  SiOpenai, SiPrisma, SiStripe, SiClerk,
 } from 'react-icons/si'
 import { IoLogoJavascript, IoLogoVercel, IoLogoTableau } from 'react-icons/io5'
-import { TbBrandCpp, TbBrandCSharp, TbSql, TbBrandVite, TbBrandZapier } from 'react-icons/tb'
+import { TbBrandCpp, TbBrandCSharp, TbSql, TbBrandVite, TbBrandZapier, TbVector } from 'react-icons/tb'
 import { VscTerminalPowershell, VscAzure } from 'react-icons/vsc'
 import { RiNextjsFill, RiSupabaseFill } from 'react-icons/ri'
 import { BiLogoNetlify } from 'react-icons/bi'
@@ -121,4 +122,13 @@ export const iconRegistry: Record<string, IconType> = {
   'gi/GiTumor': GiTumor,
   'lu/LuLanguages': LuLanguages,
   'md/MdAgriculture': MdAgriculture,
+  'si/SiAnthropic': SiAnthropic,
+  'si/SiGooglegemini': SiGooglegemini,
+  'si/SiLangchain': SiLangchain,
+  'si/SiOpenai': SiOpenai,
+  'si/SiPrisma': SiPrisma,
+  'si/SiStripe': SiStripe,
+  'si/SiClerk': SiClerk,
+  'tb/TbVector': TbVector,
+  'fa/FaDatabase': FaDatabase,
 }

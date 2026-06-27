@@ -280,7 +280,7 @@ export default function AdminExperiencePage() {
             placeholder="Python, TensorFlow, React, Node.js, AWS, Machine Learning"
             className="neo-input"
           />
-          <p className="text-xs mt-1 text-[color:var(--neo-ink-soft)]">Supported: Python, JavaScript, TypeScript, React, Node.js, TensorFlow, PyTorch, Docker, AWS, GCP, Azure, SQL, MongoDB, PostgreSQL, Git, and more</p>
+          <p className="text-xs mt-1 text-[color:var(--neo-ink-soft)]">Supported: Python, JavaScript, TypeScript, React, Next.js, Node.js, Claude, OpenAI, Codex, LangChain, TensorFlow, PyTorch, Docker, AWS, GCP, Prisma, Stripe, Clerk, SQL, MongoDB, PostgreSQL, Git, and more</p>
         </div>
 
         <div className="flex gap-3">
