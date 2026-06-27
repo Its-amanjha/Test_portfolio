@@ -3,6 +3,7 @@ import { authOptions } from "../../lib/auth"
 import { AuthForms } from "@/components/blocks/application"
 import { sql } from "../../lib/db"
 import type { Session } from "next-auth"
+import { Suspense } from "react"
 
 export default async function AdminPage() {
   const session: Session | null = await getServerSession(authOptions)
@@ -11,7 +12,13 @@ export default async function AdminPage() {
   if (!session?.user?.email) {
     return (
       <section className="py-12">
-        <AuthForms.Login />
+        <Suspense fallback={
+          <div className="flex justify-center py-20">
+            <div className="w-10 h-10 border-4 border-neo-border border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <AuthForms.Login />
+        </Suspense>
       </section>
     )
   }
