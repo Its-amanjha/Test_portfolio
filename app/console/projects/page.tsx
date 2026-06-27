@@ -238,7 +238,7 @@ export default function AdminProjectsPage() {
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-extrabold inline-block bg-neo-blue border-neo border-neo-border px-4 py-2 shadow-neo -rotate-1 text-black">
-          Manage AI Projects
+          Manage Projects
         </h1>
       </div>
 

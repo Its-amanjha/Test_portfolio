@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 
 const consoleLinks = [
   { name: 'Hero Section', href: '/console/hero', activeColor: 'bg-neo-pink' },
-  { name: 'AI Projects', href: '/console/projects', activeColor: 'bg-neo-blue' },
+  { name: 'Projects', href: '/console/projects', activeColor: 'bg-neo-blue' },
   { name: 'Experience', href: '/console/experience', activeColor: 'bg-neo-lime' },
   { name: 'Certifications', href: '/console/certificates', activeColor: 'bg-neo-yellow' },
   { name: 'Expertise', href: '/console/expertise', activeColor: 'bg-neo-pink' },
