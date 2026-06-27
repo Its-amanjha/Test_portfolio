@@ -15,6 +15,6 @@ export default function robots(): MetadataRoute.Robots {
         crawlDelay: 0,
       },
     ],
-    sitemap: 'https://aman-kumar-jha.vercel.app/sitemap.xml',
+    sitemap: 'https://amanbuilds.me/sitemap.xml',
   }
 }

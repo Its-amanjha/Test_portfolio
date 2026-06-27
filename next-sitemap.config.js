@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://aman-kumar-jha.vercel.app',
+  siteUrl: process.env.SITE_URL || 'https://amanbuilds.me',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: ['/admin', '/admin/*', '/api/*'],
@@ -13,7 +13,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      'https://aman-kumar-jha.vercel.app/sitemap.xml',
+      'https://amanbuilds.me/sitemap.xml',
     ],
   },
   transform: async (config, path) => {

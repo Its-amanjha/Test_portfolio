@@ -25,7 +25,7 @@ const inter = Inter({
 
 // SEO metadata
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aman-kumar-jha.vercel.app'),
+  metadataBase: new URL('https://amanbuilds.me'),
   title: {
     default: `${profile.name} | Portfolio`,
     template: `%s | ${profile.name}`,
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     'TensorFlow',
     'PyTorch',
   ],
-  authors: [{ name: profile.name, url: 'https://aman-kumar-jha.vercel.app' }],
+  authors: [{ name: profile.name, url: 'https://amanbuilds.me' }],
   creator: profile.name,
   publisher: profile.name,
   
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://aman-kumar-jha.vercel.app',
+    url: 'https://amanbuilds.me',
     title: `${profile.name} | ${profile.title}`,
     description: profile.bio,
     siteName: `${profile.name} Portfolio`,
@@ -174,7 +174,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               '@context': 'https://schema.org',
               '@type': 'Person',
               name: profile.name,
-              url: 'https://aman-kumar-jha.vercel.app',
+              url: 'https://amanbuilds.me',
               jobTitle: profile.title,
               description: profile.bio,
               sameAs: [
@@ -189,7 +189,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               },
               email: profile.email,
               telephone: profile.phone,
-              image: 'https://aman-kumar-jha.vercel.app/web-app-manifest-512x512.png',
+              image: 'https://amanbuilds.me/web-app-manifest-512x512.png',
               workLocation: {
                 '@type': 'Place',
                 name: 'Remote',
@@ -207,8 +207,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: `${profile.name} Portfolio`,
-              url: 'https://aman-kumar-jha.vercel.app',
-              logo: 'https://aman-kumar-jha.vercel.app/web-app-manifest-512x512.png',
+              url: 'https://amanbuilds.me',
+              logo: 'https://amanbuilds.me/web-app-manifest-512x512.png',
               sameAs: [
                 profile.socialLinks.github,
                 profile.socialLinks.linkedin,
@@ -231,7 +231,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebSite',
-              url: 'https://aman-kumar-jha.vercel.app',
+              url: 'https://amanbuilds.me',
               name: `${profile.name} Portfolio`,
               description: `${profile.name} AI and Full-Stack Engineer Portfolio`,
               inLanguage: 'en-US',
