@@ -238,166 +238,159 @@ export default function AdminProjectsPage() {
     <section className="space-y-6">
       <h1 className="text-2xl font-semibold">Manage AI Projects</h1>
 
-      <form onSubmit={handleSubmit} className="neo-card p-8 space-y-6">
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Title</label>
-          <input
-            type="text"
-            required
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="neo-input"
-          />
-        </div>
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Description</label>
-          <textarea
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="neo-textarea h-24"
-          />
-        </div>
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">GitHub Repository URL (Optional)</label>
-          <input
-            type="url"
-            value={formData.github_url}
-            onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
-            placeholder="https://github.com/username/repo"
-            className="neo-input"
-          />
-        </div>
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Hugging Face Live Project URL (Optional)</label>
-          <input
-            type="url"
-            value={formData.huggingface_url}
-            onChange={(e) => setFormData({ ...formData, huggingface_url: e.target.value })}
-            placeholder="https://huggingface.co/spaces/username/project"
-            className="neo-input"
-          />
-          <p className="text-xs mt-1 text-[color:var(--neo-ink-soft)]">At least one URL is required. Use GitHub for repositories and Hugging Face for live demos.</p>
-        </div>
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Tags (comma separated)</label>
-          <TagSearchInput
-            value={formData.tags}
-            onChange={(value) => setFormData({ ...formData, tags: value })}
-            className="neo-input"
-            placeholder="React, Next.js, TypeScript"
-          />
-        </div>
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Image / GIF</label>
-          
-          {/* Image input method selector */}
-          <div className="flex gap-4 mb-3">
-            <label className="flex items-center gap-2 cursor-pointer">
+      <form onSubmit={handleSubmit} className="neo-card p-4 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Left Column */}
+          <div className="space-y-4">
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Title *</label>
               <input
-                type="radio"
-                name="imageMethod"
-                checked={imageInputMethod === 'upload'}
-                onChange={() => {
-                  setImageInputMethod('upload')
-                  setFormData(prev => ({ ...prev, image: '' }))
-                }}
-                className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
+                type="text"
+                required
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                className="neo-input !py-1.5 text-sm"
               />
-              <span className="font-bold text-sm text-[color:var(--neo-ink)]">Upload File (max 3MB)</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="imageMethod"
-                checked={imageInputMethod === 'url'}
-                onChange={() => {
-                  setImageInputMethod('url')
-                  setFormData(prev => ({ ...prev, image: '' }))
-                }}
-                className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
-              />
-              <span className="font-bold text-sm text-[color:var(--neo-ink)]">Use URL (CatBox, Imgur, etc.)</span>
-            </label>
-          </div>
-
-          {/* File upload option */}
-          {imageInputMethod === 'upload' && (
-            <div className="flex items-center gap-4">
-              <label htmlFor="project-image" className="neo-btn text-sm px-4 py-2">
-                Choose File
-              </label>
-              <input id="project-image" type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-              <span className="text-sm text-[color:var(--neo-ink-soft)]">{formData.image && !formData.image.startsWith('http') ? 'File selected' : 'No file chosen'}</span>
             </div>
-          )}
-
-          {/* URL input option */}
-          {imageInputMethod === 'url' && (
-            <input
-              type="url"
-              placeholder="https://files.catbox.moe/abc123.gif"
-              value={formData.image?.startsWith('http') ? formData.image : ''}
-              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
-              className="neo-input"
-            />
-          )}
-
-          {/* Image preview */}
-          {formData.image && (
-            <img src={formData.image} alt="preview" className="mt-2 max-h-40 rounded border-2 border-black" onError={(e) => {
-              e.currentTarget.src = ''
-              e.currentTarget.alt = 'Failed to load image'
-            }} />
-          )}
-        </div>
-
-        {/* Video upload section */}
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Demo Video (Optional)</label>
-          <p className="text-xs mb-3 text-[color:var(--neo-ink-soft)]">Upload a video to showcase your project. Videos are stored as static assets for fast loading. Max 50MB. Supported: MP4, WebM, OGG, MOV.</p>
-          
-          <div className="flex items-center gap-4">
-            <label htmlFor="project-video" className="neo-btn neo-btn-purple text-sm px-4 py-2">
-              {uploadingVideo ? 'Uploading...' : 'Choose Video'}
-            </label>
-            <input 
-              id="project-video" 
-              type="file" 
-              accept="video/mp4,video/webm,video/ogg,video/quicktime" 
-              onChange={handleVideoUpload} 
-              disabled={uploadingVideo}
-              className="hidden" 
-            />
-            <span className="text-sm text-[color:var(--neo-ink-soft)]">
-              {formData.demo_video ? formData.demo_video.split('/').pop() : 'No video chosen'}
-            </span>
-            {formData.demo_video && (
-              <button
-                type="button"
-                onClick={() => setFormData(prev => ({ ...prev, demo_video: '' }))}
-                className="text-xs text-red-600 hover:text-red-800 font-bold transition-transform duration-300 ease-out hover:scale-105"
-              >
-                Remove
-              </button>
-            )}
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="neo-textarea h-20 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Tags (comma separated)</label>
+              <TagSearchInput
+                value={formData.tags}
+                onChange={(value) => setFormData({ ...formData, tags: value })}
+                className="neo-input !py-1.5 text-sm"
+                placeholder="React, Next.js, TypeScript"
+              />
+            </div>
+            
+            {/* Demo Video */}
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Demo Video (Optional)</label>
+              <div className="flex items-center gap-3">
+                <label htmlFor="project-video" className="neo-btn neo-btn-purple text-xs px-3 py-1.5 cursor-pointer">
+                  {uploadingVideo ? 'Uploading...' : 'Choose Video'}
+                </label>
+                <input 
+                  id="project-video" 
+                  type="file" 
+                  accept="video/mp4,video/webm,video/ogg,video/quicktime" 
+                  onChange={handleVideoUpload} 
+                  disabled={uploadingVideo}
+                  className="hidden" 
+                />
+                <span className="text-xs text-[color:var(--neo-ink-soft)] truncate max-w-[150px]">
+                  {formData.demo_video ? formData.demo_video.split('/').pop() : 'No video chosen'}
+                </span>
+                {formData.demo_video && (
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, demo_video: '' }))}
+                    className="text-xs text-red-600 hover:text-red-800 font-bold"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              {formData.demo_video && (
+                <video 
+                  src={formData.demo_video} 
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="mt-2 max-h-24 rounded border-2 border-black"
+                />
+              )}
+            </div>
           </div>
 
-          {/* Video preview */}
-          {formData.demo_video && (
-            <video 
-              src={formData.demo_video} 
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="mt-3 max-h-60 rounded border-2 border-black"
-              onError={(e) => {
-                console.error('Video preview error')
-              }}
-            >
-              Your browser does not support the video tag.
-            </video>
-          )}
+          {/* Right Column */}
+          <div className="space-y-4">
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">GitHub Repository URL (Optional)</label>
+              <input
+                type="url"
+                value={formData.github_url}
+                onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
+                placeholder="https://github.com/username/repo"
+                className="neo-input !py-1.5 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Hugging Face URL (Optional)</label>
+              <input
+                type="url"
+                value={formData.huggingface_url}
+                onChange={(e) => setFormData({ ...formData, huggingface_url: e.target.value })}
+                placeholder="https://huggingface.co/spaces/username/project"
+                className="neo-input !py-1.5 text-sm"
+              />
+            </div>
+            
+            {/* Image / GIF */}
+            <div>
+              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Image / GIF</label>
+              <div className="flex gap-4 mb-2">
+                <label className="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="imageMethod"
+                    checked={imageInputMethod === 'upload'}
+                    onChange={() => {
+                      setImageInputMethod('upload')
+                      setFormData(prev => ({ ...prev, image: '' }))
+                    }}
+                    className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
+                  />
+                  <span className="font-bold text-xs text-[color:var(--neo-ink)]">Upload</span>
+                </label>
+                <label className="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="imageMethod"
+                    checked={imageInputMethod === 'url'}
+                    onChange={() => {
+                      setImageInputMethod('url')
+                      setFormData(prev => ({ ...prev, image: '' }))
+                    }}
+                    className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
+                  />
+                  <span className="font-bold text-xs text-[color:var(--neo-ink)]">Use URL</span>
+                </label>
+              </div>
+
+              {imageInputMethod === 'upload' && (
+                <div className="flex items-center gap-3">
+                  <label htmlFor="project-image" className="neo-btn text-xs px-3 py-1.5 cursor-pointer">
+                    Choose File
+                  </label>
+                  <input id="project-image" type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+                  <span className="text-xs text-[color:var(--neo-ink-soft)]">{formData.image && !formData.image.startsWith('http') ? 'File selected' : 'No file chosen'}</span>
+                </div>
+              )}
+
+              {imageInputMethod === 'url' && (
+                <input
+                  type="url"
+                  placeholder="https://files.catbox.moe/abc123.gif"
+                  value={formData.image?.startsWith('http') ? formData.image : ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                  className="neo-input !py-1.5 text-sm"
+                />
+              )}
+
+              {formData.image && (
+                <img src={formData.image} alt="preview" className="mt-2 max-h-24 rounded border-2 border-black object-contain bg-black/5" />
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">

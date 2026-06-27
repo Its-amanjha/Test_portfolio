@@ -154,12 +154,12 @@ export default function AdminHeroPage() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8 mt-8">
-        <div className="neo-card p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <div className="neo-card p-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Badge */}
-            <div className="md:col-span-2">
-              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">
+            <div className="md:col-span-1">
+              <label className="block font-extrabold mb-1.5 text-xs text-[color:var(--neo-ink)]">
                 Badge Tag Text
               </label>
               <input
@@ -168,13 +168,13 @@ export default function AdminHeroPage() {
                 value={heroData.badge}
                 onChange={(e) => handleChange('badge', e.target.value)}
                 placeholder="e.g. AI & FULL-STACK ENGINEER"
-                className="neo-input"
+                className="neo-input !py-2 text-sm"
               />
             </div>
 
             {/* Heading Prefix */}
-            <div>
-              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">
+            <div className="md:col-span-1">
+              <label className="block font-extrabold mb-1.5 text-xs text-[color:var(--neo-ink)]">
                 Heading Prefix
               </label>
               <input
@@ -183,14 +183,14 @@ export default function AdminHeroPage() {
                 value={heroData.headingPrefix}
                 onChange={(e) => handleChange('headingPrefix', e.target.value)}
                 placeholder="e.g. Welcome to my"
-                className="neo-input"
+                className="neo-input !py-2 text-sm"
               />
             </div>
 
             {/* Heading Highlight */}
-            <div>
-              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">
-                Heading Highlight Text (Rotated / Yellow Box)
+            <div className="md:col-span-1">
+              <label className="block font-extrabold mb-1.5 text-xs text-[color:var(--neo-ink)]">
+                Heading Highlight Text
               </label>
               <input
                 type="text"
@@ -198,13 +198,13 @@ export default function AdminHeroPage() {
                 value={heroData.headingHighlight}
                 onChange={(e) => handleChange('headingHighlight', e.target.value)}
                 placeholder="e.g. Portfolio"
-                className="neo-input"
+                className="neo-input !py-2 text-sm"
               />
             </div>
 
             {/* Bio description paragraph */}
             <div className="md:col-span-2">
-              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">
+              <label className="block font-extrabold mb-1.5 text-xs text-[color:var(--neo-ink)]">
                 Bio Description Paragraph
               </label>
               <textarea
@@ -212,14 +212,14 @@ export default function AdminHeroPage() {
                 value={heroData.bio}
                 onChange={(e) => handleChange('bio', e.target.value)}
                 placeholder="Describe your credentials, engineering interests, and summary..."
-                rows={5}
-                className="neo-textarea"
+                rows={3}
+                className="neo-textarea text-sm"
               />
             </div>
 
             {/* Typewriter phrases */}
-            <div className="md:col-span-2">
-              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">
+            <div className="md:col-span-1">
+              <label className="block font-extrabold mb-1.5 text-xs text-[color:var(--neo-ink)]">
                 Typewriter Phrases (One per line)
               </label>
               <textarea
@@ -227,12 +227,9 @@ export default function AdminHeroPage() {
                 value={typewriterText}
                 onChange={(e) => setTypewriterText(e.target.value)}
                 placeholder="Hello, I'm Aman.&#10;AI & Full-Stack Engineer."
-                rows={6}
+                rows={3}
                 className="neo-textarea font-mono text-xs"
               />
-              <p className="text-xs text-[color:var(--neo-ink-soft)] mt-1.5 font-bold">
-                * Enter one phrase per line. These will loop dynamically in the typewriter header.
-              </p>
             </div>
           </div>
         </div>

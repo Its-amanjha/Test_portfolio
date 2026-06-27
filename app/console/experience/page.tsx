@@ -161,81 +161,78 @@ export default function AdminExperiencePage() {
   }
 
   return (
-    <section className="space-y-6">
-      <h1 className="text-3xl font-bold mb-8">Manage Experience</h1>
+    <section className="space-y-4">
+      <h1 className="text-2xl font-bold">Manage Experience</h1>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="neo-card p-8 space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="neo-card p-4 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Job Title *</label>
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Job Title *</label>
             <input
               type="text"
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g., Senior AI Engineer"
-              className="neo-input"
+              className="neo-input !py-1.5 text-sm"
             />
           </div>
           <div>
-            <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Organization *</label>
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Organization *</label>
             <input
               type="text"
               required
               value={formData.organization}
               onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
               placeholder="e.g., Tech Company"
-              className="neo-input"
+              className="neo-input !py-1.5 text-sm"
+            />
+          </div>
+          <div>
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Location</label>
+            <input
+              type="text"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              placeholder="e.g., San Francisco, CA"
+              className="neo-input !py-1.5 text-sm"
             />
           </div>
         </div>
 
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Location</label>
-          <input
-            type="text"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            placeholder="e.g., San Francisco, CA"
-            className="neo-input"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Start Date *</label>
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Start Date *</label>
             <input
               type="date"
               required
               value={formData.start_date}
               onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-              className="neo-input"
+              className="neo-input !py-1.5 text-sm"
             />
           </div>
           <div>
-            <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">End Date</label>
-            <div className="space-y-2">
-              <div className="flex gap-2">
-                <label className="flex items-center gap-2 cursor-pointer flex-1">
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">End Date</label>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex gap-4 py-1">
+                <label className="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="radio"
                     checked={formData.end_date === 'Present'}
                     onChange={() => setFormData({ ...formData, end_date: 'Present' })}
                     className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
                   />
-                  <span className="font-bold text-[color:var(--neo-ink)]">Present</span>
+                  <span className="font-bold text-xs text-[color:var(--neo-ink)]">Present</span>
                 </label>
-              </div>
-              <div className="flex gap-2">
-                <label className="flex items-center gap-2 cursor-pointer flex-1">
+                <label className="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="radio"
                     checked={formData.end_date !== 'Present'}
                     onChange={() => setFormData({ ...formData, end_date: '' })}
                     className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
                   />
-                  <span className="font-bold text-[color:var(--neo-ink)]">Specific Date</span>
+                  <span className="font-bold text-xs text-[color:var(--neo-ink)]">Specific Date</span>
                 </label>
               </div>
               {formData.end_date !== 'Present' && (
@@ -243,44 +240,46 @@ export default function AdminExperiencePage() {
                   type="date"
                   value={formData.end_date}
                   onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                  className="neo-input"
+                  className="neo-input !py-1 text-sm"
                 />
               )}
             </div>
           </div>
         </div>
 
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Description</label>
-          <textarea
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            placeholder="Brief overview of your role and responsibilities"
-            rows={3}
-            className="neo-textarea"
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Description</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              placeholder="Brief overview of your role and responsibilities"
+              rows={3}
+              className="neo-textarea text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Key Highlights (one per line)</label>
+            <textarea
+              value={formData.highlights}
+              onChange={(e) => setFormData({ ...formData, highlights: e.target.value })}
+              placeholder="Led AI model implementation&#10;Improved performance by 40%&#10;Managed team of 5 engineers"
+              rows={3}
+              className="neo-textarea text-sm"
+            />
+          </div>
         </div>
 
         <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Key Highlights (one per line)</label>
-          <textarea
-            value={formData.highlights}
-            onChange={(e) => setFormData({ ...formData, highlights: e.target.value })}
-            placeholder="Led AI model implementation&#10;Improved performance by 40%&#10;Managed team of 5 engineers"
-            rows={4}
-            className="neo-textarea"
-          />
-        </div>
-
-        <div>
-          <label className="block font-extrabold mb-2 text-[color:var(--neo-ink)]">Technologies/Skills (comma-separated)</label>
+          <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Technologies/Skills (comma-separated)</label>
           <TagSearchInput
             value={formData.tags}
             onChange={(value) => setFormData({ ...formData, tags: value })}
             placeholder="Python, TensorFlow, React, Node.js, AWS, Machine Learning"
-            className="neo-input"
+            className="neo-input !py-1.5 text-sm"
           />
-          <p className="text-xs mt-1 text-[color:var(--neo-ink-soft)]">Supported: Python, JavaScript, TypeScript, React, Next.js, Node.js, Claude, OpenAI, Codex, LangChain, TensorFlow, PyTorch, Docker, AWS, GCP, Prisma, Stripe, Clerk, SQL, MongoDB, PostgreSQL, Git, and more</p>
+          <p className="text-[10px] mt-1 text-[color:var(--neo-ink-soft)] truncate">Supported: Python, JavaScript, TypeScript, React, Next.js, Node.js, Claude, OpenAI, Codex, LangChain, TensorFlow, PyTorch, Docker, AWS, GCP, Prisma, Stripe, Clerk, SQL, MongoDB, PostgreSQL, Git, and more</p>
         </div>
 
         <div className="flex gap-3">
