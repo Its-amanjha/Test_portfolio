@@ -260,8 +260,8 @@ const defaultTechCategories = [
     title: 'Intelligent Automation & Cognitive AI',
     cls: 'acc-pink',
     bgColor: 'bg-neo-pink',
-    description: 'Building document parsing systems that extract structured keys from unstructured PDF files and scans using OCR and LLMs.',
-    example: 'ETL pipelines reading invoice PDFs to extract vendor names, totals, and line items into databases.',
+    description: 'Designing intelligent automation frameworks and cognitive pipelines that ingest unstructured data, automate decision-making, and orchestrate complex business processes.',
+    example: 'Cognitive search systems, auto-classification pipelines, and metadata enrichment engines.',
     animationType: 'cognitive'
   }
 ]
