@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@theme {
+  --color-neo-yellow: var(--neo-yellow);
+  --color-neo-pink: var(--neo-pink);
+  --color-neo-cyan: var(--neo-cyan);
+  --color-neo-lime: var(--neo-lime);
+  --color-neo-purple: var(--neo-purple);
+  --color-neo-orange: var(--neo-orange);
+  --color-neo-red: var(--neo-red);
+  --color-neo-blue: var(--neo-blue);
+  --color-neo-border: var(--neo-border);
+}
+
 /* ============================================================
    NEUBRUTALISM DESIGN SYSTEM
    - Light theme by default (:root)

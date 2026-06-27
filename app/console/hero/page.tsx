@@ -212,7 +212,7 @@ export default function AdminHeroPage() {
                 value={heroData.bio}
                 onChange={(e) => handleChange('bio', e.target.value)}
                 placeholder="Describe your credentials, engineering interests, and summary..."
-                rows={4}
+                rows={8}
                 className="neo-textarea"
               />
             </div>
@@ -227,7 +227,7 @@ export default function AdminHeroPage() {
                 value={typewriterText}
                 onChange={(e) => setTypewriterText(e.target.value)}
                 placeholder="Hello, I'm Aman.&#10;AI & Full-Stack Engineer."
-                rows={4}
+                rows={8}
                 className="neo-textarea font-mono text-sm"
               />
             </div>

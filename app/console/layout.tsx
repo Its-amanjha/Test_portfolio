@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 
 const consoleLinks = [
   { name: 'Hero Section', href: '/console/hero', activeColor: 'bg-neo-pink' },
-  { name: 'Projects', href: '/console/projects', activeColor: 'bg-neo-blue' },
+  { name: 'AI Projects', href: '/console/projects', activeColor: 'bg-neo-blue' },
   { name: 'Experience', href: '/console/experience', activeColor: 'bg-neo-lime' },
   { name: 'Certifications', href: '/console/certificates', activeColor: 'bg-neo-yellow' },
   { name: 'Expertise', href: '/console/expertise', activeColor: 'bg-neo-pink' },
@@ -45,15 +45,15 @@ export default function AdminLayout({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-6 py-4 text-sm font-extrabold text-[color:var(--neo-ink)] hover:text-black transition-all flex items-center justify-between ${
+                  className={`px-6 py-4 text-sm font-extrabold text-black transition-all duration-200 flex items-center justify-between ${
                     isActive 
-                      ? `${link.activeColor} shadow-inner` 
+                      ? `${link.activeColor} border-l-8 border-l-black shadow-[inset_4px_4px_0_rgba(0,0,0,0.15)]` 
                       : 'bg-[color:var(--neo-surface)] hover:bg-[color:var(--neo-surface-2)] hover:pl-8'
                   }`}
                   style={{ borderBottom: 'var(--neo-bw) solid var(--neo-border)' }}
                 >
-                  <span>{link.name}</span>
-                  <span>→</span>
+                  <span className={`transition-transform duration-200 ${isActive ? 'translate-x-1' : ''}`}>{link.name}</span>
+                  <span className={`transition-transform duration-200 font-bold ${isActive ? 'rotate-90 scale-125' : ''}`}>→</span>
                 </Link>
               )
             })}

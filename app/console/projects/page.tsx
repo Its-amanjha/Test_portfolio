@@ -236,7 +236,11 @@ export default function AdminProjectsPage() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl font-semibold">Manage AI Projects</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h1 className="text-2xl font-extrabold inline-block bg-neo-blue border-neo border-neo-border px-4 py-2 shadow-neo -rotate-1 text-black">
+          Manage AI Projects
+        </h1>
+      </div>
 
       <form onSubmit={handleSubmit} className="neo-card p-6 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -257,7 +261,7 @@ export default function AdminProjectsPage() {
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                rows={4}
+                rows={8}
                 className="neo-textarea"
               />
             </div>

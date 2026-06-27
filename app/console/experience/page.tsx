@@ -254,7 +254,7 @@ export default function AdminExperiencePage() {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Brief overview of your role and responsibilities"
-              rows={4}
+              rows={8}
               className="neo-textarea"
             />
           </div>
@@ -265,7 +265,7 @@ export default function AdminExperiencePage() {
               value={formData.highlights}
               onChange={(e) => setFormData({ ...formData, highlights: e.target.value })}
               placeholder="Led AI model implementation&#10;Improved performance by 40%&#10;Managed team of 5 engineers"
-              rows={4}
+              rows={8}
               className="neo-textarea"
             />
           </div>

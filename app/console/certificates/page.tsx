@@ -215,7 +215,7 @@ export default function AdminCertificatesPage() {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Brief description of the certificate or skills verified"
-              rows={4}
+              rows={8}
               className="neo-textarea"
             />
           </div>
