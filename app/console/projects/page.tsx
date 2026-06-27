@@ -238,43 +238,44 @@ export default function AdminProjectsPage() {
     <section className="space-y-6">
       <h1 className="text-2xl font-semibold">Manage AI Projects</h1>
 
-      <form onSubmit={handleSubmit} className="neo-card p-4 space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="neo-card p-6 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left Column */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Title *</label>
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Title *</label>
               <input
                 type="text"
                 required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="neo-input !py-1.5 text-sm"
+                className="neo-input"
               />
             </div>
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Description</label>
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Description</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="neo-textarea h-20 text-sm"
+                rows={4}
+                className="neo-textarea"
               />
             </div>
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Tags (comma separated)</label>
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Tags (comma separated)</label>
               <TagSearchInput
                 value={formData.tags}
                 onChange={(value) => setFormData({ ...formData, tags: value })}
-                className="neo-input !py-1.5 text-sm"
+                className="neo-input"
                 placeholder="React, Next.js, TypeScript"
               />
             </div>
             
             {/* Demo Video */}
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Demo Video (Optional)</label>
-              <div className="flex items-center gap-3">
-                <label htmlFor="project-video" className="neo-btn neo-btn-purple text-xs px-3 py-1.5 cursor-pointer">
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Demo Video (Optional)</label>
+              <div className="flex items-center gap-4">
+                <label htmlFor="project-video" className="neo-btn neo-btn-purple text-sm px-4 py-2 cursor-pointer">
                   {uploadingVideo ? 'Uploading...' : 'Choose Video'}
                 </label>
                 <input 
@@ -285,14 +286,14 @@ export default function AdminProjectsPage() {
                   disabled={uploadingVideo}
                   className="hidden" 
                 />
-                <span className="text-xs text-[color:var(--neo-ink-soft)] truncate max-w-[150px]">
+                <span className="text-sm text-[color:var(--neo-ink-soft)] truncate max-w-[200px]">
                   {formData.demo_video ? formData.demo_video.split('/').pop() : 'No video chosen'}
                 </span>
                 {formData.demo_video && (
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, demo_video: '' }))}
-                    className="text-xs text-red-600 hover:text-red-800 font-bold"
+                    className="text-sm text-red-600 hover:text-red-800 font-bold"
                   >
                     Remove
                   </button>
@@ -305,40 +306,40 @@ export default function AdminProjectsPage() {
                   muted
                   loop
                   playsInline
-                  className="mt-2 max-h-24 rounded border-2 border-black"
+                  className="mt-3 max-h-32 rounded border-2 border-black"
                 />
               )}
             </div>
           </div>
 
           {/* Right Column */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">GitHub Repository URL (Optional)</label>
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">GitHub Repository URL (Optional)</label>
               <input
                 type="url"
                 value={formData.github_url}
                 onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
                 placeholder="https://github.com/username/repo"
-                className="neo-input !py-1.5 text-sm"
+                className="neo-input"
               />
             </div>
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Hugging Face URL (Optional)</label>
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Hugging Face URL (Optional)</label>
               <input
                 type="url"
                 value={formData.huggingface_url}
                 onChange={(e) => setFormData({ ...formData, huggingface_url: e.target.value })}
                 placeholder="https://huggingface.co/spaces/username/project"
-                className="neo-input !py-1.5 text-sm"
+                className="neo-input"
               />
             </div>
             
             {/* Image / GIF */}
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Image / GIF</label>
-              <div className="flex gap-4 mb-2">
-                <label className="flex items-center gap-1.5 cursor-pointer">
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Image / GIF</label>
+              <div className="flex gap-6 mb-3">
+                <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     name="imageMethod"
@@ -349,9 +350,9 @@ export default function AdminProjectsPage() {
                     }}
                     className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
                   />
-                  <span className="font-bold text-xs text-[color:var(--neo-ink)]">Upload</span>
+                  <span className="font-bold text-sm text-[color:var(--neo-ink)]">Upload File</span>
                 </label>
-                <label className="flex items-center gap-1.5 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     name="imageMethod"
@@ -362,17 +363,17 @@ export default function AdminProjectsPage() {
                     }}
                     className="w-4 h-4 accent-black border-2 border-black focus:ring-0 cursor-pointer"
                   />
-                  <span className="font-bold text-xs text-[color:var(--neo-ink)]">Use URL</span>
+                  <span className="font-bold text-sm text-[color:var(--neo-ink)]">Use URL</span>
                 </label>
               </div>
 
               {imageInputMethod === 'upload' && (
-                <div className="flex items-center gap-3">
-                  <label htmlFor="project-image" className="neo-btn text-xs px-3 py-1.5 cursor-pointer">
+                <div className="flex items-center gap-4">
+                  <label htmlFor="project-image" className="neo-btn text-sm px-4 py-2 cursor-pointer">
                     Choose File
                   </label>
                   <input id="project-image" type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-                  <span className="text-xs text-[color:var(--neo-ink-soft)]">{formData.image && !formData.image.startsWith('http') ? 'File selected' : 'No file chosen'}</span>
+                  <span className="text-sm text-[color:var(--neo-ink-soft)]">{formData.image && !formData.image.startsWith('http') ? 'File selected' : 'No file chosen'}</span>
                 </div>
               )}
 
@@ -382,12 +383,12 @@ export default function AdminProjectsPage() {
                   placeholder="https://files.catbox.moe/abc123.gif"
                   value={formData.image?.startsWith('http') ? formData.image : ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
-                  className="neo-input !py-1.5 text-sm"
+                  className="neo-input"
                 />
               )}
 
               {formData.image && (
-                <img src={formData.image} alt="preview" className="mt-2 max-h-24 rounded border-2 border-black object-contain bg-black/5" />
+                <img src={formData.image} alt="preview" className="mt-3 max-h-32 rounded border-2 border-black object-contain bg-black/5" />
               )}
             </div>
           </div>

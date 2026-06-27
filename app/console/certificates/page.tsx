@@ -158,78 +158,78 @@ export default function AdminCertificatesPage() {
   }
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-6">
       <h1 className="text-2xl font-bold">Manage Certificates</h1>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="neo-card p-4 space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <form onSubmit={handleSubmit} className="neo-card p-6 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div>
-            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Certificate Title *</label>
+            <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Certificate Title *</label>
             <input
               type="text"
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g., AWS Certified Solutions Architect"
-              className="neo-input !py-1.5 text-sm"
+              className="neo-input"
             />
           </div>
           <div>
-            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Issuer *</label>
+            <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Issuer *</label>
             <input
               type="text"
               required
               value={formData.issuer}
               onChange={(e) => setFormData({ ...formData, issuer: e.target.value })}
               placeholder="e.g., Amazon Web Services"
-              className="neo-input !py-1.5 text-sm"
+              className="neo-input"
             />
           </div>
           <div>
-            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Issue Date *</label>
+            <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Issue Date *</label>
             <input
               type="date"
               required
               value={formData.issue_date}
               onChange={(e) => setFormData({ ...formData, issue_date: e.target.value })}
-              className="neo-input !py-1.5 text-sm"
+              className="neo-input"
             />
           </div>
           <div>
-            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Credential URL (optional)</label>
+            <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Credential URL (optional)</label>
             <input
               type="url"
               value={formData.credential_url}
               onChange={(e) => setFormData({ ...formData, credential_url: e.target.value })}
               placeholder="https://credentials.example.com/..."
-              className="neo-input !py-1.5 text-sm"
+              className="neo-input"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Description (optional)</label>
+            <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Description (optional)</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Brief description of the certificate or skills verified"
-              rows={2}
-              className="neo-textarea text-sm"
+              rows={4}
+              className="neo-textarea"
             />
           </div>
 
           <div className="flex flex-col justify-between">
             <div>
-              <label className="block font-extrabold mb-1 text-xs text-[color:var(--neo-ink)]">Technologies/Skills (optional)</label>
+              <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Technologies/Skills (optional)</label>
               <TagSearchInput
                 value={formData.tags}
                 onChange={(value) => setFormData({ ...formData, tags: value })}
                 placeholder="e.g., AWS, Python, Machine Learning, Cloud Architecture"
-                className="neo-input !py-1.5 text-sm"
+                className="neo-input"
               />
-              <p className="text-[10px] mt-1 text-[color:var(--neo-ink-soft)]">Comma-separated list of technologies</p>
+              <p className="text-xs mt-1.5 text-[color:var(--neo-ink-soft)] font-bold">Comma-separated list of technologies</p>
             </div>
           </div>
         </div>

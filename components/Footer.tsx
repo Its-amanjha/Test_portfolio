@@ -1,4 +1,5 @@
 'use client'
+import { usePathname } from 'next/navigation'
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhoneAlt } from 'react-icons/fa'
 import { SiMedium } from 'react-icons/si'
 import { FaXTwitter } from 'react-icons/fa6'
@@ -21,6 +22,11 @@ const quickLinks = [
 ]
 
 export default function Footer() {
+  const pathname = usePathname()
+  if (pathname && pathname.startsWith('/console')) {
+    return null
+  }
+
   return (
     <footer
       className="relative z-20 mt-10"
