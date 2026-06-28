@@ -1,11 +1,10 @@
-# ⚡ Aman Kumar Jha | AI & Full-Stack Engineer Portfolio
+# ⚡ Aman Kumar Jha | Portfolio
 
 A premium, high-fidelity portfolio website engineered with a **Neobrutalist Design System**, dynamic **Blogs Engine**, and a secure **Unified Admin Console**.
 
 Built on **Next.js 16 (App Router)** and backed by **Neon Serverless Postgres** and **Vercel Blob Storage**, this portfolio is optimized for speed, interactivity, and SEO.
 
 * 🌐 **Live Website**: [amanbuilds.me](https://amanbuilds.me)
-* 🛠️ **GitHub Repository**: [github.com/Its-amanjha/my-portfolio](https://github.com/Its-amanjha)
 
 ---
 
