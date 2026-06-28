@@ -16,7 +16,7 @@ function HeroTitle({
 }: HeroTitleProps) {
   return (
     <>
-      <span className="neo-tag neo-tag-pink mb-6 w-fit text-sm md:text-base px-4 py-1.5 uppercase tracking-wider font-extrabold shadow-neo-sm hover:scale-105 transition-transform cursor-default">
+      <span className="neo-tag neo-tag-pink mb-6 w-fit !text-sm !md:text-base !px-4 !py-1.5 uppercase tracking-wider font-extrabold shadow-neo-sm hover:scale-105 transition-transform cursor-default">
         {badge}
       </span>
       <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-[1.05]">
