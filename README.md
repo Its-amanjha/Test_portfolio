@@ -105,5 +105,5 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 **Aman Kumar Jha**
 * **Portfolio**: [amanbuilds.me](https://amanbuilds.me)
 * **GitHub**: [github.com/Its-amanjha](https://github.com/Its-amanjha)
-* **LinkedIn**: [linkedin.com/in/aman-kumar-jha-5b5830206](https://linkedin.com/in/aman-kumar-jha-5b5830206)
+* **LinkedIn**: [linkedin.com/in/its-amanjha](https://linkedin.com/in/its-amanjha)
 * **Email**: [amanjhaa.work@gmail.com](mailto:amanjhaa.work@gmail.com)
