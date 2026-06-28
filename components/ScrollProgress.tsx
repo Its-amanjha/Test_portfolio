@@ -7,7 +7,7 @@ const SECTION_COLORS: Record<string, string> = {
   hero: 'var(--neo-pink)',
   projects: 'var(--neo-blue)',
   experience: 'var(--neo-lime)',
-  certifications: 'var(--neo-yellow)',
+  blogs: 'var(--neo-yellow)',
 }
 const SECTION_IDS = Object.keys(SECTION_COLORS)
 
@@ -16,7 +16,7 @@ const SECTION_IDS = Object.keys(SECTION_COLORS)
 const ROUTE_COLORS: [string, string][] = [
   ['/console/projects', 'var(--neo-blue)'],
   ['/console/experience', 'var(--neo-lime)'],
-  ['/console/certificates', 'var(--neo-yellow)'],
+  ['/console/blogs', 'var(--neo-yellow)'],
   ['/console', 'var(--neo-purple)'],
   ['/projects/', 'var(--neo-blue)'],
 ]

@@ -15,37 +15,39 @@ export async function POST(req: NextRequest) {
   try {
     const token = await getToken({ req, secret: SECRET })
     if (!token || !token?.email) return new Response('Not Found', { status: 404 })
-    
+
     const body = await req.json()
-    if (!body?.title || !body?.issuer || !body?.issue_date) return new Response('Bad Request', { status: 400 })
+    if (!body?.title || !body?.published_date) return new Response('Bad Request', { status: 400 })
 
     const payload = {
       title: body.title,
-      issuer: body.issuer,
-      issue_date: body.issue_date,
-      credential_url: body.credential_url || null,
-      description: body.description || '',
-      tags: body.tags || []
+      summary: body.summary || '',
+      url: body.url || '',
+      image: body.image || '',
+      published_date: body.published_date,
+      tags: body.tags || [],
+      content: body.content || '',
     }
 
     const data = await sql(
-      `INSERT INTO certificates (title, issuer, issue_date, credential_url, description, tags)
-       VALUES ($1, $2, $3, $4, $5, $6)
+      `INSERT INTO blogs (title, summary, url, image, published_date, tags, content)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING *`,
       [
         payload.title,
-        payload.issuer,
-        payload.issue_date,
-        payload.credential_url,
-        payload.description,
-        formatTextArray(payload.tags)
+        payload.summary,
+        payload.url,
+        payload.image,
+        payload.published_date,
+        formatTextArray(payload.tags),
+        payload.content,
       ]
     )
 
     await revalidateSite()
     return NextResponse.json(data?.[0])
   } catch (err) {
-    console.error('POST /api/admin/certificates error', err)
+    console.error('POST /api/admin/blogs error', err)
     return new Response('Internal Server Error', { status: 500 })
   }
 }
@@ -54,7 +56,7 @@ export async function PUT(req: NextRequest) {
   try {
     const token = await getToken({ req, secret: SECRET })
     if (!token || !token?.email) return new Response('Not Found', { status: 404 })
-    
+
     const body = await req.json()
     if (!body?.id) return new Response('Bad Request', { status: 400 })
 
@@ -78,13 +80,13 @@ export async function PUT(req: NextRequest) {
     }
 
     updateValues.push(body.id)
-    const query = `UPDATE certificates SET ${updateKeys.join(', ')} WHERE id = $${valIdx} RETURNING *`
+    const query = `UPDATE blogs SET ${updateKeys.join(', ')} WHERE id = $${valIdx} RETURNING *`
     const data = await sql(query, updateValues)
 
     await revalidateSite()
     return NextResponse.json(data?.[0])
   } catch (err) {
-    console.error('PUT /api/admin/certificates error', err)
+    console.error('PUT /api/admin/blogs error', err)
     return new Response('Internal Server Error', { status: 500 })
   }
 }
@@ -93,16 +95,16 @@ export async function DELETE(req: NextRequest) {
   try {
     const token = await getToken({ req, secret: SECRET })
     if (!token || !token?.email) return new Response('Not Found', { status: 404 })
-    
+
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
     if (!id) return new Response('Bad Request', { status: 400 })
 
-    await sql('DELETE FROM certificates WHERE id = $1', [id])
+    await sql('DELETE FROM blogs WHERE id = $1', [id])
     await revalidateSite()
     return new Response(null, { status: 204 })
   } catch (err) {
-    console.error('DELETE /api/admin/certificates error', err)
+    console.error('DELETE /api/admin/blogs error', err)
     return new Response('Internal Server Error', { status: 500 })
   }
 }

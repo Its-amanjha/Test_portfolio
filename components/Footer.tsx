@@ -38,7 +38,7 @@ const quickLinks = [
   { href: '/#expertise', label: 'Expertise' },
   { href: '/#projects', label: 'Projects' },
   { href: '/#experience', label: 'Experience' },
-  { href: '/#certifications', label: 'Certifications' },
+  { href: '/#blogs', label: 'Blogs' },
 ]
 
 export default function Footer() {

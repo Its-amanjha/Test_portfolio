@@ -76,7 +76,7 @@ function HeaderComponent() {
               <a href="/#expertise" className={navLink}>Expertise</a>
               <a href="/#projects" className={navLink}>Projects</a>
               <a href="/#experience" className={navLink}>Experience</a>
-              <a href="/#certifications" className={navLink}>Certifications</a>
+              <a href="/#blogs" className={navLink}>Blogs</a>
             </>
           )}
 
@@ -132,7 +132,7 @@ function HeaderComponent() {
               <a href="/#expertise" onClick={() => setMenuOpen(false)} className={navLink}>Expertise</a>
               <a href="/#projects" onClick={() => setMenuOpen(false)} className={navLink}>Projects</a>
               <a href="/#experience" onClick={() => setMenuOpen(false)} className={navLink}>Experience</a>
-              <a href="/#certifications" onClick={() => setMenuOpen(false)} className={navLink}>Certifications</a>
+              <a href="/#blogs" onClick={() => setMenuOpen(false)} className={navLink}>Blogs</a>
             </>
           )}
 

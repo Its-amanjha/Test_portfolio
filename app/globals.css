@@ -143,11 +143,8 @@ section[id] {
 #experience ::selection,
 #experience ::-moz-selection      { background: var(--neo-lime); }
 
-#certifications ::selection,
-#certifications ::-moz-selection  { background: var(--neo-yellow); }
-
-#articles ::selection,
-#articles ::-moz-selection        { background: var(--neo-pink); }
+#blogs ::selection,
+#blogs ::-moz-selection           { background: var(--neo-yellow); }
 
 /* ============================================================
    NEO UTILITY CLASSES
@@ -689,4 +686,114 @@ html.dark-mode .neo-floaty { opacity: 0.6; }
   background: #111;
   vertical-align: -0.15em;
   animation: neoBlink 1s steps(2) infinite;
+}
+
+/* ============================================================
+   NEOBRUTALIST MARKDOWN STYLES (.neo-markdown-body)
+   ============================================================ */
+.neo-markdown-body {
+  color: var(--neo-ink);
+  font-family: inherit;
+}
+
+.neo-markdown-body .neo-md-h1 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 900;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  background: var(--neo-yellow);
+  display: inline-block;
+  border: 2px solid var(--neo-border);
+  padding: 0.25rem 0.75rem;
+  box-shadow: 3px 3px 0 0 var(--neo-border);
+  transform: rotate(-0.5deg);
+  color: #000;
+}
+
+.neo-markdown-body .neo-md-h2 {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 800;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 3px solid var(--neo-border);
+  padding-bottom: 0.25rem;
+  display: inline-block;
+  color: var(--neo-ink);
+}
+
+.neo-markdown-body .neo-md-h3 {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 800;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--neo-ink);
+}
+
+.neo-markdown-body .neo-md-p {
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.neo-markdown-body .neo-md-quote {
+  border-left: 6px solid var(--neo-border);
+  background: var(--neo-bg-alt);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  font-weight: 600;
+  box-shadow: inset 2px 2px 0 0 rgba(0,0,0,0.05);
+}
+
+.neo-markdown-body .neo-code-block {
+  background: var(--neo-bg-alt);
+  border: 2px solid var(--neo-border);
+  padding: 1rem;
+  border-radius: 0;
+  overflow-x: auto;
+  box-shadow: inset 3px 3px 0 0 rgba(0,0,0,0.08);
+  margin: 1.5rem 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.neo-markdown-body .neo-inline-code {
+  background: var(--neo-bg-alt);
+  border: 1px solid var(--neo-border);
+  padding: 0.15rem 0.35rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.neo-markdown-body .neo-md-li {
+  list-style-type: none;
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.neo-markdown-body .neo-md-li::before {
+  content: "■";
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  color: var(--neo-yellow);
+  font-size: 0.8rem;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.neo-markdown-body .neo-md-link {
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  color: var(--neo-ink);
+  transition: background 100ms ease;
+}
+
+.neo-markdown-body .neo-md-link:hover {
+  background: var(--neo-yellow);
+  color: #000;
 }

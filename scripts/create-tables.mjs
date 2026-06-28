@@ -75,6 +75,7 @@ async function setup() {
     await sql`DROP TABLE IF EXISTS fullstack_projects CASCADE;`
     await sql`DROP TABLE IF EXISTS data_analytics_projects CASCADE;`
     await sql`DROP TABLE IF EXISTS articles CASCADE;`
+    await sql`DROP TABLE IF EXISTS certificates CASCADE;`
 
     console.log('Creating "experiences" table...')
     await sql`
@@ -92,16 +93,17 @@ async function setup() {
       );
     `
 
-    console.log('Creating "certificates" table...')
+    console.log('Creating "blogs" table...')
     await sql`
-      CREATE TABLE IF NOT EXISTS certificates (
+      CREATE TABLE IF NOT EXISTS blogs (
         id SERIAL PRIMARY KEY,
         title TEXT NOT NULL,
-        issuer TEXT NOT NULL,
-        issue_date TEXT NOT NULL,
-        credential_url TEXT,
-        description TEXT DEFAULT '',
+        summary TEXT DEFAULT '',
+        url TEXT,
+        image TEXT,
+        published_date TEXT NOT NULL,
         tags TEXT[] DEFAULT '{}',
+        content TEXT DEFAULT '',
         created_at TIMESTAMPTZ DEFAULT NOW()
       );
     `

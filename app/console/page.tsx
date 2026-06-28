@@ -26,7 +26,7 @@ export default async function AdminPage() {
   // Fetch counts from Neon Postgres Database
   let projects: any[] = []
   let experiences: any[] = []
-  let certificates: any[] = []
+  let blogs: any[] = []
   let expertise: any[] = []
 
   try {
@@ -42,9 +42,9 @@ export default async function AdminPage() {
   }
 
   try {
-    certificates = await sql`SELECT id FROM certificates`
+    blogs = await sql`SELECT id FROM blogs`
   } catch (err) {
-    console.error('Failed to fetch certificates count:', err)
+    console.error('Failed to fetch blogs count:', err)
   }
 
   try {
@@ -66,7 +66,7 @@ export default async function AdminPage() {
         Admin Console
       </h1>
       <p className="mt-8 text-lg font-bold text-[color:var(--neo-ink-soft)] max-w-xl mx-auto leading-relaxed">
-        Welcome back, Aman! Use the navigation tabs directly below the header logo to manage your projects, work experience, certifications, expertise cards, and read contact messages.
+        Welcome back, Aman! Use the navigation tabs directly below the header logo to manage your projects, work experience, blogs, expertise cards, and read contact messages.
       </p>
       <p className="mt-3 text-sm font-bold text-[color:var(--neo-muted)] max-w-xl mx-auto bg-[color:var(--neo-surface-2)] border-2 border-dashed border-neo-border p-2 rounded">
         💡 To edit your <strong>Contact Details</strong> or <strong>QR Codes</strong>, simply visit the <a href="/" className="underline hover:text-black">Public Home Page</a>. Since you are logged in as admin, you will see a settings gear icon (⚙️) on those cards to edit and save them directly!

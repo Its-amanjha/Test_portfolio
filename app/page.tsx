@@ -50,12 +50,12 @@ async function getExperiences() {
   }
 }
 
-async function getCertificates() {
+async function getBlogs() {
   try {
-    const data = await sql`SELECT * FROM certificates ORDER BY issue_date DESC`
+    const data = await sql`SELECT * FROM blogs ORDER BY published_date DESC`
     return data || []
   } catch (error) {
-    console.error('Error fetching certificates:', error)
+    console.error('Error fetching blogs:', error)
     return []
   }
 }
@@ -268,11 +268,11 @@ const defaultTechCategories = [
 
 export default async function Home() {
   // Fetch all data from database in parallel
-  const [projects, experiences, certificates, siteCards] =
+  const [projects, experiences, blogs, siteCards] =
     await Promise.all([
       getProjects(),
       getExperiences(),
-      getCertificates(),
+      getBlogs(),
       getSiteCards(),
     ])
 
@@ -625,78 +625,74 @@ export default async function Home() {
         )}
       </section>
 
-      {/* Certifications Section */}
-      <section id="certifications" className="fade-in overflow-visible" aria-label="Certifications and credentials">
+      {/* Blogs Section */}
+      <section id="blogs" className="fade-in overflow-visible" aria-label="Blog posts and articles">
         <div className="flex items-center gap-4 mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold bg-neo-yellow border-neo border-neo-border px-4 py-2 shadow-neo -rotate-1">Certifications</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold bg-neo-yellow border-neo border-neo-border px-4 py-2 shadow-neo -rotate-1">Blogs</h2>
           <div className="neo-rule"></div>
         </div>
         
-        {certificates.length > 0 ? (
+        {blogs.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-visible" role="list">
-            {certificates.map((cert: any, idx: number) => (
-              <div
-                key={String(cert.id)}
-                className="group neo-card neo-tilt acc-yellow p-6"
-                role="listitem"
-                suppressHydrationWarning
-              >
-                <div className="card-top">
-                  <span className="card-cat">Credential</span>
-                </div>
-                <div className="flex items-start gap-3 mb-3">
-                  <h3 className="text-lg font-semibold group-hover:text-yellow-400 transition duration-300 flex-1">
-                    {cert.title}
-                  </h3>
-                </div>
-                
-                {cert.issuer && (
-                  <p className="text-yellow-400 font-semibold text-sm mb-2">{cert.issuer}</p>
-                )}
-                {cert.description && (
-                  <p className="text-gray-400 text-sm mb-4">{cert.description}</p>
-                )}
+            {blogs.map((blog: any) => {
+              const readUrl = blog.content ? `/blogs/${blog.id}` : (blog.url || '#')
+              return (
+                <div
+                  key={String(blog.id)}
+                  className="group neo-card neo-tilt acc-yellow p-6 flex flex-col justify-between"
+                  role="listitem"
+                  suppressHydrationWarning
+                >
+                  <div>
+                    <div className="card-top mb-3 flex items-center justify-between">
+                      <span className="card-cat">Article</span>
+                      {blog.published_date && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider bg-[color:var(--neo-bg-alt)] border border-black px-1.5 py-0.5 rounded text-black shadow-neo-sm">
+                          {blog.published_date}
+                        </span>
+                      )}
+                    </div>
+                    
+                    <h3 className="text-xl font-extrabold group-hover:text-yellow-400 transition duration-300 mb-2">
+                      {blog.title}
+                    </h3>
+                    
+                    {blog.summary && (
+                      <p className="text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">{blog.summary}</p>
+                    )}
 
-                {cert.tags && cert.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {cert.tags.map((tag: string, tIdx: number) => (
-                      <TagBadge key={tIdx} tag={tag} variant="yellow" />
-                    ))}
+                    {blog.tags && blog.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {blog.tags.map((tag: string, tIdx: number) => (
+                          <TagBadge key={tIdx} tag={tag} variant="yellow" />
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
-                
-                {cert.issue_date && (
-                  <p className="text-gray-500 text-xs mb-3">
-                    {new Date(cert.issue_date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                )}
-                
-                {cert.credential_url && (
-                  <a
-                    href={cert.credential_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-yellow-400 hover:text-yellow-300 transition duration-300 text-sm font-semibold"
-                    aria-label={`View ${cert.title} certification credential`}
-                  >
-                    View Certificate →
-                  </a>
-                )}
-              </div>
-            ))}
+                  
+                  <div className="mt-4 pt-4 border-t border-dashed border-neo-border flex items-center justify-between">
+                    <Link
+                      href={readUrl}
+                      target={blog.content ? undefined : '_blank'}
+                      rel={blog.content ? undefined : 'noopener noreferrer'}
+                      className="inline-flex items-center text-yellow-400 hover:text-yellow-300 transition duration-300 text-sm font-semibold"
+                      aria-label={`Read ${blog.title}`}
+                    >
+                      Read Article →
+                    </Link>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         ) : (
           <Empty className="acc-yellow">
             <Empty.Content>
               <Empty.Icon className="size-10 md:size-12 text-[color:var(--neo-yellow)]" />
-              <Empty.Title>No Certifications Yet</Empty.Title>
+              <Empty.Title>No Blogs Published Yet</Empty.Title>
               <Empty.Separator />
               <Empty.Description>
-                Aman hasn't uploaded any certificates yet. Check back soon!
+                Aman hasn't published any blogs yet. Check back soon!
               </Empty.Description>
             </Empty.Content>
           </Empty>
