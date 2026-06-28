@@ -26,7 +26,7 @@ export const profile = {
   
   // Social media and profile links
   socialLinks: {
-    github: "https://github.com/your-github-username",
+    github: "https://github.com/Its-amanjha",
     linkedin: "https://linkedin.com/in/your-linkedin-username",
     x: "https://x.com/your-x-username",
     whatsapp: "https://wa.me/919217036208", // WhatsApp link (use wa.me format)
