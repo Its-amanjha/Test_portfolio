@@ -29,10 +29,14 @@ export default function BlogDetailsPage() {
     let active = true
     const fetchBlogData = async () => {
       try {
-        const res = await fetch('/api/blogs')
-        const blogData: IBlog[] = await res.json()
+        const res = await fetch(`/api/blogs?id=${blogId}`)
+        if (!res.ok) {
+          if (active) setBlog(null)
+          return
+        }
+        const data: IBlog = await res.json()
         if (!active) return
-        setBlog(blogData.find((b) => b.id === parseInt(blogId)) || null)
+        setBlog(data)
         window.scrollTo(0, 0)
       } catch (err) {
         console.error('Failed to fetch blog data', err)
