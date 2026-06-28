@@ -167,10 +167,12 @@ export default function AdminBlogsPage() {
               <input
                 type="text"
                 required
+                name="title"
+                autoComplete="off"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="neo-input"
-                placeholder="e.g. My first Neobrutalist web app"
+                placeholder="e.g. My first Neobrutalist web app…"
               />
             </div>
 
@@ -181,7 +183,7 @@ export default function AdminBlogsPage() {
                 onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
                 className="neo-textarea"
                 rows={4}
-                placeholder="Brief summary of the article..."
+                placeholder="Brief summary of the article…"
               />
             </div>
 
@@ -191,6 +193,8 @@ export default function AdminBlogsPage() {
                 <input
                   type="date"
                   required
+                  name="published_date"
+                  autoComplete="off"
                   value={formData.published_date}
                   onChange={(e) => setFormData({ ...formData, published_date: e.target.value })}
                   className="neo-input"
@@ -201,10 +205,12 @@ export default function AdminBlogsPage() {
                 <label className="block font-extrabold mb-2 text-sm text-[color:var(--neo-ink)]">Redirect URL (Optional)</label>
                 <input
                   type="url"
+                  name="url"
+                  autoComplete="off"
                   value={formData.url}
                   onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                   className="neo-input"
-                  placeholder="https://medium.com/..."
+                  placeholder="https://medium.com/…"
                 />
               </div>
             </div>
@@ -242,7 +248,7 @@ export default function AdminBlogsPage() {
             disabled={loading}
             className="neo-btn neo-btn-yellow text-sm font-extrabold"
           >
-            {loading ? 'Saving...' : editingId ? 'Update Post' : 'Publish Post'}
+            {loading ? 'Saving…' : editingId ? 'Update Post' : 'Publish Post'}
           </button>
           {editingId && (
             <button
@@ -303,7 +309,7 @@ export default function AdminBlogsPage() {
                     disabled={deletingId === String(blog.id)}
                     className="neo-btn text-xs px-3 py-1 font-bold bg-neo-red text-white"
                   >
-                    {deletingId === String(blog.id) ? 'Deleting...' : 'Delete'}
+                    {deletingId === String(blog.id) ? 'Deleting…' : 'Delete'}
                   </button>
                 </div>
               </div>
