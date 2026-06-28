@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhoneAlt, FaLink } from 'react-icons/fa'
-import { SiMedium } from 'react-icons/si'
 import { FaXTwitter } from 'react-icons/fa6'
 import { IoLogoTableau } from 'react-icons/io5'
 import { profile } from '@/lib/profile'
@@ -14,7 +13,6 @@ const iconMap: Record<string, any> = {
   github: FaGithub,
   linkedin: FaLinkedin,
   x: FaXTwitter,
-  medium: SiMedium,
   tableau: IoLogoTableau,
 }
 
