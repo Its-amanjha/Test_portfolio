@@ -17,6 +17,9 @@ function DateTimeWeather() {
   const [loadingWeather, setLoadingWeather] = useState(true)
   const [weatherError, setWeatherError] = useState(false)
 
+  const delhiHour = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })).getHours()
+  const isNight = delhiHour >= 18 || delhiHour < 6
+
   // 1. Live Time Update (New Delhi Time Zone)
   useEffect(() => {
     setMounted(true)
@@ -107,6 +110,20 @@ function DateTimeWeather() {
     
     // Sunny/Clear
     if (code === 0) {
+      if (isNight) {
+        return (
+          <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32">
+            <path 
+              d="M22 23 C14.5 23 8.5 17 8.5 9.5 C8.5 7.5 9 5.5 10 4 C5.5 6 3.5 11 3.5 16 C3.5 22.5 8.5 27.5 15 27.5 C20.5 27.5 25 23.5 26.5 18 C25 21.5 21.5 23 18.5 23 Z" 
+              fill="#FFE600" 
+              stroke="black" 
+              strokeWidth="2.2" 
+              className="moon-cradle-rock"
+              style={{ transformOrigin: 'center' }}
+            />
+          </svg>
+        )
+      }
       return (
         <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32" aria-label="Sunny Icon">
           {/* Sun center */}
@@ -137,6 +154,28 @@ function DateTimeWeather() {
     }
     // Cloudy
     if ([1, 2, 3].includes(code)) {
+      if (isNight) {
+        return (
+          <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32">
+            <path 
+              d="M21 9 C17.5 9 14.5 6.5 14.5 3 C14.5 2 15 1 15.5 0.5 C12 1.5 10 4.5 10 8 C10 12.5 13.5 16 18 16 C22 16 25 13 26 9.5 C25 11 23 11 21 9 Z" 
+              fill="#FFE600" 
+              stroke="black" 
+              strokeWidth="1.8" 
+              className="moon-cradle-rock"
+              style={{ transformOrigin: '21px 9px' }}
+            />
+            <path 
+              d="M6 20 C6 16.5, 9.5 13.5, 13 14 C14.5 11, 19.5 11, 21.5 14 C24.5 14, 26 16.5, 26 20 C26 22, 24 24, 21 24 H11 C8 24, 6 22, 6 20 Z" 
+              fill="#A5F3FC" 
+              stroke="black" 
+              strokeWidth="2.2"
+              className="cloud-float-slow"
+              style={{ transformOrigin: 'center' }}
+            />
+          </svg>
+        )
+      }
       return (
         <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32" aria-label="Cloudy Icon">
           {/* Peeking Sun */}
@@ -274,12 +313,20 @@ function DateTimeWeather() {
           50% { opacity: 1; }
           100% { transform: translateY(6px) translateX(1px); opacity: 0; }
         }
+        @keyframes moon-rock {
+          0%, 100% { transform: rotate(-5deg); }
+          50% { transform: rotate(10deg); }
+        }
 
         .sun-rays-rotate, .sun-center-spin, .cloud-sun-spin, .cloud-float-slow, .storm-cloud-shake, .lightning-strike {
           transform-box: fill-box;
           transform-origin: center;
         }
 
+        .moon-cradle-rock {
+          animation: moon-rock 6s ease-in-out infinite;
+          transform-box: fill-box;
+        }
         .sun-rays-rotate {
           animation: sun-spin 16s linear infinite;
         }
