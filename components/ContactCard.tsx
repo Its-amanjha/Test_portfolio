@@ -7,6 +7,7 @@ import { SiMedium } from 'react-icons/si'
 import { IoLogoTableau } from 'react-icons/io5'
 import { FaXTwitter } from 'react-icons/fa6'
 import CVDownloadButton from './CVDownloadButton'
+import DateTimeWeather from './DateTimeWeather'
 import { profile } from '@/lib/profile'
 
 interface ProfileLink {
@@ -176,8 +177,9 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
                 </div>
               ))}
             </div>
-            <div className="mt-8 pt-6" style={{ borderTop: 'var(--neo-bw) solid var(--neo-border)' }}>
+            <div className="mt-8 pt-6 space-y-4" style={{ borderTop: 'var(--neo-bw) solid var(--neo-border)' }}>
               <CVDownloadButton buttonSize="lg" cvUrl={cvPath} />
+              <DateTimeWeather />
             </div>
           </>
         )}
