@@ -95,7 +95,7 @@ function DateTimeWeather() {
   // Don't render until mounted to prevent Next.js hydration mismatch
   if (!mounted) {
     return (
-      <div className="neo-card p-4 bg-neo-pink/10 border-2 border-black min-h-[82px] flex items-center justify-center animate-pulse">
+      <div className="neo-card p-4 bg-neo-pink/10 border-2 border-[color:var(--neo-border)] min-h-[82px] flex items-center justify-center animate-pulse">
         <span className="font-bold text-xs uppercase tracking-wider">Syncing Delhi Time &amp; Weather…</span>
       </div>
     )
@@ -116,9 +116,8 @@ function DateTimeWeather() {
             <path 
               d="M22 23 C14.5 23 8.5 17 8.5 9.5 C8.5 7.5 9 5.5 10 4 C5.5 6 3.5 11 3.5 16 C3.5 22.5 8.5 27.5 15 27.5 C20.5 27.5 25 23.5 26.5 18 C25 21.5 21.5 23 18.5 23 Z" 
               fill="#FFE600" 
-              stroke="black" 
+              className="weather-stroke moon-cradle-rock"
               strokeWidth="2.2" 
-              className="moon-cradle-rock"
               style={{ transformOrigin: 'center' }}
             />
           </svg>
@@ -132,22 +131,21 @@ function DateTimeWeather() {
             cy="16" 
             r="6" 
             fill="#FFE600" 
-            stroke="black" 
+            className="weather-stroke sun-center-spin"
             strokeWidth="2.2" 
-            className="sun-center-spin"
             style={{ transformOrigin: 'center' }}
           />
           {/* Rays rotating */}
           <g className="sun-rays-rotate" style={{ transformOrigin: 'center' }}>
-            <line x1="16" y1="3" x2="16" y2="6" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
-            <line x1="16" y1="26" x2="16" y2="29" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
-            <line x1="3" y1="16" x2="6" y2="16" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
-            <line x1="26" y1="16" x2="29" y2="16" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="16" y1="3" x2="16" y2="6" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="16" y1="26" x2="16" y2="29" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="3" y1="16" x2="6" y2="16" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="26" y1="16" x2="29" y2="16" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
             
-            <line x1="6.8" y1="6.8" x2="8.9" y2="8.9" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
-            <line x1="23.1" y1="23.1" x2="25.2" y2="25.2" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
-            <line x1="6.8" y1="25.2" x2="8.9" y2="23.1" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
-            <line x1="23.1" y1="8.9" x2="25.2" y2="6.8" stroke="black" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="6.8" y1="6.8" x2="8.9" y2="8.9" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="23.1" y1="23.1" x2="25.2" y2="25.2" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="6.8" y1="25.2" x2="8.9" y2="23.1" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
+            <line x1="23.1" y1="8.9" x2="25.2" y2="6.8" className="weather-stroke" strokeWidth="2.2" strokeLinecap="round" />
           </g>
         </svg>
       )
@@ -160,17 +158,15 @@ function DateTimeWeather() {
             <path 
               d="M21 9 C17.5 9 14.5 6.5 14.5 3 C14.5 2 15 1 15.5 0.5 C12 1.5 10 4.5 10 8 C10 12.5 13.5 16 18 16 C22 16 25 13 26 9.5 C25 11 23 11 21 9 Z" 
               fill="#FFE600" 
-              stroke="black" 
+              className="weather-stroke moon-cradle-rock"
               strokeWidth="1.8" 
-              className="moon-cradle-rock"
               style={{ transformOrigin: '21px 9px' }}
             />
             <path 
               d="M6 20 C6 16.5, 9.5 13.5, 13 14 C14.5 11, 19.5 11, 21.5 14 C24.5 14, 26 16.5, 26 20 C26 22, 24 24, 21 24 H11 C8 24, 6 22, 6 20 Z" 
               fill="#A5F3FC" 
-              stroke="black" 
+              className="weather-stroke cloud-float-slow"
               strokeWidth="2.2"
-              className="cloud-float-slow"
               style={{ transformOrigin: 'center' }}
             />
           </svg>
@@ -184,18 +180,16 @@ function DateTimeWeather() {
             cy="11" 
             r="4.5" 
             fill="#FFE600" 
-            stroke="black" 
+            className="weather-stroke cloud-sun-spin"
             strokeWidth="1.8" 
-            className="cloud-sun-spin"
             style={{ transformOrigin: '21px 11px' }}
           />
           {/* Fluffy Cloud */}
           <path 
             d="M6 20 C6 16.5, 9.5 13.5, 13 14 C14.5 11, 19.5 11, 21.5 14 C24.5 14, 26 16.5, 26 20 C26 22, 24 24, 21 24 H11 C8 24, 6 22, 6 20 Z" 
             fill="#A5F3FC" 
-            stroke="black" 
+            className="weather-stroke cloud-float-slow"
             strokeWidth="2.2"
-            className="cloud-float-slow"
             style={{ transformOrigin: 'center' }}
           />
         </svg>
@@ -209,15 +203,14 @@ function DateTimeWeather() {
           <path 
             d="M6 16 C6 12.5, 9.5 9.5, 13 10 C14.5 7, 19.5 7, 21.5 10 C24.5 10, 26 12.5, 26 16 C26 18, 24 20, 21 20 H11 C8 20, 6 18, 6 16 Z" 
             fill="#C084FC" 
-            stroke="black" 
+            className="weather-stroke cloud-float-slow"
             strokeWidth="2.2"
-            className="cloud-float-slow"
             style={{ transformOrigin: 'center' }}
           />
           {/* Falling raindrops */}
-          <line x1="11" y1="23" x2="9" y2="28" stroke="black" strokeWidth="2" strokeLinecap="round" className="rain-drop-1" />
-          <line x1="17" y1="23" x2="15" y2="28" stroke="black" strokeWidth="2" strokeLinecap="round" className="rain-drop-2" />
-          <line x1="23" y1="23" x2="21" y2="28" stroke="black" strokeWidth="2" strokeLinecap="round" className="rain-drop-3" />
+          <line x1="11" y1="23" x2="9" y2="28" className="weather-stroke rain-drop-1" strokeWidth="2" strokeLinecap="round" />
+          <line x1="17" y1="23" x2="15" y2="28" className="weather-stroke rain-drop-2" strokeWidth="2" strokeLinecap="round" />
+          <line x1="23" y1="23" x2="21" y2="28" className="weather-stroke rain-drop-3" strokeWidth="2" strokeLinecap="round" />
         </svg>
       )
     }
@@ -229,18 +222,16 @@ function DateTimeWeather() {
           <path 
             d="M6 14 C6 10.5, 9.5 7.5, 13 8 C14.5 5, 19.5 5, 21.5 8 C24.5 8, 26 10.5, 26 14 C26 16, 24 18, 21 18 H11 C8 18, 6 16, 6 14 Z" 
             fill="#4B5563" 
-            stroke="black" 
+            className="weather-stroke storm-cloud-shake"
             strokeWidth="2.2"
-            className="storm-cloud-shake"
             style={{ transformOrigin: 'center' }}
           />
           {/* Bolt */}
           <polygon 
             points="18,14 11,23 15,23 12,30 21,20 17,20" 
             fill="#FFE600" 
-            stroke="black" 
+            className="weather-stroke lightning-strike"
             strokeWidth="2"
-            className="lightning-strike"
             style={{ transformOrigin: 'center' }}
           />
         </svg>
@@ -254,9 +245,8 @@ function DateTimeWeather() {
           <path 
             d="M6 15 C6 11.5, 9.5 8.5, 13 9 C14.5 6, 19.5 6, 21.5 9 C24.5 9, 26 11.5, 26 15 C26 17, 24 19, 21 19 H11 C8 19, 6 17, 6 15 Z" 
             fill="#E0F2FE" 
-            stroke="black" 
+            className="weather-stroke cloud-float-slow"
             strokeWidth="2"
-            className="cloud-float-slow"
             style={{ transformOrigin: 'center' }}
           />
           {/* Falling Snowflakes */}
@@ -270,13 +260,13 @@ function DateTimeWeather() {
     // Default Fallback
     return (
       <svg className="w-8 h-8 animate-pulse" viewBox="0 0 32 32">
-        <circle cx="16" cy="16" r="6" fill="#FFE600" stroke="black" strokeWidth="2.2" />
+        <circle cx="16" cy="16" r="6" fill="#FFE600" className="weather-stroke" strokeWidth="2.2" />
       </svg>
     )
   }
 
   return (
-    <div className="neo-card p-4 bg-neo-pink border-2 border-black shadow-neo-sm hover:scale-[1.02] transition-transform duration-150 cursor-default select-none relative overflow-hidden">
+    <div className="neo-card p-4 weather-widget border-2 border-[color:var(--neo-border)] shadow-neo-sm hover:scale-[1.02] transition-transform duration-150 cursor-default select-none relative overflow-hidden">
       {/* Inline styles for custom neobrutalist animations */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes sun-spin {
@@ -367,32 +357,57 @@ function DateTimeWeather() {
           animation: snow-fall 1.5s infinite linear;
           animation-delay: 1s;
         }
+
+        .weather-widget {
+          background-color: var(--neo-pink);
+          color: #000;
+        }
+        .weather-widget .divider {
+          background-color: rgba(0, 0, 0, 0.2);
+          border-color: rgba(0, 0, 0, 0.4);
+        }
+        .weather-stroke {
+          stroke: #000;
+        }
+        
+        /* Dark Mode Class Overrides */
+        html.dark-mode .weather-widget {
+          background-color: #1e1b29;
+          color: var(--neo-ink);
+        }
+        html.dark-mode .weather-widget .divider {
+          background-color: var(--neo-border);
+          opacity: 0.35;
+        }
+        html.dark-mode .weather-stroke {
+          stroke: var(--neo-border);
+        }
       `}} />
 
       <div className="flex justify-between items-center relative z-10">
         {/* Left Section: Time & Date */}
         <div className="text-left">
-          <div className="text-xs font-black uppercase tracking-widest text-black/60 mb-0.5">
+          <div className="text-xs font-black uppercase tracking-widest text-current opacity-60 mb-0.5">
             Delhi Time
           </div>
-          <div className="text-lg font-black font-mono tracking-wider text-black tabular-nums">
+          <div className="text-lg font-black font-mono tracking-wider text-current tabular-nums">
             {time}
           </div>
-          <div className="text-xs font-bold text-black/80 mt-0.5">
+          <div className="text-xs font-bold text-current opacity-80 mt-0.5">
             {date}
           </div>
         </div>
 
         {/* Vertical Divider */}
-        <div className="h-10 w-0.5 bg-black/20 border-l border-dashed border-black/40 mx-2"></div>
+        <div className="divider h-10 w-0.5 border-l border-dashed mx-2"></div>
 
         {/* Right Section: Weather Temp */}
         <div className="text-right flex items-center gap-3">
           <div className="text-right">
-            <div className="text-xs font-black uppercase tracking-widest text-black/60 mb-0.5">
+            <div className="text-xs font-black uppercase tracking-widest text-current opacity-60 mb-0.5">
               Weather
             </div>
-            <div className="text-lg font-black text-black">
+            <div className="text-lg font-black text-current">
               {loadingWeather ? (
                 <span className="text-xs animate-pulse font-bold">Loading…</span>
               ) : weatherError ? (
@@ -401,13 +416,13 @@ function DateTimeWeather() {
                 `${weather?.temp}°C`
               )}
             </div>
-            <div className="text-[10px] font-extrabold text-black/80 capitalize">
+            <div className="text-[10px] font-extrabold text-current opacity-80 capitalize">
               {loadingWeather ? 'Syncing' : weatherError ? 'Error' : weather?.description}
             </div>
           </div>
 
           {/* Animated Weather Icon Container */}
-          <div className="w-10 h-10 rounded border-2 border-black bg-[color:var(--neo-surface)] flex items-center justify-center shadow-neo-xs flex-shrink-0">
+          <div className="w-10 h-10 rounded border-2 border-[color:var(--neo-border)] bg-[color:var(--neo-surface)] flex items-center justify-center shadow-neo-xs flex-shrink-0">
             {getWeatherIcon()}
           </div>
         </div>
