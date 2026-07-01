@@ -17,8 +17,7 @@ function DateTimeWeather() {
   const [loadingWeather, setLoadingWeather] = useState(true)
   const [weatherError, setWeatherError] = useState(false)
 
-  const delhiHour = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })).getHours()
-  const isNight = delhiHour >= 18 || delhiHour < 6
+  const [isNight, setIsNight] = useState(false)
 
   // 1. Live Time Update (New Delhi Time Zone)
   useEffect(() => {
@@ -26,6 +25,17 @@ function DateTimeWeather() {
     const updateTime = () => {
       const now = new Date()
       
+      // Safe Hour parsing for Delhi night shift check
+      const delhiHour = parseInt(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Asia/Kolkata',
+          hour: 'numeric',
+          hour12: false
+        }).format(now),
+        10
+      )
+      setIsNight(delhiHour >= 18 || delhiHour < 6)
+
       // Format Delhi Time
       const timeFormatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'Asia/Kolkata',
@@ -46,7 +56,7 @@ function DateTimeWeather() {
     }
 
     updateTime()
-    const timer = setInterval(updateTime, 60000)
+    const timer = setInterval(updateTime, 10000)
     return () => clearInterval(timer)
   }, [])
 
@@ -112,7 +122,7 @@ function DateTimeWeather() {
     if (code === 0) {
       if (isNight) {
         return (
-          <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32">
+          <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32" role="img" aria-label="Clear Night Icon">
             <path 
               d="M22 23 C14.5 23 8.5 17 8.5 9.5 C8.5 7.5 9 5.5 10 4 C5.5 6 3.5 11 3.5 16 C3.5 22.5 8.5 27.5 15 27.5 C20.5 27.5 25 23.5 26.5 18 C25 21.5 21.5 23 18.5 23 Z" 
               fill="#FFE600" 
@@ -154,7 +164,7 @@ function DateTimeWeather() {
     if ([1, 2, 3].includes(code)) {
       if (isNight) {
         return (
-          <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32">
+          <svg className="w-8 h-8 overflow-visible" viewBox="0 0 32 32" role="img" aria-label="Cloudy Night Icon">
             <path 
               d="M21 9 C17.5 9 14.5 6.5 14.5 3 C14.5 2 15 1 15.5 0.5 C12 1.5 10 4.5 10 8 C10 12.5 13.5 16 18 16 C22 16 25 13 26 9.5 C25 11 23 11 21 9 Z" 
               fill="#FFE600" 
