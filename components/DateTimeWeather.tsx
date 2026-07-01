@@ -283,8 +283,21 @@ function DateTimeWeather() {
     )
   }
 
+  // Get dynamic weather category class for background color mapping
+  const getWeatherCategory = () => {
+    if (weatherError || loadingWeather || !weather) return 'weather-default'
+    const code = weather.code
+    if (code === 0) return 'weather-sunny'
+    if ([1, 2, 3].includes(code)) return 'weather-cloudy'
+    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return 'weather-rainy'
+    if ([95, 96, 99].includes(code)) return 'weather-stormy'
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return 'weather-snowy'
+    return 'weather-default'
+  }
+  const weatherCategory = getWeatherCategory()
+
   return (
-    <div className="neo-card p-4 weather-widget border-2 border-[color:var(--neo-border)] shadow-neo-sm hover:scale-[1.02] transition-transform duration-150 cursor-default select-none relative overflow-hidden">
+    <div className={`neo-card p-4 weather-widget ${weatherCategory} ${isNight ? 'is-night' : ''} border-2 border-[color:var(--neo-border)] shadow-neo-sm hover:scale-[1.02] transition-transform duration-150 cursor-default select-none relative overflow-hidden`}>
       {/* Inline styles for custom neobrutalist animations */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes sun-spin {
@@ -379,27 +392,87 @@ function DateTimeWeather() {
         .weather-widget {
           background-color: var(--neo-pink);
           color: #000;
+          transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .weather-widget .divider {
-          background-color: rgba(0, 0, 0, 0.2);
-          border-color: rgba(0, 0, 0, 0.4);
+          background-color: currentColor;
+          border-color: currentColor;
+          opacity: 0.15;
+          transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         .weather-stroke {
           stroke: #000;
         }
+
+        /* Light Mode Gradients based on current Weather Conditions */
+        .weather-widget.weather-sunny {
+          background-image: linear-gradient(135deg, #fde047 0%, #f59e0b 100%);
+          color: #000;
+        }
+        .weather-widget.weather-sunny.is-night {
+          background-image: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+          color: #fff;
+        }
         
-        /* Dark Mode Class Overrides */
+        .weather-widget.weather-cloudy {
+          background-image: linear-gradient(135deg, #e0f2fe 0%, #cfd8dc 100%);
+          color: #000;
+        }
+        .weather-widget.weather-cloudy.is-night {
+          background-image: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+          color: #fff;
+        }
+
+        .weather-widget.weather-rainy {
+          background-image: linear-gradient(135deg, #4c1d95 0%, #1d4ed8 100%);
+          color: #fff;
+        }
+
+        .weather-widget.weather-stormy {
+          background-image: linear-gradient(135deg, #18181b 0%, #312e81 50%, #18181b 100%);
+          color: #fff;
+        }
+
+        .weather-widget.weather-snowy {
+          background-image: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+          color: #000;
+        }
+        
+        /* Dark Mode Theme Class Overrides */
         html.dark-mode .weather-widget {
-          background-color: #1e1b29;
-          color: var(--neo-ink);
+          background-image: none !important;
+          background-color: #1e1b29 !important;
+          color: var(--neo-ink) !important;
         }
         html.dark-mode .weather-widget .divider {
-          background-color: var(--neo-border);
-          border-color: var(--neo-border);
-          opacity: 0.35;
+          background-color: var(--neo-border) !important;
+          border-color: var(--neo-border) !important;
+          opacity: 0.35 !important;
         }
         html.dark-mode .weather-stroke {
           stroke: var(--neo-border);
+        }
+
+        /* Dark Mode Accents (Dynamic borders & glows) */
+        html.dark-mode .weather-widget.weather-sunny {
+          border-color: #f59e0b !important;
+          box-shadow: var(--neo-shadow-sm), 0 0 14px rgba(245, 158, 11, 0.25) !important;
+        }
+        html.dark-mode .weather-widget.weather-cloudy {
+          border-color: #22d3ee !important;
+          box-shadow: var(--neo-shadow-sm), 0 0 14px rgba(34, 211, 238, 0.25) !important;
+        }
+        html.dark-mode .weather-widget.weather-rainy {
+          border-color: #8b5cf6 !important;
+          box-shadow: var(--neo-shadow-sm), 0 0 14px rgba(139, 92, 246, 0.25) !important;
+        }
+        html.dark-mode .weather-widget.weather-stormy {
+          border-color: #a1a1aa !important;
+          box-shadow: var(--neo-shadow-sm), 0 0 14px rgba(161, 161, 170, 0.25) !important;
+        }
+        html.dark-mode .weather-widget.weather-snowy {
+          border-color: #38bdf8 !important;
+          box-shadow: var(--neo-shadow-sm), 0 0 14px rgba(56, 189, 248, 0.25) !important;
         }
       `}} />
 
