@@ -67,6 +67,13 @@ function DateTimeWeather() {
     const fetchWeather = async () => {
       try {
         setLoadingWeather(true)
+        
+        // Prevent fetching if browser is offline to avoid console TypeError
+        if (typeof window !== 'undefined' && !navigator.onLine) {
+          setWeatherError(true)
+          return
+        }
+
         // Delhi Coordinates: Lat 28.6139, Lon 77.2090
         const res = await fetch(
           'https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m,weather_code'
@@ -89,7 +96,8 @@ function DateTimeWeather() {
         setWeather({ temp, code, description })
         setWeatherError(false)
       } catch (err) {
-        console.error('Error fetching weather:', err)
+        // Use console.warn to avoid triggering Next.js dev error overlays
+        console.warn('Weather fetch bypassed/failed:', err)
         setWeatherError(true)
       } finally {
         setLoadingWeather(false)
