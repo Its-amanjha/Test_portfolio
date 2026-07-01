@@ -104,7 +104,7 @@ function DateTimeWeather() {
   // Get neobrutalist custom animated SVG based on weather code
   const getWeatherIcon = () => {
     if (weatherError) return <FaExclamationTriangle className="w-6 h-6 text-neo-red animate-bounce" />
-    if (loadingWeather || !weather) return <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
+    if (loadingWeather || !weather) return <div className="w-6 h-6 rounded-full border-2 border-current border-t-transparent animate-spin" />
 
     const code = weather.code
     
@@ -250,9 +250,9 @@ function DateTimeWeather() {
             style={{ transformOrigin: 'center' }}
           />
           {/* Falling Snowflakes */}
-          <circle cx="11" cy="24" r="1.5" fill="black" className="snow-flake-1" />
-          <circle cx="16" cy="25" r="1.5" fill="black" className="snow-flake-2" />
-          <circle cx="21" cy="24" r="1.5" fill="black" className="snow-flake-3" />
+          <circle cx="11" cy="24" r="1.5" fill="currentColor" className="snow-flake-1" />
+          <circle cx="16" cy="25" r="1.5" fill="currentColor" className="snow-flake-2" />
+          <circle cx="21" cy="24" r="1.5" fill="currentColor" className="snow-flake-3" />
         </svg>
       )
     }
@@ -377,6 +377,7 @@ function DateTimeWeather() {
         }
         html.dark-mode .weather-widget .divider {
           background-color: var(--neo-border);
+          border-color: var(--neo-border);
           opacity: 0.35;
         }
         html.dark-mode .weather-stroke {
