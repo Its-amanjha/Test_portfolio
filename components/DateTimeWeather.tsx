@@ -28,7 +28,6 @@ function DateTimeWeather() {
         timeZone: 'Asia/Kolkata',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
         hour12: true
       })
       
@@ -44,7 +43,7 @@ function DateTimeWeather() {
     }
 
     updateTime()
-    const timer = setInterval(updateTime, 1000)
+    const timer = setInterval(updateTime, 60000)
     return () => clearInterval(timer)
   }, [])
 
