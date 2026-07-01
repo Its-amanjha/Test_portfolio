@@ -276,6 +276,11 @@ function DateTimeWeather() {
           100% { transform: translateY(6px) translateX(1px); opacity: 0; }
         }
 
+        .sun-rays-rotate, .sun-center-spin, .cloud-sun-spin, .cloud-float-slow, .storm-cloud-shake, .lightning-strike {
+          transform-box: fill-box;
+          transform-origin: center;
+        }
+
         .sun-rays-rotate {
           animation: sun-spin 16s linear infinite;
         }
