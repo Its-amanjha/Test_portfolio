@@ -42,6 +42,7 @@ module.exports = {
       'react-icons/md'
     ],
     optimizeCss: true,
+    viewTransition: true,
   },
 
   // Performance settings

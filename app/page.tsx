@@ -4,6 +4,7 @@ import HeroTitle from '../components/HeroSection'
 import Typewriter from '../components/Typewriter'
 import ContactCard from '../components/ContactCard'
 import Link from 'next/link'
+import { ViewTransition } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { SiHuggingface } from 'react-icons/si'
 import SvgIcon from '@/components/icons/SvgIcon'
@@ -434,22 +435,25 @@ export default async function Home() {
                 <div className="card-top">
                   <span className="card-cat">Project</span>
                 </div>
-                {/* Project Image - No autoplay */}
-                {p.image ? (
-                  <div className="mb-4 rounded-neo overflow-hidden h-40 sm:h-48 border-neo border-neo-border bg-[color:var(--neo-surface-2)] flex items-center justify-center">
-                    <img src={p.image} alt={`Screenshot of ${p.title} project`} className="w-full h-full object-cover" decoding="async" fetchPriority="high" />
+                <ViewTransition name={`project-media-${p.id}`} share="auto" default="none">
+                  <div className="w-full h-full flex flex-col">
+                    {p.image ? (
+                      <div className="mb-4 rounded-neo overflow-hidden h-40 sm:h-48 border-neo border-neo-border bg-[color:var(--neo-surface-2)] flex items-center justify-center">
+                        <img src={p.image} alt={`Screenshot of ${p.title} project`} className="w-full h-full object-cover" decoding="async" fetchPriority="high" />
+                      </div>
+                    ) : p.demo_video ? (
+                      <div className="mb-4 rounded-neo overflow-hidden h-40 sm:h-48 border-neo border-neo-border bg-[color:var(--neo-surface-2)] flex items-center justify-center">
+                        <svg className="w-16 h-16 text-[color:var(--neo-ink)]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className="mb-4 rounded-neo overflow-hidden h-40 sm:h-48 bg-neo-blue border-neo border-neo-border flex items-center justify-center">
+                        <span className="text-center px-4 font-extrabold">{p.title}</span>
+                      </div>
+                    )}
                   </div>
-                ) : p.demo_video ? (
-                  <div className="mb-4 rounded-neo overflow-hidden h-40 sm:h-48 border-neo border-neo-border bg-[color:var(--neo-surface-2)] flex items-center justify-center">
-                    <svg className="w-16 h-16 text-[color:var(--neo-ink)]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                    </svg>
-                  </div>
-                ) : (
-                  <div className="mb-4 rounded-neo overflow-hidden h-40 sm:h-48 bg-neo-blue border-neo border-neo-border flex items-center justify-center">
-                    <span className="text-center px-4 font-extrabold">{p.title}</span>
-                  </div>
-                )}
+                </ViewTransition>
                 
               <div className="mb-4">
                 <h3 className="text-xl font-extrabold group-hover:text-[color:var(--neo-blue)] transition duration-200 break-words" id={`project-${p.id}`}>
@@ -470,7 +474,8 @@ export default async function Home() {
                 
                 <div className="flex flex-wrap gap-3 mt-auto items-center">
                   {/* Details Link */}
-                  <Link href={`/projects/${p.id}`} prefetch className="neo-btn neo-btn-blue text-sm py-1.5 px-3">
+                  {/* @ts-ignore */}
+                  <Link href={`/projects/${p.id}`} prefetch transitionTypes={['nav-forward']} className="neo-btn neo-btn-blue text-sm py-1.5 px-3">
                     Details →
                   </Link>
                   
@@ -643,44 +648,50 @@ export default async function Home() {
                   role="listitem"
                   suppressHydrationWarning
                 >
-                  <div>
-                    <div className="card-top mb-3 flex items-center justify-between">
-                      <span className="card-cat">Article</span>
-                      {blog.published_date && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider bg-[color:var(--neo-bg-alt)] border border-black px-1.5 py-0.5 rounded text-black shadow-neo-sm">
-                          {blog.published_date}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <h3 className="text-xl font-extrabold group-hover:text-yellow-400 transition duration-300 mb-2">
-                      {blog.title}
-                    </h3>
-                    
-                    {blog.summary && (
-                      <p className="text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">{blog.summary}</p>
-                    )}
+                  <ViewTransition name={`blog-card-${blog.id}`} share="auto" default="none">
+                    <div className="flex flex-col justify-between h-full w-full">
+                      <div>
+                        <div className="card-top mb-3 flex items-center justify-between">
+                          <span className="card-cat">Article</span>
+                          {blog.published_date && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider bg-[color:var(--neo-bg-alt)] border border-black px-1.5 py-0.5 rounded text-black shadow-neo-sm">
+                              {blog.published_date}
+                            </span>
+                          )}
+                        </div>
+                        
+                        <h3 className="text-xl font-extrabold group-hover:text-yellow-400 transition duration-300 mb-2">
+                          {blog.title}
+                        </h3>
+                        
+                        {blog.summary && (
+                          <p className="text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">{blog.summary}</p>
+                        )}
 
-                    {blog.tags && blog.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {blog.tags.map((tag: string, tIdx: number) => (
-                          <TagBadge key={tIdx} tag={tag} variant="yellow" />
-                        ))}
+                        {blog.tags && blog.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {blog.tags.map((tag: string, tIdx: number) => (
+                              <TagBadge key={tIdx} tag={tag} variant="yellow" />
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  
-                  <div className="mt-4 pt-4 border-t border-dashed border-neo-border flex items-center justify-between">
-                    <Link
-                      href={readUrl}
-                      target={blog.content ? undefined : '_blank'}
-                      rel={blog.content ? undefined : 'noopener noreferrer'}
-                      className="inline-flex items-center text-yellow-400 hover:text-yellow-300 transition duration-300 text-sm font-semibold"
-                      aria-label={`Read ${blog.title}`}
-                    >
-                      Read Article →
-                    </Link>
-                  </div>
+                      
+                      <div className="mt-4 pt-4 border-t border-dashed border-neo-border flex items-center justify-between">
+                        <Link
+                          href={readUrl}
+                          target={blog.content ? undefined : '_blank'}
+                          rel={blog.content ? undefined : 'noopener noreferrer'}
+                          // @ts-ignore
+                          transitionTypes={['nav-forward']}
+                          className="inline-flex items-center text-yellow-400 hover:text-yellow-300 transition duration-300 text-sm font-semibold"
+                          aria-label={`Read ${blog.title}`}
+                        >
+                          Read Article →
+                        </Link>
+                      </div>
+                    </div>
+                  </ViewTransition>
                 </div>
               )
             })}

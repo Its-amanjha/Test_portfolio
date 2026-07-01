@@ -6,6 +6,7 @@ import Link from 'next/link'
 import NeoLoader from '@/components/NeoLoader'
 import TagBadge from '@/components/TagBadge'
 import { parseMarkdownToHtml } from '@/lib/markdown'
+import { ViewTransition } from 'react'
 
 interface IBlog {
   id: number
@@ -78,7 +79,8 @@ export default function BlogDetailsPage() {
         </div>
 
         {/* Article Container */}
-        <article className="neo-card p-6 sm:p-10 md:p-12 bg-[color:var(--neo-surface)]">
+        <ViewTransition name={`blog-card-${blogId}`} share="auto" default="none">
+          <article className="neo-card p-6 sm:p-10 md:p-12 bg-[color:var(--neo-surface)]">
           {/* Header Info */}
           <div className="flex items-center justify-between mb-4">
             <span className="text-xs font-bold uppercase tracking-wider bg-neo-yellow border-2 border-black px-2.5 py-1 rounded shadow-neo-sm">
@@ -124,7 +126,8 @@ export default function BlogDetailsPage() {
           ) : (
             <p className="text-gray-400 italic">No content available for this post.</p>
           )}
-        </article>
+          </article>
+        </ViewTransition>
       </div>
     </main>
   )

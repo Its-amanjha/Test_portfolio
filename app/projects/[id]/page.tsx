@@ -8,6 +8,7 @@ import TagBadge from '@/components/TagBadge'
 import ProjectCarousel, { type CarouselItem } from '@/components/ProjectCarousel'
 import NeoLoader from '@/components/NeoLoader'
 import Link from 'next/link'
+import { ViewTransition } from 'react'
 
 interface IProject {
   id: number
@@ -111,18 +112,22 @@ export default function ProjectDetailsPage() {
         </div>
 
         {project.demo_video && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-extrabold mb-6 inline-block bg-neo-blue border-neo border-neo-border px-3 py-1.5 shadow-neo-sm -rotate-1">Demo Video</h2>
-            <div className="neo-card overflow-hidden p-0">
-              <LazyVideo src={project.demo_video} alt={`${project.title} demo video`} className="w-full h-auto" />
+          <ViewTransition name={`project-media-${projectId}`} share="auto" default="none">
+            <div className="mb-16">
+              <h2 className="text-2xl font-extrabold mb-6 inline-block bg-neo-blue border-neo border-neo-border px-3 py-1.5 shadow-neo-sm -rotate-1">Demo Video</h2>
+              <div className="neo-card overflow-hidden p-0">
+                <LazyVideo src={project.demo_video} alt={`${project.title} demo video`} className="w-full h-auto" />
+              </div>
             </div>
-          </div>
+          </ViewTransition>
         )}
 
         {project.image && !project.demo_video && (
-          <div className="mb-16 neo-card overflow-hidden p-0">
-            <img src={project.image} alt={project.title} className="w-full h-auto object-cover" decoding="async" fetchPriority="high" />
-          </div>
+          <ViewTransition name={`project-media-${projectId}`} share="auto" default="none">
+            <div className="mb-16 neo-card overflow-hidden p-0">
+              <img src={project.image} alt={project.title} className="w-full h-auto object-cover" decoding="async" fetchPriority="high" />
+            </div>
+          </ViewTransition>
         )}
 
         <ProjectCarousel title="More Projects" items={otherProjects} hrefBase="/projects" accent="blue" />
