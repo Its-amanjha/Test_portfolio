@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt, FaPhoneAlt, FaCog, FaTimes, FaPlus, FaTrash, FaSave } from 'react-icons/fa'
+import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt, FaPhoneAlt, FaCog, FaTimes, FaPlus, FaTrash, FaSave, FaLink } from 'react-icons/fa'
 import { SiMedium } from 'react-icons/si'
 import { IoLogoTableau } from 'react-icons/io5'
 import { FaXTwitter } from 'react-icons/fa6'
@@ -102,14 +102,28 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
     }
   }
 
-  const cardColors = [
-    'bg-neo-cyan/15 hover:bg-neo-cyan border-neo-cyan text-current',
-    'bg-neo-yellow/15 hover:bg-neo-yellow border-neo-yellow text-current',
-    'bg-neo-pink/15 hover:bg-neo-pink border-neo-pink text-current',
-    'bg-neo-lime/15 hover:bg-neo-lime border-neo-lime text-current',
-    'bg-neo-blue/15 hover:bg-neo-blue border-neo-blue text-current',
-    'bg-neutral-200/50 hover:bg-neutral-300 dark:bg-neutral-800/50 dark:hover:bg-neutral-700 border-neutral-400 text-current'
-  ]
+  const locationLink = links.find(l => l.icon === 'location') || { displayText: profile.location }
+  const phoneLink = links.find(l => l.icon === 'phone') || { displayText: profile.phone, href: `tel:${profile.phone.replace(/\s+/g, '')}` }
+  const emailLink = links.find(l => l.icon === 'email') || { displayText: profile.email, href: `mailto:${profile.email}` }
+
+  // Extract remaining social link keycaps
+  const socialLinks = links.filter(l => !['location', 'phone', 'email'].includes(l.icon))
+
+  const socialIconMap: Record<string, React.ReactNode> = {
+    github: <FaGithub className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
+    linkedin: <FaLinkedin className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
+    x: <FaXTwitter className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
+    medium: <SiMedium className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
+    tableau: <IoLogoTableau className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
+  }
+
+  const socialColorMap: Record<string, string> = {
+    github: 'bg-neo-lime/15 hover:bg-neo-lime border-neo-lime text-current',
+    linkedin: 'bg-neo-blue/15 hover:bg-neo-blue border-neo-blue text-current',
+    x: 'bg-neutral-200/50 hover:bg-neutral-300 dark:bg-neutral-800/50 dark:hover:bg-neutral-700 border-neutral-400 text-current',
+    medium: 'bg-neo-pink/15 hover:bg-neo-pink border-neo-pink text-current',
+    tableau: 'bg-neo-yellow/15 hover:bg-neo-yellow border-neo-yellow text-current',
+  }
 
   return (
     <div 
@@ -175,42 +189,81 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
           </div>
         ) : (
           <>
-            {/* Keycap grid */}
-            <div className="grid grid-cols-2 gap-3 mb-6" role="list">
-              {links.map((link, idx) => {
-                const itemColor = cardColors[idx % cardColors.length]
+            {/* Primary Credentials Panel */}
+            <div className="bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)] p-4 rounded-md shadow-neo-xs mb-4">
+              {/* Location Tag & Phone Tag */}
+              <div className="flex flex-wrap gap-2 mb-3">
+                <div className="flex items-center gap-1.5 bg-neo-cyan/20 border-2 border-[color:var(--neo-border)] px-2.5 py-1 rounded text-xs font-black text-current">
+                  <FaMapMarkerAlt className="text-blue-500" />
+                  <span>{locationLink.displayText}</span>
+                </div>
+                {phoneLink.href ? (
+                  <a 
+                    href={phoneLink.href}
+                    className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-[color:var(--neo-border)] px-2.5 py-1 rounded text-xs font-black text-current hover:bg-neo-yellow transition-colors"
+                  >
+                    <FaPhoneAlt />
+                    <span>{phoneLink.displayText}</span>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-[color:var(--neo-border)] px-2.5 py-1 rounded text-xs font-black text-current">
+                    <FaPhoneAlt />
+                    <span>{phoneLink.displayText}</span>
+                  </div>
+                )}
+              </div>
+              {/* Email Link Block */}
+              {emailLink.href ? (
+                <a 
+                  href={emailLink.href} 
+                  className="flex items-center justify-between p-3 bg-neo-pink/15 hover:bg-neo-pink border-2 border-[color:var(--neo-border)] rounded text-xs sm:text-sm font-black text-current transition-all duration-150 group/email select-all"
+                >
+                  <div className="flex items-center gap-2">
+                    <FaEnvelope className="w-4 h-4 text-neo-pink" />
+                    <span className="truncate max-w-[180px] sm:max-w-xs">{emailLink.displayText}</span>
+                  </div>
+                  <span className="text-xs group-hover/email:translate-x-1 transition-transform">➔</span>
+                </a>
+              ) : (
+                <div className="flex items-center justify-between p-3 bg-neo-pink/15 border-2 border-[color:var(--neo-border)] rounded text-xs sm:text-sm font-black text-current select-all">
+                  <div className="flex items-center gap-2">
+                    <FaEnvelope className="w-4 h-4 text-neo-pink" />
+                    <span>{emailLink.displayText}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Social Grid (Big Iconic Buttons) */}
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              {socialLinks.map((link, idx) => {
+                const itemColor = socialColorMap[link.icon] || 'bg-neutral-200/50 hover:bg-neutral-300 dark:bg-neutral-800/50 dark:hover:bg-neutral-700 border-neutral-400 text-current'
+                const bigIcon = socialIconMap[link.icon] || <FaLink className="w-8 h-8 sm:w-10 h-10 mb-1.5" />
                 const keycapContent = (
-                  <div className="flex flex-col justify-between h-full min-h-[64px]">
-                    <div className="flex items-center justify-between w-full opacity-70">
-                      <span className="text-[9px] font-black uppercase tracking-wider">{link.label}</span>
-                      <div className="text-xs">{iconMap[link.icon] || null}</div>
-                    </div>
-                    <div className="text-[11px] sm:text-xs font-black truncate text-left mt-2 select-all selection:bg-neo-yellow">
-                      {link.displayText}
-                    </div>
+                  <div className="flex flex-col items-center justify-center p-2 text-center select-none">
+                    {bigIcon}
+                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest opacity-60">
+                      {link.label}
+                    </span>
                   </div>
                 )
 
-                return (
-                  <div 
-                    key={idx} 
-                    className={`p-3 border-2 border-[color:var(--neo-border)] rounded-md shadow-[4px_4px_0px_var(--neo-border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--neo-border)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 cursor-pointer ${itemColor}`}
-                    role="listitem"
+                return link.href ? (
+                  <a 
+                    key={idx}
+                    href={link.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`flex flex-col items-center justify-center border-2 border-[color:var(--neo-border)] rounded-md shadow-[4px_4px_0px_var(--neo-border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--neo-border)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
                   >
-                    {link.href ? (
-                      <a
-                        href={link.href}
-                        target={link.href.startsWith('http') ? '_blank' : undefined}
-                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className="block w-full h-full text-current select-none"
-                      >
-                        {keycapContent}
-                      </a>
-                    ) : (
-                      <div className="w-full h-full select-none">
-                        {keycapContent}
-                      </div>
-                    )}
+                    {keycapContent}
+                  </a>
+                ) : (
+                  <div 
+                    key={idx}
+                    className={`flex flex-col items-center justify-center border-2 border-[color:var(--neo-border)] rounded-md shadow-[4px_4px_0px_var(--neo-border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--neo-border)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
+                  >
+                    {keycapContent}
                   </div>
                 )
               })}
