@@ -130,22 +130,22 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
       ref={ref}
       style={style}
       id="contact-card" 
-      className="relative w-full overflow-visible bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)] p-6 flex flex-col justify-between"
+      className="relative w-full overflow-visible bg-[color:var(--neo-surface)] border-2 border-black shadow-[8px_8px_0px_#000] p-6 flex flex-col justify-between"
     >
       {/* Decorative Brand Sticker */}
-      <div className="absolute -top-3.5 right-6 z-20 bg-neo-lime border-2 border-[color:var(--neo-border)] px-3 py-0.5 text-[9px] font-black uppercase tracking-widest text-black shadow-neo-xs rotate-2 cursor-default select-none">
+      <div className="absolute -top-3.5 right-6 z-20 bg-neo-lime border-2 border-black px-3 py-0.5 text-[9px] font-black uppercase tracking-widest text-black shadow-neo-xs rotate-2 cursor-default select-none">
         aman_jha.sys
       </div>
 
       <div className="relative z-10 h-full flex flex-col">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-2 border-[color:var(--neo-border)] px-4 py-1.5 shadow-neo-sm -rotate-1 text-black select-none">
+          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-2 border-black px-4 py-1.5 shadow-[4px_4px_0_#000] -rotate-1 text-black select-none">
             Contact &amp; Profiles
           </h2>
           {showAdminControls && (
             <button
               onClick={() => setEditing(!editing)}
-              className="neo-btn neo-btn-yellow w-10 h-10 !p-0"
+              className="neo-btn neo-btn-yellow w-10 h-10 !p-0 border-2 border-black shadow-[2px_2px_0_#000] active:translate-y-[2px] active:shadow-none"
               aria-label={editing ? 'Close editor' : 'Edit contact card'}
             >
               {editing ? <FaTimes className="w-4 h-4" /> : <FaCog className="w-4 h-4" />}
@@ -156,17 +156,17 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
         {editing ? (
           <div className="space-y-4 flex-1 overflow-y-auto">
             {links.map((link, idx) => (
-              <div key={idx} className="neo-panel p-3 space-y-2">
+              <div key={idx} className="neo-panel p-3 space-y-2 border-2 border-black">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-extrabold uppercase tracking-wider">Link #{idx + 1}</span>
-                  <button onClick={() => removeLink(idx)} className="neo-btn neo-btn-red w-8 h-8 !p-0">
+                  <button onClick={() => removeLink(idx)} className="neo-btn neo-btn-red w-8 h-8 !p-0 border-2 border-black shadow-[2px_2px_0_#000]">
                     <FaTrash className="w-3 h-3" />
                   </button>
                 </div>
-                <input type="text" value={link.label} onChange={(e) => updateLink(idx, 'label', e.target.value)} placeholder="Label (e.g. GitHub)" className="neo-input !py-1.5 text-sm" />
-                <input type="text" value={link.href} onChange={(e) => updateLink(idx, 'href', e.target.value)} placeholder="URL (e.g. https://github.com/user)" className="neo-input !py-1.5 text-sm" />
-                <input type="text" value={link.displayText} onChange={(e) => updateLink(idx, 'displayText', e.target.value)} placeholder="Display text (e.g. github.com/user)" className="neo-input !py-1.5 text-sm" />
-                <select value={link.icon} onChange={(e) => updateLink(idx, 'icon', e.target.value)} className="neo-select !py-1.5 text-sm">
+                <input type="text" value={link.label} onChange={(e) => updateLink(idx, 'label', e.target.value)} placeholder="Label (e.g. GitHub)" className="neo-input !py-1.5 text-sm border-2 border-black" />
+                <input type="text" value={link.href} onChange={(e) => updateLink(idx, 'href', e.target.value)} placeholder="URL (e.g. https://github.com/user)" className="neo-input !py-1.5 text-sm border-2 border-black" />
+                <input type="text" value={link.displayText} onChange={(e) => updateLink(idx, 'displayText', e.target.value)} placeholder="Display text (e.g. github.com/user)" className="neo-input !py-1.5 text-sm border-2 border-black" />
+                <select value={link.icon} onChange={(e) => updateLink(idx, 'icon', e.target.value)} className="neo-select !py-1.5 text-sm border-2 border-black">
                   {Object.keys(iconMap).map(key => (
                     <option key={key} value={key}>{key}</option>
                   ))}
@@ -174,39 +174,39 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
               </div>
             ))}
 
-            <button onClick={addLink} className="neo-btn neo-btn-lime w-full py-2 text-sm">
+            <button onClick={addLink} className="neo-btn neo-btn-lime w-full py-2 text-sm border-2 border-black shadow-[4px_4px_0_#000]">
               <FaPlus className="w-3 h-3" /> Add New Link
             </button>
 
-            <div className="neo-panel p-3 space-y-2">
+            <div className="neo-panel p-3 space-y-2 border-2 border-black">
               <span className="text-xs font-extrabold uppercase tracking-wider">CV Download Path</span>
-              <input type="text" value={cvPath} onChange={(e) => setCvPath(e.target.value)} placeholder="/cv/Aman_CV.pdf" className="neo-input !py-1.5 text-sm" />
+              <input type="text" value={cvPath} onChange={(e) => setCvPath(e.target.value)} placeholder="/cv/Aman_CV.pdf" className="neo-input !py-1.5 text-sm border-2 border-black" />
             </div>
 
-            <button onClick={handleSave} disabled={saving} className="neo-btn neo-btn-cyan w-full py-2 text-sm">
+            <button onClick={handleSave} disabled={saving} className="neo-btn neo-btn-cyan w-full py-2 text-sm border-2 border-black shadow-[4px_4px_0_#000]">
               <FaSave className="w-3 h-3" /> {saving ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         ) : (
           <>
             {/* Primary Credentials Panel */}
-            <div className="bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)] p-4 rounded-md shadow-neo-xs mb-4">
+            <div className="bg-[color:var(--neo-surface)] border-2 border-black p-4 rounded shadow-[4px_4px_0px_#000] mb-6">
               {/* Location Tag & Phone Tag */}
               <div className="flex flex-wrap gap-2 mb-3">
-                <div className="flex items-center gap-1.5 bg-neo-cyan/20 border-2 border-[color:var(--neo-border)] px-2.5 py-1 rounded text-xs font-black text-current">
+                <div className="flex items-center gap-1.5 bg-neo-cyan/20 border-2 border-black px-2.5 py-1 rounded text-xs font-black text-current">
                   <FaMapMarkerAlt className="text-blue-500" />
                   <span>{locationLink.displayText}</span>
                 </div>
                 {phoneLink.href ? (
                   <a 
                     href={phoneLink.href}
-                    className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-[color:var(--neo-border)] px-2.5 py-1 rounded text-xs font-black text-current hover:bg-neo-yellow transition-colors"
+                    className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-black px-2.5 py-1 rounded text-xs font-black text-current hover:bg-neo-yellow hover:translate-y-[-1px] hover:shadow-[2px_2px_0_#000] transition-all duration-150"
                   >
                     <FaPhoneAlt />
                     <span>{phoneLink.displayText}</span>
                   </a>
                 ) : (
-                  <div className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-[color:var(--neo-border)] px-2.5 py-1 rounded text-xs font-black text-current">
+                  <div className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-black px-2.5 py-1 rounded text-xs font-black text-current">
                     <FaPhoneAlt />
                     <span>{phoneLink.displayText}</span>
                   </div>
@@ -216,7 +216,7 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
               {emailLink.href ? (
                 <a 
                   href={emailLink.href} 
-                  className="flex items-center justify-between p-3 bg-neo-pink/15 hover:bg-neo-pink border-2 border-[color:var(--neo-border)] rounded text-xs sm:text-sm font-black text-current transition-all duration-150 group/email select-all"
+                  className="flex items-center justify-between p-3 bg-neo-pink/15 hover:bg-neo-pink border-2 border-black rounded text-xs sm:text-sm font-black text-current transition-all duration-150 group/email select-all shadow-[2px_2px_0_#000] hover:translate-y-[-1px] hover:translate-x-[1px] hover:shadow-[3px_3px_0_#000] active:translate-y-[0px] active:translate-x-[0px] active:shadow-none"
                 >
                   <div className="flex items-center gap-2">
                     <FaEnvelope className="w-4 h-4 text-neo-pink" />
@@ -225,7 +225,7 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
                   <span className="text-xs group-hover/email:translate-x-1 transition-transform">➔</span>
                 </a>
               ) : (
-                <div className="flex items-center justify-between p-3 bg-neo-pink/15 border-2 border-[color:var(--neo-border)] rounded text-xs sm:text-sm font-black text-current select-all">
+                <div className="flex items-center justify-between p-3 bg-neo-pink/15 border-2 border-black rounded text-xs sm:text-sm font-black text-current select-all">
                   <div className="flex items-center gap-2">
                     <FaEnvelope className="w-4 h-4 text-neo-pink" />
                     <span>{emailLink.displayText}</span>
@@ -254,14 +254,14 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
                     href={link.href} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className={`flex flex-col items-center justify-center border-2 border-[color:var(--neo-border)] rounded-md shadow-[4px_4px_0px_var(--neo-border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--neo-border)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
+                    className={`flex flex-col items-center justify-center border-2 border-black rounded-md shadow-[4px_4px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
                   >
                     {keycapContent}
                   </a>
                 ) : (
                   <div 
                     key={idx}
-                    className={`flex flex-col items-center justify-center border-2 border-[color:var(--neo-border)] rounded-md shadow-[4px_4px_0px_var(--neo-border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--neo-border)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
+                    className={`flex flex-col items-center justify-center border-2 border-black rounded-md shadow-[4px_4px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
                   >
                     {keycapContent}
                   </div>
@@ -270,14 +270,14 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
             </div>
             
             {/* Casing Bottom Status & Utility Tray */}
-            <div className="mt-2 pt-6 border-t-2 border-dashed border-[color:var(--neo-border)]/40 space-y-4">
+            <div className="mt-2 pt-6 border-t-2 border-dashed border-black/20 space-y-4">
               {/* Spacebar space CV downloader */}
               <div className="relative group/spacebar">
                 <CVDownloadButton buttonSize="lg" cvUrl={cvPath} />
               </div>
               
               {/* LED LCD Screen weather utility */}
-              <div className="p-1 rounded-lg border-2 border-[color:var(--neo-border)] shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)] bg-dot-pattern">
+              <div className="p-1 rounded-lg border-2 border-black shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)] bg-dot-pattern">
                 <DateTimeWeather />
               </div>
             </div>

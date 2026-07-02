@@ -22,13 +22,13 @@ export default function HeroCard({
     <div className="relative w-full group/hero-card overflow-visible py-4 px-2">
       {/* Dynamic Layer 1 (Pink cardboard backing) */}
       <div 
-        className="absolute inset-0 mx-2 my-4 bg-neo-pink border-2 border-[color:var(--neo-border)] rounded shadow-neo-sm transition-all duration-300 ease-out -z-10 transform translate-x-[4px] translate-y-[4px] group-hover/hero-card:translate-x-[-12px] group-hover/hero-card:translate-y-[8px] group-hover/hero-card:rotate-[-3.5deg] origin-center" 
+        className="absolute inset-0 mx-2 my-4 bg-neo-pink border-2 border-black rounded shadow-[4px_4px_0_#000] transition-all duration-300 ease-out -z-10 transform translate-x-[4px] translate-y-[4px] group-hover/hero-card:translate-x-[-14px] group-hover/hero-card:translate-y-[10px] group-hover/hero-card:rotate-[-4deg] origin-center" 
         aria-hidden="true"
       />
 
       {/* Dynamic Layer 2 (Yellow cardboard backing) */}
       <div 
-        className="absolute inset-0 mx-2 my-4 bg-neo-yellow border-2 border-[color:var(--neo-border)] rounded shadow-neo-sm transition-all duration-300 ease-out -z-20 transform translate-x-[8px] translate-y-[8px] group-hover/hero-card:translate-x-[14px] group-hover/hero-card:translate-y-[-8px] group-hover/hero-card:rotate-[3.5deg] origin-center" 
+        className="absolute inset-0 mx-2 my-4 bg-neo-yellow border-2 border-black rounded shadow-[6px_6px_0_#000] transition-all duration-300 ease-out -z-20 transform translate-x-[8px] translate-y-[8px] group-hover/hero-card:translate-x-[16px] group-hover/hero-card:translate-y-[-10px] group-hover/hero-card:rotate-[4deg] origin-center" 
         aria-hidden="true"
       />
 
@@ -36,7 +36,7 @@ export default function HeroCard({
       <div 
         ref={ref}
         style={style}
-        className="relative z-10 w-full p-6 sm:p-8 md:p-10 flex flex-col bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)] transition-transform duration-200 select-none"
+        className="relative z-10 w-full p-6 sm:p-8 md:p-10 flex flex-col bg-[color:var(--neo-surface)] border-2 border-black transition-transform duration-200 select-none"
       >
         <HeroTitle 
           badge={badge}
