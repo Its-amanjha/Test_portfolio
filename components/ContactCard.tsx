@@ -9,6 +9,7 @@ import { FaXTwitter } from 'react-icons/fa6'
 import CVDownloadButton from './CVDownloadButton'
 import DateTimeWeather from './DateTimeWeather'
 import { profile } from '@/lib/profile'
+import { useMouseTilt } from '@/lib/useMouseTilt'
 
 interface ProfileLink {
   label: string
@@ -51,6 +52,7 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
   const [links, setLinks] = useState<ProfileLink[]>(initialLinks && initialLinks.length > 0 ? initialLinks : defaultLinks)
   const [cvPath, setCvPath] = useState(initialCvPath || profile.cvPath)
   const [saving, setSaving] = useState(false)
+  const { ref, style } = useMouseTilt(5)
 
   // Sync with server-provided data when it changes
   useEffect(() => {
@@ -100,11 +102,54 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
     }
   }
 
+  const cardColors = [
+    'bg-neo-cyan/15 hover:bg-neo-cyan border-neo-cyan text-current',
+    'bg-neo-yellow/15 hover:bg-neo-yellow border-neo-yellow text-current',
+    'bg-neo-pink/15 hover:bg-neo-pink border-neo-pink text-current',
+    'bg-neo-lime/15 hover:bg-neo-lime border-neo-lime text-current',
+    'bg-neo-blue/15 hover:bg-neo-blue border-neo-blue text-current',
+    'bg-neutral-200/50 hover:bg-neutral-300 dark:bg-neutral-800/50 dark:hover:bg-neutral-700 border-neutral-400 text-current'
+  ]
+
   return (
-    <div id="contact-card" className="neo-card neo-card-alt w-full">
+    <div 
+      ref={ref}
+      style={style}
+      id="contact-card" 
+      className="neo-card w-full overflow-hidden bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)]"
+    >
+      {/* Retro OS Header Bar */}
+      <div className="flex items-center justify-between px-4 py-3 bg-[color:var(--neo-surface)] border-b-2 border-[color:var(--neo-border)] select-none">
+        {/* Left macOS style window controls */}
+        <div className="flex items-center gap-2 group/controls">
+          <div className="w-3.5 h-3.5 rounded-full bg-[#ff5f56] border border-black/40 flex items-center justify-center text-[8px] font-black text-black/60">
+            <span className="opacity-0 group-hover/controls:opacity-100 transition-opacity">×</span>
+          </div>
+          <div className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] border border-black/40 flex items-center justify-center text-[8px] font-black text-black/60">
+            <span className="opacity-0 group-hover/controls:opacity-100 transition-opacity">-</span>
+          </div>
+          <div className="w-3.5 h-3.5 rounded-full bg-[#27c93f] border border-black/40 flex items-center justify-center text-[8px] font-black text-black/60">
+            <span className="opacity-0 group-hover/controls:opacity-100 transition-opacity">+</span>
+          </div>
+        </div>
+
+        {/* Center Grab-bar title */}
+        <div className="flex-1 mx-4 h-5 flex items-center justify-center relative overflow-hidden bg-dot-pattern rounded border border-dashed border-[color:var(--neo-border)]/30 px-3">
+          <span className="text-[10px] font-black font-mono uppercase tracking-widest text-[color:var(--neo-ink-soft)] bg-[color:var(--neo-surface)] px-2 z-10">
+            contact_details.sys
+          </span>
+        </div>
+
+        {/* Right Status Indicator */}
+        <div className="flex items-center gap-1">
+          <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse border border-black/20" />
+          <span className="text-[8px] font-black font-mono tracking-wider opacity-60 font-bold">ONLINE</span>
+        </div>
+      </div>
+
       <div className="relative z-10 h-full p-6 sm:p-8 flex flex-col">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-neo border-neo-border px-3 py-1 shadow-neo-sm -rotate-1">
+          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-neo border-neo-border px-3 py-1 shadow-neo-sm -rotate-1 text-black">
             Contact &amp; Profiles
           </h2>
           {showAdminControls && (
@@ -154,30 +199,39 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
           </div>
         ) : (
           <>
-            <div className="space-y-3 text-sm" role="list">
-              {links.map((link, idx) => (
-                <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-6 border-b-2 border-dashed border-[color:var(--neo-border)] pb-2 last:border-0" role="listitem">
-                  <span className="font-extrabold uppercase tracking-widest text-xs">{link.label}</span>
-                  {link.href ? (
-                    <a
-                      href={link.href}
-                      target={link.href.startsWith('http') ? '_blank' : undefined}
-                      rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="font-semibold hover:bg-neo-yellow transition-colors inline-flex items-center gap-2 break-words w-full sm:w-auto sm:justify-end sm:text-right"
-                    >
-                      {iconMap[link.icon] || null}
-                      {link.displayText}
-                    </a>
-                  ) : (
-                    <span className="font-semibold inline-flex items-center gap-2 break-words w-full sm:w-auto sm:justify-end sm:text-right">
-                      {iconMap[link.icon] || null}
-                      {link.displayText}
-                    </span>
-                  )}
-                </div>
-              ))}
+            <div className="grid gap-3 text-sm" role="list">
+              {links.map((link, idx) => {
+                const itemColor = cardColors[idx % cardColors.length]
+                return (
+                  <div 
+                    key={idx} 
+                    className={`p-3 border-2 border-[color:var(--neo-border)] rounded shadow-neo-xs hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-neo-sm active:translate-y-[0px] active:translate-x-[0px] active:shadow-neo-xs transition-all duration-150 ${itemColor}`}
+                    role="listitem"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-6">
+                      <span className="font-extrabold uppercase tracking-widest text-[10px] opacity-70">{link.label}</span>
+                      {link.href ? (
+                        <a
+                          href={link.href}
+                          target={link.href.startsWith('http') ? '_blank' : undefined}
+                          rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          className="font-extrabold hover:underline inline-flex items-center gap-2 break-all text-xs sm:text-sm sm:justify-end sm:text-right"
+                        >
+                          {iconMap[link.icon] || null}
+                          {link.displayText}
+                        </a>
+                      ) : (
+                        <span className="font-extrabold inline-flex items-center gap-2 break-all text-xs sm:text-sm sm:justify-end sm:text-right">
+                          {iconMap[link.icon] || null}
+                          {link.displayText}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
-            <div className="mt-8 pt-6 space-y-4" style={{ borderTop: 'var(--neo-bw) solid var(--neo-border)' }}>
+            <div className="mt-6 pt-6 space-y-4 border-t-2 border-dashed border-[color:var(--neo-border)]/50">
               <CVDownloadButton buttonSize="lg" cvUrl={cvPath} />
               <DateTimeWeather />
             </div>

@@ -1,6 +1,6 @@
 import TagBadge from '../components/TagBadge'
 import HomeContactQR from '../components/HomeContactQR'
-import HeroTitle from '../components/HeroSection'
+import HeroCard from '../components/HeroCard'
 import Typewriter from '../components/Typewriter'
 import ContactCard from '../components/ContactCard'
 import Link from 'next/link'
@@ -358,30 +358,12 @@ export default async function Home() {
           pauseDuration={2500}
         />
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 items-stretch w-full overflow-visible">
-          <div className="neo-card w-full">
-            <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 flex flex-col">
-              <HeroTitle 
-                badge={heroBadge}
-                headingPrefix={heroHeadingPrefix}
-                headingHighlight={heroHeadingHighlight}
-                description={heroBio}
-              />
-              <div className="flex flex-wrap gap-3">
-                <a href="#expertise" className="neo-btn neo-btn-pink min-h-[44px]" aria-label="Navigate to expertise section">
-                  Expertise
-                </a>
-                <a href="#projects" className="neo-btn neo-btn-blue min-h-[44px]" aria-label="Navigate to projects section">
-                  Projects
-                </a>
-                <a href="#experience" className="neo-btn neo-btn-lime min-h-[44px]" aria-label="Navigate to experience section">
-                  See Experience
-                </a>
-                <a href="#certifications" className="neo-btn neo-btn-yellow min-h-[44px]" aria-label="Navigate to certifications section">
-                  Certifications
-                </a>
-              </div>
-            </div>
-          </div>
+          <HeroCard 
+            badge={heroBadge}
+            headingPrefix={heroHeadingPrefix}
+            headingHighlight={heroHeadingHighlight}
+            description={heroBio}
+          />
 
           <ContactCard initialLinks={contactLinks} initialCvPath={contactCvPath} />
         </div>

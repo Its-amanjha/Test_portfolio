@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useCallback } from 'react'
+import { memo, useState, useEffect } from 'react'
 
 interface CVDownloadButtonProps {
   buttonSize?: 'lg' | 'sm'
@@ -8,37 +8,78 @@ interface CVDownloadButtonProps {
 }
 
 function CVDownloadButton({ buttonSize = 'lg', cvUrl }: CVDownloadButtonProps) {
-  const handleDownloadCV = useCallback(() => {
-    const url = cvUrl || '/cv/Aman_CV.pdf'
-    window.open(url, '_blank', 'noopener,noreferrer')
-    const a = document.createElement('a')
-    a.href = url
-    a.download = url.split('/').pop() || 'CV.pdf'
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }, [cvUrl])
+  const [downloading, setDownloading] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [statusText, setStatusText] = useState('Download CV')
+
+  useEffect(() => {
+    if (!downloading) return
+
+    let currentProgress = 0
+    const interval = setInterval(() => {
+      currentProgress += 10
+      setProgress(currentProgress)
+
+      if (currentProgress < 30) {
+        setStatusText(`PREPARING... [██░░░░░░░░] ${currentProgress}%`)
+      } else if (currentProgress < 70) {
+        setStatusText(`COMPRESSING... [█████░░░░░] ${currentProgress}%`)
+      } else if (currentProgress < 100) {
+        setStatusText(`SAVING... [████████░░] ${currentProgress}%`)
+      } else {
+        setStatusText(`COMPLETED! [██████████] 100%`)
+        clearInterval(interval)
+
+        // Trigger the actual file download
+        const url = cvUrl || '/cv/Aman_CV.pdf'
+        window.open(url, '_blank', 'noopener,noreferrer')
+        const a = document.createElement('a')
+        a.href = url
+        a.download = url.split('/').pop() || 'CV.pdf'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+
+        // Reset state after a short delay
+        setTimeout(() => {
+          setDownloading(false)
+          setProgress(0)
+          setStatusText('Download CV')
+        }, 1000)
+      }
+    }, 120)
+
+    return () => clearInterval(interval)
+  }, [downloading, cvUrl])
+
+  const handleDownloadCV = () => {
+    if (downloading) return
+    setDownloading(true)
+  }
 
   const sizeClasses =
-    buttonSize === 'lg' ? 'w-full py-3.5 text-base' : 'w-full py-2.5 text-sm'
+    buttonSize === 'lg' ? 'w-full py-3.5 text-xs sm:text-sm font-black' : 'w-full py-2.5 text-xs font-black'
 
   return (
     <button
       onClick={handleDownloadCV}
-      className={`neo-btn neo-btn-yellow ${sizeClasses} uppercase tracking-wide`}
+      disabled={downloading}
+      className={`neo-btn ${downloading ? 'neo-btn-pink animate-pulse cursor-wait' : 'neo-btn-yellow'} ${sizeClasses} uppercase tracking-wide flex items-center justify-center gap-2`}
       aria-label="Download CV"
     >
-      <svg
-        className={buttonSize === 'lg' ? 'w-5 h-5' : 'w-4 h-4'}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2.5}
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-      </svg>
-      Download CV
+      {!downloading && (
+        <svg
+          className={buttonSize === 'lg' ? 'w-5 h-5' : 'w-4 h-4'}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2.5}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      )}
+      {statusText}
     </button>
   )
 }
