@@ -57,14 +57,15 @@ function CVDownloadButton({ buttonSize = 'lg', cvUrl }: CVDownloadButtonProps) {
     setDownloading(true)
   }
 
-  const sizeClasses =
-    buttonSize === 'lg' ? 'w-full py-3.5 text-xs sm:text-sm font-black' : 'w-full py-2.5 text-xs font-black'
+  const spacebarStyles = downloading
+    ? 'bg-neo-pink text-white animate-pulse cursor-wait translate-y-[6px] shadow-none'
+    : 'bg-neo-yellow text-black shadow-[0_6px_0_var(--neo-border,#000)] hover:translate-y-[2px] hover:shadow-[0_4px_0_var(--neo-border,#000)] active:translate-y-[6px] active:shadow-none'
 
   return (
     <button
       onClick={handleDownloadCV}
       disabled={downloading}
-      className={`neo-btn ${downloading ? 'neo-btn-pink animate-pulse cursor-wait' : 'neo-btn-yellow'} ${sizeClasses} uppercase tracking-wide flex items-center justify-center gap-2`}
+      className={`w-full py-4 border-2 border-[color:var(--neo-border)] rounded-md text-xs sm:text-sm font-black uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 ${spacebarStyles}`}
       aria-label="Download CV"
     >
       {!downloading && (

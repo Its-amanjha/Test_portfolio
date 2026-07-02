@@ -116,40 +116,16 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
       ref={ref}
       style={style}
       id="contact-card" 
-      className="neo-card w-full overflow-hidden bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)]"
+      className="relative w-full overflow-visible bg-[color:var(--neo-surface)] border-2 border-[color:var(--neo-border)] p-6 flex flex-col justify-between"
     >
-      {/* Retro OS Header Bar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[color:var(--neo-surface)] border-b-2 border-[color:var(--neo-border)] select-none">
-        {/* Left macOS style window controls */}
-        <div className="flex items-center gap-2 group/controls">
-          <div className="w-3.5 h-3.5 rounded-full bg-[#ff5f56] border border-black/40 flex items-center justify-center text-[8px] font-black text-black/60">
-            <span className="opacity-0 group-hover/controls:opacity-100 transition-opacity">×</span>
-          </div>
-          <div className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] border border-black/40 flex items-center justify-center text-[8px] font-black text-black/60">
-            <span className="opacity-0 group-hover/controls:opacity-100 transition-opacity">-</span>
-          </div>
-          <div className="w-3.5 h-3.5 rounded-full bg-[#27c93f] border border-black/40 flex items-center justify-center text-[8px] font-black text-black/60">
-            <span className="opacity-0 group-hover/controls:opacity-100 transition-opacity">+</span>
-          </div>
-        </div>
-
-        {/* Center Grab-bar title */}
-        <div className="flex-1 mx-4 h-5 flex items-center justify-center relative overflow-hidden bg-dot-pattern rounded border border-dashed border-[color:var(--neo-border)]/30 px-3">
-          <span className="text-[10px] font-black font-mono uppercase tracking-widest text-[color:var(--neo-ink-soft)] bg-[color:var(--neo-surface)] px-2 z-10">
-            contact_details.sys
-          </span>
-        </div>
-
-        {/* Right Status Indicator */}
-        <div className="flex items-center gap-1">
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse border border-black/20" />
-          <span className="text-[8px] font-black font-mono tracking-wider opacity-60 font-bold">ONLINE</span>
-        </div>
+      {/* Decorative Brand Sticker */}
+      <div className="absolute -top-3.5 right-6 z-20 bg-neo-lime border-2 border-[color:var(--neo-border)] px-3 py-0.5 text-[9px] font-black uppercase tracking-widest text-black shadow-neo-xs rotate-2 cursor-default select-none">
+        aman_jha.sys
       </div>
 
-      <div className="relative z-10 h-full p-6 sm:p-8 flex flex-col">
+      <div className="relative z-10 h-full flex flex-col">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-neo border-neo-border px-3 py-1 shadow-neo-sm -rotate-1 text-black">
+          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-2 border-[color:var(--neo-border)] px-4 py-1.5 shadow-neo-sm -rotate-1 text-black select-none">
             Contact &amp; Profiles
           </h2>
           {showAdminControls && (
@@ -199,41 +175,58 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
           </div>
         ) : (
           <>
-            <div className="grid gap-3 text-sm" role="list">
+            {/* Keycap grid */}
+            <div className="grid grid-cols-2 gap-3 mb-6" role="list">
               {links.map((link, idx) => {
                 const itemColor = cardColors[idx % cardColors.length]
+                const keycapContent = (
+                  <div className="flex flex-col justify-between h-full min-h-[64px]">
+                    <div className="flex items-center justify-between w-full opacity-70">
+                      <span className="text-[9px] font-black uppercase tracking-wider">{link.label}</span>
+                      <div className="text-xs">{iconMap[link.icon] || null}</div>
+                    </div>
+                    <div className="text-[11px] sm:text-xs font-black truncate text-left mt-2 select-all selection:bg-neo-yellow">
+                      {link.displayText}
+                    </div>
+                  </div>
+                )
+
                 return (
                   <div 
                     key={idx} 
-                    className={`p-3 border-2 border-[color:var(--neo-border)] rounded shadow-neo-xs hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-neo-sm active:translate-y-[0px] active:translate-x-[0px] active:shadow-neo-xs transition-all duration-150 ${itemColor}`}
+                    className={`p-3 border-2 border-[color:var(--neo-border)] rounded-md shadow-[4px_4px_0px_var(--neo-border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--neo-border)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 cursor-pointer ${itemColor}`}
                     role="listitem"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-6">
-                      <span className="font-extrabold uppercase tracking-widest text-[10px] opacity-70">{link.label}</span>
-                      {link.href ? (
-                        <a
-                          href={link.href}
-                          target={link.href.startsWith('http') ? '_blank' : undefined}
-                          rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                          className="font-extrabold hover:underline inline-flex items-center gap-2 break-all text-xs sm:text-sm sm:justify-end sm:text-right"
-                        >
-                          {iconMap[link.icon] || null}
-                          {link.displayText}
-                        </a>
-                      ) : (
-                        <span className="font-extrabold inline-flex items-center gap-2 break-all text-xs sm:text-sm sm:justify-end sm:text-right">
-                          {iconMap[link.icon] || null}
-                          {link.displayText}
-                        </span>
-                      )}
-                    </div>
+                    {link.href ? (
+                      <a
+                        href={link.href}
+                        target={link.href.startsWith('http') ? '_blank' : undefined}
+                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="block w-full h-full text-current select-none"
+                      >
+                        {keycapContent}
+                      </a>
+                    ) : (
+                      <div className="w-full h-full select-none">
+                        {keycapContent}
+                      </div>
+                    )}
                   </div>
                 )
               })}
             </div>
-            <div className="mt-6 pt-6 space-y-4 border-t-2 border-dashed border-[color:var(--neo-border)]/50">
-              <CVDownloadButton buttonSize="lg" cvUrl={cvPath} />
-              <DateTimeWeather />
+            
+            {/* Casing Bottom Status & Utility Tray */}
+            <div className="mt-2 pt-6 border-t-2 border-dashed border-[color:var(--neo-border)]/40 space-y-4">
+              {/* Spacebar space CV downloader */}
+              <div className="relative group/spacebar">
+                <CVDownloadButton buttonSize="lg" cvUrl={cvPath} />
+              </div>
+              
+              {/* LED LCD Screen weather utility */}
+              <div className="p-1 rounded-lg border-2 border-[color:var(--neo-border)] shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)] bg-dot-pattern">
+                <DateTimeWeather />
+              </div>
             </div>
           </>
         )}
