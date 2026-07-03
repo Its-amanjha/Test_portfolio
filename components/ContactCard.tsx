@@ -119,19 +119,11 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
 
   return (
     <div 
-      ref={ref}
-      style={style}
       id="contact-card" 
-      className="relative w-full overflow-visible py-4 flex flex-col items-center select-none group/laptop [perspective:1200px]"
+      className="relative w-full overflow-visible py-4 flex flex-col items-center select-none"
     >
-      {/* 3D Laptop Body Wrapper */}
-      <div className="w-full flex flex-col items-center transition-transform duration-500 ease-out [transform-style:preserve-3d] [transform:rotateY(-18deg)_rotateX(10deg)_rotateZ(-2deg)_scale(0.96)] group-hover/laptop:[transform:rotateY(-4deg)_rotateX(2deg)_rotateZ(0deg)_scale(1.02)] relative">
-        
-        {/* Real 3D Drop Shadow on desk */}
-        <div className="absolute -bottom-4 left-[6%] w-[88%] h-5 bg-black/35 dark:bg-black/60 rounded-full blur-[8px] -z-10 [transform:translateZ(-20px)]" />
-
-        {/* 1. Laptop Lid / Screen */}
-        <div className="relative w-[95%] sm:w-[90%] min-h-[460px] sm:min-h-[500px] bg-zinc-800 dark:bg-zinc-700 border-4 border-black rounded-t-2xl shadow-[6px_6px_0_#000] flex flex-col overflow-hidden z-10">
+      {/* 1. Laptop Lid / Screen */}
+      <div className="relative w-[95%] sm:w-[90%] min-h-[460px] sm:min-h-[500px] bg-zinc-800 dark:bg-zinc-700 border-4 border-black rounded-t-2xl shadow-[6px_0_0_#000] flex flex-col overflow-hidden z-10">
           
           {/* Screen Bezel Frame */}
           <div className="p-3 sm:p-4 bg-zinc-900 border-b-4 border-black flex flex-col flex-1 relative">
@@ -290,13 +282,12 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
         </div>
 
         {/* 2. The Keyboard Base Hinge */}
-        <div className="relative w-[102%] h-6 bg-zinc-300 dark:bg-zinc-600 border-4 border-black rounded-b-2xl z-20 flex flex-col justify-between">
+        <div className="relative w-[102%] h-6 bg-zinc-300 dark:bg-zinc-600 border-4 border-black rounded-b-2xl shadow-[0_8px_0_#000] z-20 flex flex-col justify-between">
           {/* Keyboard recess keywell bar */}
           <div className="mx-auto w-4/5 h-2.5 bg-zinc-800 dark:bg-zinc-900 border-2 border-black rounded mt-0.5" />
           {/* Trackpad */}
           <div className="mx-auto w-16 h-2 bg-zinc-400 dark:bg-zinc-500 border-x-2 border-t-2 border-black rounded-t-sm" />
         </div>
-      </div>
     </div>
   )
 }
