@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt, FaPhoneAlt, FaCog, FaTimes, FaPlus, FaTrash, FaSave, FaLink } from 'react-icons/fa'
+import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt, FaPhoneAlt, FaCog, FaTimes, FaPlus, FaTrash, FaSave } from 'react-icons/fa'
 import { SiMedium } from 'react-icons/si'
 import { IoLogoTableau } from 'react-icons/io5'
 import { FaXTwitter } from 'react-icons/fa6'
@@ -116,34 +116,22 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
   // Extract remaining social link keycaps
   const socialLinks = links.filter(l => !['location', 'phone', 'email'].includes(l.icon))
 
-  const socialIconMap: Record<string, React.ReactNode> = {
-    github: <FaGithub className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
-    linkedin: <FaLinkedin className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
-    x: <FaXTwitter className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
-    medium: <SiMedium className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
-    tableau: <IoLogoTableau className="w-8 h-8 sm:w-10 h-10 mb-1.5" />,
-  }
-
-  const socialColorMap: Record<string, string> = {
-    github: 'bg-neo-lime/15 hover:bg-neo-lime border-neo-lime text-current',
-    linkedin: 'bg-neo-blue/15 hover:bg-neo-blue border-neo-blue text-current',
-    x: 'bg-neutral-200/50 hover:bg-neutral-300 dark:bg-neutral-800/50 dark:hover:bg-neutral-700 border-neutral-400 text-current',
-    medium: 'bg-neo-pink/15 hover:bg-neo-pink border-neo-pink text-current',
-    tableau: 'bg-neo-yellow/15 hover:bg-neo-yellow border-neo-yellow text-current',
-  }
 
   return (
     <div 
       ref={ref}
       style={style}
       id="contact-card" 
-      className="relative w-full overflow-visible py-8 flex flex-col items-center select-none group/laptop [perspective:1200px]"
+      className="relative w-full overflow-visible py-4 flex flex-col items-center select-none group/laptop [perspective:1200px]"
     >
       {/* 3D Laptop Body Wrapper */}
-      <div className="w-full flex flex-col items-center transition-transform duration-500 ease-out [transform-style:preserve-3d] [transform:rotateY(-18deg)_rotateX(10deg)_rotateZ(-2deg)_scale(0.96)] group-hover/laptop:[transform:rotateY(-4deg)_rotateX(2deg)_rotateZ(0deg)_scale(1.02)]">
+      <div className="w-full flex flex-col items-center transition-transform duration-500 ease-out [transform-style:preserve-3d] [transform:rotateY(-18deg)_rotateX(10deg)_rotateZ(-2deg)_scale(0.96)] group-hover/laptop:[transform:rotateY(-4deg)_rotateX(2deg)_rotateZ(0deg)_scale(1.02)] relative">
         
+        {/* Real 3D Drop Shadow on desk */}
+        <div className="absolute -bottom-4 left-[6%] w-[88%] h-5 bg-black/35 dark:bg-black/60 rounded-full blur-[8px] -z-10 [transform:translateZ(-20px)]" />
+
         {/* 1. Laptop Lid / Screen */}
-        <div className="relative w-[95%] sm:w-[90%] aspect-[16/11.5] bg-zinc-800 dark:bg-zinc-700 border-4 border-black rounded-t-2xl shadow-[6px_6px_0_#000] flex flex-col overflow-hidden z-10">
+        <div className="relative w-[95%] sm:w-[90%] min-h-[460px] sm:min-h-[500px] bg-zinc-800 dark:bg-zinc-700 border-4 border-black rounded-t-2xl shadow-[6px_6px_0_#000] flex flex-col overflow-hidden z-10">
           
           {/* Screen Bezel Frame */}
           <div className="p-3 sm:p-4 bg-zinc-900 border-b-4 border-black flex flex-col flex-1 relative">
@@ -151,7 +139,7 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
             <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-zinc-800 border border-black/40" />
 
             {/* CRT Screen Display Content */}
-            <div className="bg-[color:var(--neo-surface)] text-[color:var(--neo-ink)] p-3 sm:p-4 rounded border-2 border-black flex flex-col flex-1 font-mono overflow-y-auto text-xs relative select-text max-h-[340px] sm:max-h-[380px] scrollbar-thin">
+            <div className="bg-[color:var(--neo-surface)] text-[color:var(--neo-ink)] p-3 sm:p-4 rounded border-2 border-black flex flex-col flex-1 font-mono overflow-y-auto text-xs relative select-text min-h-[400px] sm:min-h-[440px] scrollbar-thin">
               
               {/* Terminal Top Window Bar */}
               <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-2 mb-3 text-[10px] sm:text-xs select-none">
@@ -302,7 +290,7 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
         </div>
 
         {/* 2. The Keyboard Base Hinge */}
-        <div className="relative w-[102%] h-6 bg-zinc-300 dark:bg-zinc-600 border-4 border-black rounded-b-2xl shadow-[0_8px_0_#000] z-20 flex flex-col justify-between">
+        <div className="relative w-[102%] h-6 bg-zinc-300 dark:bg-zinc-600 border-4 border-black rounded-b-2xl z-20 flex flex-col justify-between">
           {/* Keyboard recess keywell bar */}
           <div className="mx-auto w-4/5 h-2.5 bg-zinc-800 dark:bg-zinc-900 border-2 border-black rounded mt-0.5" />
           {/* Trackpad */}
