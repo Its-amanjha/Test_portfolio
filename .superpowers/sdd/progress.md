@@ -1,7 +1,4 @@
-# Progress Ledger
+# Progress Ledger - Interactive 3D Laptop & Contrast Redesign
 
-* Task 1: complete (commits 60b3a1a..b5219fe, review clean)
-* Task 2: complete (commits df57871..e44dc9f, review clean)
-  - Minor: DateTimeWeather.tsx:26: delhiHour calculation via new Date(toLocaleString()) is fragile; replace with Intl formatting
-  - Minor: DateTimeWeather.tsx:115, 159: Moon SVGs missing accessibility aria-label attributes
-* Task 3: complete (commits e618e10..99a48cb, review clean)
+- [x] Task 1: Fix HeroCard Contrast and Theme Styling (commits 26b635d..36a15b8, review clean)
+- [ ] Task 2: Implement 3D Animated Laptop Mockup
