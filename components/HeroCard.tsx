@@ -35,13 +35,18 @@ export default function HeroCard({
       {/* Main interactive top sheet (Styled like a school notebook page) */}
       <div 
         ref={ref}
-        className="relative z-10 w-full p-6 sm:p-8 md:p-10 flex flex-col bg-white dark:bg-zinc-900 border-2 border-black transition-transform duration-200 select-none overflow-hidden"
-        style={{
-          ...style,
-          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px)',
-          backgroundSize: '100% 28px',
-        }}
+        className="relative z-10 w-full p-6 sm:p-8 md:p-10 flex flex-col bg-[color:var(--neo-surface)] border-2 border-black transition-transform duration-200 select-none overflow-hidden"
+        style={style}
       >
+        {/* Ruled lines background container */}
+        <div 
+          className="absolute inset-0 pointer-events-none -z-10"
+          style={{
+            backgroundImage: 'linear-gradient(var(--neo-border) 1px, transparent 1px)',
+            backgroundSize: '100% 28px',
+            opacity: 0.05,
+          }}
+        />
         {/* Tilted Yellow Sticky Note in top-right */}
         <div className="absolute top-4 right-4 z-30 bg-[#fef08a] text-black border-2 border-black p-3 shadow-[4px_4px_0_#000] rotate-[-4deg] max-w-[130px] hidden md:block select-none pointer-events-none font-mono">
           {/* Metal Paperclip */}
