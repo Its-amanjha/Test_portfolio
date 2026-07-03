@@ -56,7 +56,10 @@ export default function HeroCard({
             </svg>
           </div>
           <p className="text-[9px] font-black leading-tight uppercase tracking-wider">
-            portfolio.sys<br/>v1.2.0<br/>[ONLINE]
+            {badge}<br/>
+            portfolio.sys<br/>
+            v1.2.0<br/>
+            [ONLINE]
           </p>
         </div>
 
@@ -64,7 +67,6 @@ export default function HeroCard({
         <div className="relative pl-6 sm:pl-8 border-l-2 border-red-500/40 h-full flex flex-col justify-between">
           <div>
             <HeroTitle 
-              badge={badge}
               headingPrefix={headingPrefix}
               headingHighlight={headingHighlight}
               description={description}

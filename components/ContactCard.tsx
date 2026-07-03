@@ -246,15 +246,17 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
                           tableau: 'bg-neo-yellow text-black border-2 border-black shadow-[2px_2px_0_#000] hover:bg-neo-yellow/90',
                         }
                         const btnColor = btnColors[link.icon] || 'bg-neo-pink text-black border-2 border-black shadow-[2px_2px_0_#000] hover:bg-neo-pink/90'
+                        const linkIcon = iconMap[link.icon]
                         return (
                           <a 
                             key={idx}
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`flex items-center justify-center py-2 font-bold transition-all duration-150 text-[10px] sm:text-xs hover:translate-y-[-1px] hover:shadow-[3px_3px_0_#000] active:translate-y-[1px] active:shadow-none ${btnColor}`}
+                            className={`flex items-center justify-center gap-1.5 py-2 font-bold transition-all duration-150 text-[10px] sm:text-xs hover:translate-y-[-1px] hover:shadow-[3px_3px_0_#000] active:translate-y-[1px] active:shadow-none ${btnColor}`}
                           >
-                            {link.label}
+                            {linkIcon && <span className="w-3.5 h-3.5 flex items-center justify-center">{linkIcon}</span>}
+                            <span>{link.label}</span>
                           </a>
                         )
                       })}
