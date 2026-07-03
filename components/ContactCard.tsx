@@ -189,46 +189,70 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
           </div>
         ) : (
           <>
-            {/* Primary Credentials Panel */}
-            <div className="bg-[color:var(--neo-surface)] border-2 border-black p-4 rounded shadow-[4px_4px_0px_#000] mb-6">
-              {/* Location Tag & Phone Tag */}
-              <div className="flex flex-wrap gap-2 mb-3">
-                <div className="flex items-center gap-1.5 bg-neo-cyan/20 border-2 border-black px-2.5 py-1 rounded text-xs font-black text-current">
-                  <FaMapMarkerAlt className="text-blue-500" />
-                  <span>{locationLink.displayText}</span>
+            {/* Primary Credentials Tickets Panel */}
+            <div className="space-y-4 mb-6">
+              {/* Location Badge Ticket */}
+              <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
+                <div className="bg-neo-cyan px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
+                  <FaMapMarkerAlt className="w-5 h-5 text-blue-600" />
                 </div>
-                {phoneLink.href ? (
-                  <a 
-                    href={phoneLink.href}
-                    className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-black px-2.5 py-1 rounded text-xs font-black text-current hover:bg-neo-yellow hover:translate-y-[-1px] hover:shadow-[2px_2px_0_#000] transition-all duration-150"
-                  >
-                    <FaPhoneAlt />
-                    <span>{phoneLink.displayText}</span>
-                  </a>
-                ) : (
-                  <div className="flex items-center gap-1.5 bg-neo-yellow/20 border-2 border-black px-2.5 py-1 rounded text-xs font-black text-current">
-                    <FaPhoneAlt />
-                    <span>{phoneLink.displayText}</span>
-                  </div>
-                )}
+                <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
+                  <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Location</span>
+                  <span className="text-sm font-black text-current leading-tight">{locationLink.displayText}</span>
+                </div>
               </div>
-              {/* Email Link Block */}
-              {emailLink.href ? (
+
+              {/* Phone Badge Ticket */}
+              {phoneLink.href ? (
                 <a 
-                  href={emailLink.href} 
-                  className="flex items-center justify-between p-3 bg-neo-pink/15 hover:bg-neo-pink border-2 border-black rounded text-xs sm:text-sm font-black text-current transition-all duration-150 group/email select-all shadow-[2px_2px_0_#000] hover:translate-y-[-1px] hover:translate-x-[1px] hover:shadow-[3px_3px_0_#000] active:translate-y-[0px] active:translate-x-[0px] active:shadow-none"
+                  href={phoneLink.href}
+                  className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-[6px_6px_0_#000] active:translate-y-[0] active:translate-x-[0] active:shadow-[4px_4px_0_#000] transition-all duration-150"
                 >
-                  <div className="flex items-center gap-2">
-                    <FaEnvelope className="w-4 h-4 text-neo-pink" />
-                    <span className="truncate max-w-[180px] sm:max-w-xs">{emailLink.displayText}</span>
+                  <div className="bg-neo-yellow px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
+                    <FaPhoneAlt className="w-5 h-5" />
                   </div>
-                  <span className="text-xs group-hover/email:translate-x-1 transition-transform">➔</span>
+                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
+                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Phone</span>
+                    <span className="text-sm font-black text-current leading-tight">{phoneLink.displayText}</span>
+                  </div>
                 </a>
               ) : (
-                <div className="flex items-center justify-between p-3 bg-neo-pink/15 border-2 border-black rounded text-xs sm:text-sm font-black text-current select-all">
-                  <div className="flex items-center gap-2">
-                    <FaEnvelope className="w-4 h-4 text-neo-pink" />
-                    <span>{emailLink.displayText}</span>
+                <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
+                  <div className="bg-neo-yellow px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
+                    <FaPhoneAlt className="w-5 h-5" />
+                  </div>
+                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
+                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Phone</span>
+                    <span className="text-sm font-black text-current leading-tight">{phoneLink.displayText}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Email Badge Ticket */}
+              {emailLink.href ? (
+                <a 
+                  href={emailLink.href}
+                  className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-[6px_6px_0_#000] active:translate-y-[0] active:translate-x-[0] active:shadow-[4px_4px_0_#000] transition-all duration-150 group/email"
+                >
+                  <div className="bg-neo-pink px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
+                    <FaEnvelope className="w-5 h-5 text-neo-pink" />
+                  </div>
+                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
+                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Email</span>
+                    <span className="text-sm sm:text-base font-black text-current leading-tight truncate select-all">{emailLink.displayText}</span>
+                  </div>
+                  <div className="px-4 flex items-center justify-center text-current opacity-60 group-hover/email:translate-x-1 group-hover/email:opacity-100 transition-all select-none">
+                    ➔
+                  </div>
+                </a>
+              ) : (
+                <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
+                  <div className="bg-neo-pink px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
+                    <FaEnvelope className="w-5 h-5 text-neo-pink" />
+                  </div>
+                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
+                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Email</span>
+                    <span className="text-sm font-black text-current leading-tight select-all">{emailLink.displayText}</span>
                   </div>
                 </div>
               )}
