@@ -15,7 +15,7 @@ function HeroTitle({
 }: HeroTitleProps) {
   return (
     <>
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-[1.05]">
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-[1.05] pr-0 md:pr-28">
         {headingPrefix}{' '}
         <span className="bg-neo-yellow px-2 border-neo border-neo-border shadow-neo-sm inline-block -rotate-1 text-black">
           {headingHighlight}

@@ -235,8 +235,8 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
 
                   {/* Social Commands */}
                   <div className="mb-4">
-                    <div className="text-zinc-500 dark:text-zinc-400 text-[10px] sm:text-xs select-none">$ query --profiles</div>
-                    <div className="grid grid-cols-3 gap-2.5 mt-1">
+                    <div className="text-zinc-500 dark:text-zinc-400 text-[10px] sm:text-xs select-none">$ cat profile_links.txt</div>
+                    <div className="flex flex-wrap gap-3 mt-1.5">
                       {socialLinks.map((link, idx) => {
                         const btnColors: Record<string, string> = {
                           github: 'bg-neo-lime text-black border-2 border-black shadow-[2px_2px_0_#000] hover:bg-neo-lime/90',
@@ -253,10 +253,11 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`flex items-center justify-center gap-1.5 py-2 font-bold transition-all duration-150 text-[10px] sm:text-xs hover:translate-y-[-1px] hover:shadow-[3px_3px_0_#000] active:translate-y-[1px] active:shadow-none ${btnColor}`}
+                            className={`flex items-center justify-center w-9 h-9 rounded transition-all duration-150 hover:translate-y-[-1.5px] hover:shadow-[3px_3px_0_#000] active:translate-y-[1px] active:shadow-none ${btnColor}`}
+                            aria-label={link.label}
+                            title={link.label}
                           >
-                            {linkIcon && <span className="w-3.5 h-3.5 flex items-center justify-center">{linkIcon}</span>}
-                            <span>{link.label}</span>
+                            {linkIcon && <span className="w-5 h-5 flex items-center justify-center text-lg [&>svg]:w-full [&>svg]:h-full">{linkIcon}</span>}
                           </a>
                         )
                       })}

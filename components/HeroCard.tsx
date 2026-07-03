@@ -48,18 +48,15 @@ export default function HeroCard({
           }}
         />
         {/* Tilted Yellow Sticky Note in top-right */}
-        <div className="absolute top-4 right-4 z-30 bg-[#fef08a] text-black border-2 border-black p-3 shadow-[4px_4px_0_#000] rotate-[-4deg] max-w-[130px] hidden md:block select-none pointer-events-none font-mono">
+        <div className="absolute top-4 right-4 z-30 bg-[#fef08a] text-black border-2 border-black px-4 py-2.5 shadow-[4px_4px_0_#000] rotate-[-4deg] select-none pointer-events-none font-mono">
           {/* Metal Paperclip */}
-          <div className="absolute -top-3.5 left-6 text-zinc-500 transform rotate-12">
+          <div className="absolute -top-3.5 left-4 text-zinc-500 transform rotate-12">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-3.31 2.69-6 6-6s6 2.69 6 6v12.5c0 4.42-3.58 8-8 8s-8-3.58-8-8V6h2v11.5c0 3.31 2.69 6 6 6s6-2.69 6-6V5c0-2.21-1.79-4-4-4s-4 1.79-4 4v12.5c0 1.1.9 2 2 2s2-.9 2-2V6h2z"/>
             </svg>
           </div>
-          <p className="text-[9px] font-black leading-tight uppercase tracking-wider">
-            {badge}<br/>
-            portfolio.sys<br/>
-            v1.2.0<br/>
-            [ONLINE]
+          <p className="text-xl sm:text-2xl font-black leading-none uppercase tracking-wider px-1">
+            {badge}
           </p>
         </div>
 
