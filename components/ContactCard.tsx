@@ -131,191 +131,176 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
     medium: 'bg-neo-pink/15 hover:bg-neo-pink border-neo-pink text-current',
     tableau: 'bg-neo-yellow/15 hover:bg-neo-yellow border-neo-yellow text-current',
   }
-
   return (
     <div 
       ref={ref}
       style={style}
       id="contact-card" 
-      className="relative w-full overflow-visible bg-[color:var(--neo-surface)] border-2 border-black shadow-[8px_8px_0px_#000] p-6 flex flex-col justify-between"
+      className="relative w-full overflow-visible py-4 flex flex-col items-center select-none"
     >
-      {/* Decorative Brand Sticker */}
-      <div className="absolute -top-3.5 right-6 z-20 bg-neo-lime border-2 border-black px-3 py-0.5 text-[9px] font-black uppercase tracking-widest text-black shadow-neo-xs rotate-2 cursor-default select-none">
-        aman_jha.sys
+      {/* 1. The Screen Lid */}
+      <div className="relative w-[95%] sm:w-[90%] aspect-[16/11.5] bg-zinc-800 dark:bg-zinc-700 border-4 border-black rounded-t-2xl shadow-[6px_6px_0_#000] flex flex-col overflow-hidden z-10 transition-transform duration-200">
+        
+        {/* Screen Bezel Frame */}
+        <div className="p-3 sm:p-4 bg-zinc-900 border-b-4 border-black flex flex-col flex-1 relative">
+          {/* Webcam dot */}
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-zinc-800 border border-black/40" />
+
+          {/* CRT Screen Display Content */}
+          <div className="bg-[#0b0b0d] text-emerald-400 p-3 sm:p-4 rounded border-2 border-black flex flex-col flex-1 font-mono overflow-y-auto text-xs relative select-text max-h-[340px] sm:max-h-[380px] scrollbar-thin">
+            
+            {/* Terminal Top Window Bar */}
+            <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2 mb-3 text-[10px] sm:text-xs select-none">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#ef4444]" />
+                <span className="w-2 h-2 rounded-full bg-[#f59e0b]" />
+                <span className="w-2 h-2 rounded-full bg-[#10b981]" />
+              </div>
+              <span className="text-zinc-500 font-bold">contact_info.sh</span>
+              {showAdminControls ? (
+                <button
+                  onClick={() => setEditing(!editing)}
+                  className="text-zinc-500 hover:text-emerald-400 transition-colors p-0.5"
+                  aria-label={editing ? 'Close editor' : 'Edit contact card'}
+                >
+                  {editing ? <FaTimes className="w-3.5 h-3.5" /> : <FaCog className="w-3.5 h-3.5" />}
+                </button>
+              ) : (
+                <div className="w-4" />
+              )}
+            </div>
+
+            {editing ? (
+              <div className="space-y-4 flex-1 text-black dark:text-white select-text">
+                {links.map((link, idx) => (
+                  <div key={idx} className="neo-panel p-3 space-y-2 border-2 border-black bg-[color:var(--neo-surface)]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-extrabold uppercase tracking-wider text-current">Link #{idx + 1}</span>
+                      <button onClick={() => removeLink(idx)} className="neo-btn neo-btn-red w-8 h-8 !p-0 border-2 border-black shadow-[2px_2px_0_#000] active:translate-y-[2px] active:shadow-none">
+                        <FaTrash className="w-3 h-3 text-black" />
+                      </button>
+                    </div>
+                    <input type="text" value={link.label} onChange={(e) => updateLink(idx, 'label', e.target.value)} placeholder="Label (e.g. GitHub)" className="neo-input !py-1.5 text-sm border-2 border-black bg-[color:var(--neo-surface)] text-current" />
+                    <input type="text" value={link.href} onChange={(e) => updateLink(idx, 'href', e.target.value)} placeholder="URL (e.g. https://github.com/user)" className="neo-input !py-1.5 text-sm border-2 border-black bg-[color:var(--neo-surface)] text-current" />
+                    <input type="text" value={link.displayText} onChange={(e) => updateLink(idx, 'displayText', e.target.value)} placeholder="Display text (e.g. github.com/user)" className="neo-input !py-1.5 text-sm border-2 border-black bg-[color:var(--neo-surface)] text-current" />
+                    <select value={link.icon} onChange={(e) => updateLink(idx, 'icon', e.target.value)} className="neo-select !py-1.5 text-sm border-2 border-black bg-[color:var(--neo-surface)] text-current">
+                      {Object.keys(iconMap).map(key => (
+                        <option key={key} value={key}>{key}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+
+                <button onClick={addLink} className="neo-btn neo-btn-lime w-full py-2 text-sm border-2 border-black shadow-[4px_4px_0_#000] text-black">
+                  <FaPlus className="w-3 h-3 inline mr-1" /> Add New Link
+                </button>
+
+                <div className="neo-panel p-3 space-y-2 border-2 border-black bg-[color:var(--neo-surface)]">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-current">CV Download Path</span>
+                  <input type="text" value={cvPath} onChange={(e) => setCvPath(e.target.value)} placeholder="/cv/Aman_CV.pdf" className="neo-input !py-1.5 text-sm border-2 border-black bg-[color:var(--neo-surface)] text-current" />
+                </div>
+
+                <button onClick={handleSave} disabled={saving} className="neo-btn neo-btn-cyan w-full py-2 text-sm border-2 border-black shadow-[4px_4px_0_#000] text-black">
+                  <FaSave className="w-3 h-3 inline mr-1" /> {saving ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col flex-1">
+                {/* Console welcome */}
+                <div className="text-[10px] text-zinc-500 mb-4 select-none">
+                  Aman-OS v1.5.0 (tty1)<br/>
+                  System online. Executing terminal query...
+                </div>
+
+                {/* Location Prompt */}
+                <div className="mb-3">
+                  <div className="text-zinc-500 text-[10px] sm:text-xs select-none">$ get --location</div>
+                  <div className="flex items-center gap-2 text-white font-bold bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded w-fit text-[11px] sm:text-xs mt-1 shadow-[2px_2px_0_#000]">
+                    <FaMapMarkerAlt className="text-blue-500 w-3.5 h-3.5" />
+                    <span>{locationLink.displayText}</span>
+                  </div>
+                </div>
+
+                {/* Phone Prompt */}
+                <div className="mb-3">
+                  <div className="text-zinc-500 text-[10px] sm:text-xs select-none">$ get --phone</div>
+                  <div className="flex items-center gap-2 text-white font-bold bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded w-fit text-[11px] sm:text-xs mt-1 shadow-[2px_2px_0_#000]">
+                    <FaPhoneAlt className="text-yellow-500 w-3.5 h-3.5" />
+                    {phoneLink.href ? (
+                      <a href={phoneLink.href} className="hover:text-yellow-400 transition-colors">{phoneLink.displayText}</a>
+                    ) : (
+                      <span>{phoneLink.displayText}</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Email Prompt */}
+                <div className="mb-4">
+                  <div className="text-zinc-500 text-[10px] sm:text-xs select-none">$ mail --compose</div>
+                  <a 
+                    href={emailHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between text-[#ff5cbe] font-bold bg-zinc-900 border border-zinc-800 px-3 py-2 rounded hover:bg-[#ff5cbe] hover:text-black transition-colors duration-150 w-full text-[11px] sm:text-xs mt-1 shadow-[2px_2px_0_#000]"
+                  >
+                    <div className="flex items-center gap-2">
+                      <FaEnvelope className="w-3.5 h-3.5 text-[#ff5cbe] group-hover:text-black" />
+                      <span>{emailLink.displayText}</span>
+                    </div>
+                    <span className="text-[10px]">Launch Mail ➔</span>
+                  </a>
+                </div>
+
+                {/* Social Commands */}
+                <div className="mb-4">
+                  <div className="text-zinc-500 text-[10px] sm:text-xs select-none">$ query --profiles</div>
+                  <div className="grid grid-cols-3 gap-2.5 mt-1">
+                    {socialLinks.map((link, idx) => {
+                      const btnColors: Record<string, string> = {
+                        github: 'hover:bg-neo-lime hover:text-black text-neo-lime border-neo-lime/30 shadow-[2px_2px_0_#000]',
+                        linkedin: 'hover:bg-neo-blue hover:text-black text-neo-blue border-neo-blue/30 shadow-[2px_2px_0_#000]',
+                        x: 'hover:bg-white hover:text-black text-zinc-300 border-zinc-700 shadow-[2px_2px_0_#000]',
+                      }
+                      const btnColor = btnColors[link.icon] || 'hover:bg-neo-pink hover:text-black text-neo-pink border-neo-pink/30 shadow-[2px_2px_0_#000]'
+                      return (
+                        <a 
+                          key={idx}
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex items-center justify-center py-2 border rounded bg-zinc-900 font-bold transition-all duration-150 text-[10px] sm:text-xs hover:translate-y-[-1px] hover:shadow-[3px_3px_0_#000] active:translate-y-[1px] active:shadow-none ${btnColor}`}
+                        >
+                          {link.label}
+                        </a>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Fetch CV Command */}
+                <div className="mb-4">
+                  <div className="text-zinc-500 text-[10px] sm:text-xs select-none">$ fetch --cv</div>
+                  <div className="mt-1 shadow-[4px_4px_0_#000] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_#000] active:translate-y-[1px] active:shadow-none transition-all rounded">
+                    <CVDownloadButton buttonSize="sm" cvUrl={cvPath} />
+                  </div>
+                </div>
+
+                {/* LCD Weather Status Output */}
+                <div className="mt-auto border-t border-zinc-800/80 pt-2 flex items-center justify-between text-[10px] sm:text-xs text-emerald-500 select-none">
+                  <DateTimeWeather />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="relative z-10 h-full flex flex-col">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-extrabold inline-block bg-neo-cyan border-2 border-black px-4 py-1.5 shadow-[4px_4px_0_#000] -rotate-1 text-black select-none">
-            Contact &amp; Profiles
-          </h2>
-          {showAdminControls && (
-            <button
-              onClick={() => setEditing(!editing)}
-              className="neo-btn neo-btn-yellow w-10 h-10 !p-0 border-2 border-black shadow-[2px_2px_0_#000] active:translate-y-[2px] active:shadow-none"
-              aria-label={editing ? 'Close editor' : 'Edit contact card'}
-            >
-              {editing ? <FaTimes className="w-4 h-4" /> : <FaCog className="w-4 h-4" />}
-            </button>
-          )}
-        </div>
-
-        {editing ? (
-          <div className="space-y-4 flex-1 overflow-y-auto">
-            {links.map((link, idx) => (
-              <div key={idx} className="neo-panel p-3 space-y-2 border-2 border-black">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold uppercase tracking-wider">Link #{idx + 1}</span>
-                  <button onClick={() => removeLink(idx)} className="neo-btn neo-btn-red w-8 h-8 !p-0 border-2 border-black shadow-[2px_2px_0_#000]">
-                    <FaTrash className="w-3 h-3" />
-                  </button>
-                </div>
-                <input type="text" value={link.label} onChange={(e) => updateLink(idx, 'label', e.target.value)} placeholder="Label (e.g. GitHub)" className="neo-input !py-1.5 text-sm border-2 border-black" />
-                <input type="text" value={link.href} onChange={(e) => updateLink(idx, 'href', e.target.value)} placeholder="URL (e.g. https://github.com/user)" className="neo-input !py-1.5 text-sm border-2 border-black" />
-                <input type="text" value={link.displayText} onChange={(e) => updateLink(idx, 'displayText', e.target.value)} placeholder="Display text (e.g. github.com/user)" className="neo-input !py-1.5 text-sm border-2 border-black" />
-                <select value={link.icon} onChange={(e) => updateLink(idx, 'icon', e.target.value)} className="neo-select !py-1.5 text-sm border-2 border-black">
-                  {Object.keys(iconMap).map(key => (
-                    <option key={key} value={key}>{key}</option>
-                  ))}
-                </select>
-              </div>
-            ))}
-
-            <button onClick={addLink} className="neo-btn neo-btn-lime w-full py-2 text-sm border-2 border-black shadow-[4px_4px_0_#000]">
-              <FaPlus className="w-3 h-3" /> Add New Link
-            </button>
-
-            <div className="neo-panel p-3 space-y-2 border-2 border-black">
-              <span className="text-xs font-extrabold uppercase tracking-wider">CV Download Path</span>
-              <input type="text" value={cvPath} onChange={(e) => setCvPath(e.target.value)} placeholder="/cv/Aman_CV.pdf" className="neo-input !py-1.5 text-sm border-2 border-black" />
-            </div>
-
-            <button onClick={handleSave} disabled={saving} className="neo-btn neo-btn-cyan w-full py-2 text-sm border-2 border-black shadow-[4px_4px_0_#000]">
-              <FaSave className="w-3 h-3" /> {saving ? 'Saving...' : 'Save Changes'}
-            </button>
-          </div>
-        ) : (
-          <>
-            {/* Primary Credentials Tickets Panel */}
-            <div className="space-y-4 mb-6">
-              {/* Location Badge Ticket */}
-              <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
-                <div className="bg-neo-cyan px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                  <FaMapMarkerAlt className="w-5 h-5 text-blue-600" />
-                </div>
-                <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
-                  <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Location</span>
-                  <span className="text-sm font-black text-current leading-tight">{locationLink.displayText}</span>
-                </div>
-              </div>
-
-              {/* Phone Badge Ticket */}
-              {phoneLink.href ? (
-                <a 
-                  href={phoneLink.href}
-                  className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-[6px_6px_0_#000] active:translate-y-[0] active:translate-x-[0] active:shadow-[4px_4px_0_#000] transition-all duration-150"
-                >
-                  <div className="bg-neo-yellow px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                    <FaPhoneAlt className="w-5 h-5" />
-                  </div>
-                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Phone</span>
-                    <span className="text-sm font-black text-current leading-tight">{phoneLink.displayText}</span>
-                  </div>
-                </a>
-              ) : (
-                <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
-                  <div className="bg-neo-yellow px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                    <FaPhoneAlt className="w-5 h-5" />
-                  </div>
-                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Phone</span>
-                    <span className="text-sm font-black text-current leading-tight">{phoneLink.displayText}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Email Badge Ticket */}
-              {emailHref ? (
-                <a 
-                  href={emailHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-[6px_6px_0_#000] active:translate-y-[0] active:translate-x-[0] active:shadow-[4px_4px_0_#000] transition-all duration-150 group/email"
-                >
-                  <div className="bg-neo-pink px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                    <FaEnvelope className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Email</span>
-                    <span className="text-sm sm:text-base font-black text-current leading-tight truncate select-all">{emailLink.displayText}</span>
-                  </div>
-                  <div className="px-4 flex items-center justify-center text-current opacity-60 group-hover/email:translate-x-1 group-hover/email:opacity-100 transition-all select-none">
-                    ➔
-                  </div>
-                </a>
-              ) : (
-                <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
-                  <div className="bg-neo-pink px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                    <FaEnvelope className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
-                    <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Email</span>
-                    <span className="text-sm font-black text-current leading-tight select-all">{emailLink.displayText}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Social Grid (Big Iconic Buttons) */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
-              {socialLinks.map((link, idx) => {
-                const itemColor = socialColorMap[link.icon] || 'bg-neutral-200/50 hover:bg-neutral-300 dark:bg-neutral-800/50 dark:hover:bg-neutral-700 border-neutral-400 text-current'
-                const bigIcon = socialIconMap[link.icon] || <FaLink className="w-8 h-8 sm:w-10 h-10 mb-1.5" />
-                const keycapContent = (
-                  <div className="flex flex-col items-center justify-center p-2 text-center select-none">
-                    {bigIcon}
-                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest opacity-60">
-                      {link.label}
-                    </span>
-                  </div>
-                )
-
-                return link.href ? (
-                  <a 
-                    key={idx}
-                    href={link.href} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={`flex flex-col items-center justify-center border-2 border-black rounded-md shadow-[4px_4px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
-                  >
-                    {keycapContent}
-                  </a>
-                ) : (
-                  <div 
-                    key={idx}
-                    className={`flex flex-col items-center justify-center border-2 border-black rounded-md shadow-[4px_4px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-150 ${itemColor}`}
-                  >
-                    {keycapContent}
-                  </div>
-                )
-              })}
-            </div>
-            
-            {/* Casing Bottom Status & Utility Tray */}
-            <div className="mt-2 pt-6 border-t-2 border-dashed border-black/20 space-y-4">
-              {/* Spacebar space CV downloader */}
-              <div className="relative group/spacebar">
-                <CVDownloadButton buttonSize="lg" cvUrl={cvPath} />
-              </div>
-              
-              {/* LED LCD Screen weather utility */}
-              <div className="p-1 rounded-lg border-2 border-black shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)] bg-dot-pattern">
-                <DateTimeWeather />
-              </div>
-            </div>
-          </>
-        )}
+      {/* 2. The Keyboard Base Hinge */}
+      <div className="relative w-[102%] h-6 bg-zinc-300 dark:bg-zinc-600 border-4 border-black rounded-b-2xl shadow-[0_8px_0_#000] z-20 flex flex-col justify-between">
+        {/* Keyboard recess keywell bar */}
+        <div className="mx-auto w-4/5 h-2.5 bg-zinc-800 dark:bg-zinc-900 border-2 border-black rounded mt-0.5" />
+        {/* Trackpad */}
+        <div className="mx-auto w-16 h-2 bg-zinc-400 dark:bg-zinc-500 border-x-2 border-t-2 border-black rounded-t-sm" />
       </div>
     </div>
   )

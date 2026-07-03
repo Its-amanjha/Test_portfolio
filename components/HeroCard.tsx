@@ -19,45 +19,67 @@ export default function HeroCard({
   const { ref, style } = useMouseTilt(4)
 
   return (
-    <div className="relative w-full group/hero-card overflow-visible py-4 px-2">
+    <div className="relative w-full group/hero-card overflow-visible py-6 px-3">
       {/* Dynamic Layer 1 (Pink cardboard backing) */}
       <div 
-        className="absolute inset-0 mx-2 my-4 bg-neo-pink border-2 border-black rounded shadow-[4px_4px_0_#000] transition-all duration-300 ease-out -z-10 transform translate-x-[4px] translate-y-[4px] group-hover/hero-card:translate-x-[-14px] group-hover/hero-card:translate-y-[10px] group-hover/hero-card:rotate-[-4deg] origin-center" 
+        className="absolute inset-0 mx-3 my-6 bg-neo-pink border-2 border-black rounded shadow-[4px_4px_0_#000] transition-all duration-300 ease-out -z-10 transform translate-x-[4px] translate-y-[4px] group-hover/hero-card:translate-x-[-14px] group-hover/hero-card:translate-y-[10px] group-hover/hero-card:rotate-[-4deg] origin-center" 
         aria-hidden="true"
       />
 
       {/* Dynamic Layer 2 (Yellow cardboard backing) */}
       <div 
-        className="absolute inset-0 mx-2 my-4 bg-neo-yellow border-2 border-black rounded shadow-[6px_6px_0_#000] transition-all duration-300 ease-out -z-20 transform translate-x-[8px] translate-y-[8px] group-hover/hero-card:translate-x-[16px] group-hover/hero-card:translate-y-[-10px] group-hover/hero-card:rotate-[4deg] origin-center" 
+        className="absolute inset-0 mx-3 my-6 bg-neo-yellow border-2 border-black rounded shadow-[6px_6px_0_#000] transition-all duration-300 ease-out -z-20 transform translate-x-[8px] translate-y-[8px] group-hover/hero-card:translate-x-[16px] group-hover/hero-card:translate-y-[-10px] group-hover/hero-card:rotate-[4deg] origin-center" 
         aria-hidden="true"
       />
 
-      {/* Main interactive top sheet */}
+      {/* Main interactive top sheet (Styled like a school notebook page) */}
       <div 
         ref={ref}
-        style={style}
-        className="relative z-10 w-full p-6 sm:p-8 md:p-10 flex flex-col bg-[color:var(--neo-surface)] border-2 border-black transition-transform duration-200 select-none"
+        className="relative z-10 w-full p-6 sm:p-8 md:p-10 flex flex-col bg-white dark:bg-zinc-900 border-2 border-black transition-transform duration-200 select-none overflow-hidden"
+        style={{
+          ...style,
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px)',
+          backgroundSize: '100% 28px',
+        }}
       >
-        <HeroTitle 
-          badge={badge}
-          headingPrefix={headingPrefix}
-          headingHighlight={headingHighlight}
-          description={description}
-        />
+        {/* Tilted Yellow Sticky Note in top-right */}
+        <div className="absolute top-4 right-4 z-30 bg-[#fef08a] text-black border-2 border-black p-3 shadow-[4px_4px_0_#000] rotate-[-4deg] max-w-[130px] hidden md:block select-none pointer-events-none font-mono">
+          {/* Metal Paperclip */}
+          <div className="absolute -top-3.5 left-6 text-zinc-500 transform rotate-12">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-3.31 2.69-6 6-6s6 2.69 6 6v12.5c0 4.42-3.58 8-8 8s-8-3.58-8-8V6h2v11.5c0 3.31 2.69 6 6 6s6-2.69 6-6V5c0-2.21-1.79-4-4-4s-4 1.79-4 4v12.5c0 1.1.9 2 2 2s2-.9 2-2V6h2z"/>
+            </svg>
+          </div>
+          <p className="text-[9px] font-black leading-tight uppercase tracking-wider">
+            portfolio.sys<br/>v1.2.0<br/>[ONLINE]
+          </p>
+        </div>
 
-        <div className="flex flex-wrap gap-3 mt-8">
-          <a href="#expertise" className="neo-btn neo-btn-pink min-h-[44px]" aria-label="Navigate to expertise section">
-            Expertise
-          </a>
-          <a href="#projects" className="neo-btn neo-btn-blue min-h-[44px]" aria-label="Navigate to projects section">
-            Projects
-          </a>
-          <a href="#experience" className="neo-btn neo-btn-lime min-h-[44px]" aria-label="Navigate to experience section">
-            See Experience
-          </a>
-          <a href="#certifications" className="neo-btn neo-btn-yellow min-h-[44px]" aria-label="Navigate to certifications section">
-            Certifications
-          </a>
+        {/* Notebook Red Margin Line */}
+        <div className="relative pl-6 sm:pl-8 border-l-2 border-red-500/40 h-full flex flex-col justify-between">
+          <div>
+            <HeroTitle 
+              badge={badge}
+              headingPrefix={headingPrefix}
+              headingHighlight={headingHighlight}
+              description={description}
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-3 mt-8">
+            <a href="#expertise" className="neo-btn neo-btn-pink min-h-[44px]" aria-label="Navigate to expertise section">
+              Expertise
+            </a>
+            <a href="#projects" className="neo-btn neo-btn-blue min-h-[44px]" aria-label="Navigate to projects section">
+              Projects
+            </a>
+            <a href="#experience" className="neo-btn neo-btn-lime min-h-[44px]" aria-label="Navigate to experience section">
+              See Experience
+            </a>
+            <a href="#certifications" className="neo-btn neo-btn-yellow min-h-[44px]" aria-label="Navigate to certifications section">
+              Certifications
+            </a>
+          </div>
         </div>
       </div>
     </div>
