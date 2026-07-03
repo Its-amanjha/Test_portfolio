@@ -9,7 +9,6 @@ import { FaXTwitter } from 'react-icons/fa6'
 import CVDownloadButton from './CVDownloadButton'
 import DateTimeWeather from './DateTimeWeather'
 import { profile } from '@/lib/profile'
-import { useMouseTilt } from '@/lib/useMouseTilt'
 
 interface ProfileLink {
   label: string
@@ -52,7 +51,6 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
   const [links, setLinks] = useState<ProfileLink[]>(initialLinks && initialLinks.length > 0 ? initialLinks : defaultLinks)
   const [cvPath, setCvPath] = useState(initialCvPath || profile.cvPath)
   const [saving, setSaving] = useState(false)
-  const { ref, style } = useMouseTilt(5)
 
   // Sync with server-provided data when it changes
   useEffect(() => {
