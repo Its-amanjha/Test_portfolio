@@ -105,6 +105,13 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
   const locationLink = links.find(l => l.icon === 'location') || { displayText: profile.location }
   const phoneLink = links.find(l => l.icon === 'phone') || { displayText: profile.phone, href: `tel:${profile.phone.replace(/\s+/g, '')}` }
   const emailLink = links.find(l => l.icon === 'email') || { displayText: profile.email, href: `mailto:${profile.email}` }
+  let emailHref = emailLink.href
+  if (emailHref && emailHref.startsWith('mailto:')) {
+    const emailAddress = emailHref.replace('mailto:', '')
+    emailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`
+  } else if (!emailHref) {
+    emailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.email}`
+  }
 
   // Extract remaining social link keycaps
   const socialLinks = links.filter(l => !['location', 'phone', 'email'].includes(l.icon))
@@ -229,13 +236,15 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
               )}
 
               {/* Email Badge Ticket */}
-              {emailLink.href ? (
+              {emailHref ? (
                 <a 
-                  href={emailLink.href}
+                  href={emailHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden hover:translate-y-[-2px] hover:translate-x-[2px] hover:shadow-[6px_6px_0_#000] active:translate-y-[0] active:translate-x-[0] active:shadow-[4px_4px_0_#000] transition-all duration-150 group/email"
                 >
                   <div className="bg-neo-pink px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                    <FaEnvelope className="w-5 h-5 text-neo-pink" />
+                    <FaEnvelope className="w-5 h-5 text-black" />
                   </div>
                   <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
                     <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Email</span>
@@ -248,7 +257,7 @@ export default function ContactCard({ initialLinks, initialCvPath }: ContactCard
               ) : (
                 <div className="flex border-2 border-black rounded shadow-[4px_4px_0_#000] bg-[color:var(--neo-surface)] overflow-hidden">
                   <div className="bg-neo-pink px-4 py-3 border-r-2 border-black flex items-center justify-center text-black font-bold select-none min-w-[52px]">
-                    <FaEnvelope className="w-5 h-5 text-neo-pink" />
+                    <FaEnvelope className="w-5 h-5 text-black" />
                   </div>
                   <div className="px-4 py-2.5 flex-1 flex flex-col justify-center text-left">
                     <span className="text-[9px] font-black uppercase tracking-wider opacity-60 leading-none mb-1 select-none">Email</span>
