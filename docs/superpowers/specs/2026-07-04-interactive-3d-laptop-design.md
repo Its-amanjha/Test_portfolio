@@ -29,7 +29,10 @@ Design and layout specifications for the interactive 3D left-facing laptop conta
   Transition using a premium spring-like easing: `transition-transform duration-500 cubic-bezier(0.25, 1, 0.5, 1)`.
 
 ### 3. Display Content (Terminal Screen)
-* Render the contact details as clean shell outputs on a black display panel with code syntax colors matching the brand identity (Lime, Cyan, Pink).
+* **Theme-Matching Background**: Bind the laptop screen display background to `bg-[color:var(--neo-surface)]` instead of a hardcoded black background. This ensures that:
+  * In Light Mode: The screen is a clean, warm cream that matches the portfolio cards.
+  * In Dark Mode: The screen adapts to a cohesive dark purple-grey.
+* **Text & Prompts**: Render text and prompts in high-contrast `--neo-ink` with colorful syntax highlighting matching the brand accents (Lime, Cyan, Pink).
 * Keep all interactive elements (Mail link, Floppy-disk social links, CV download, Weather screen) fully operational inside the terminal viewport.
 
 ## Verification Plan
