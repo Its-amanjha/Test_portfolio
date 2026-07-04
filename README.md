@@ -102,7 +102,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## ✍️ Author
 **Aman Kumar Jha**
-* **Portfolio**: [amanbuilds.me](https://amanbuilds.me)
+* **Portfolio**: [https://my-portfolio-sage-one-tkdyh3sfni.vercel.app](https://my-portfolio-sage-one-tkdyh3sfni.vercel.app)
 * **GitHub**: [github.com/Its-amanjha](https://github.com/Its-amanjha)
 * **LinkedIn**: [linkedin.com/in/its-amanjha](https://linkedin.com/in/its-amanjha)
 * **Email**: [amanjhaa.work@gmail.com](mailto:amanjhaa.work@gmail.com)
