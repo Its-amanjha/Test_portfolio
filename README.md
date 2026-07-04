@@ -4,7 +4,7 @@ A premium, high-fidelity portfolio website engineered with a **Neobrutalist Desi
 
 Built on **Next.js 16 (App Router)** and backed by **Neon Serverless Postgres** and **Vercel Blob Storage**, this portfolio is optimized for speed, interactivity, and SEO.
 
-* 🌐 **Live Website**: [amanbuilds.me](https://amanbuilds.me)
+* 🌐 **Live Website**: [https://my-portfolio-sage-one-tkdyh3sfni.vercel.app](https://my-portfolio-sage-one-tkdyh3sfni.vercel.app)
 
 ---
 
