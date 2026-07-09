@@ -19,7 +19,7 @@ The user interface breaks away from generic modern layouts by fully adopting a b
 ## 🛠️ Technology Stack
 
 | Layer | Technologies | Key Features |
-| :--- | :--- | :--- |
+| :--- | :--- | :--- ||
 | **Frontend** | React 19, TypeScript, Vanilla CSS | Custom animations, responsive components, viewport scroll metrics. |
 | **Framework** | Next.js 16 (App Router with Turbopack) | ISR page caching, Edge middleware routing, Turbopack compiling. |
 | **Database** | Neon Serverless Postgres | SQL pool connections, dynamic content persistence. |
